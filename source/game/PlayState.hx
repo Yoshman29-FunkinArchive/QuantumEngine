@@ -735,9 +735,6 @@ class PlayState extends MusicBeatState
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
-		/* if (FlxG.keys.justPressed.NINE)
-			FlxG.switchState(new Charting()); */
-
 		if (startingSong)
 		{
 			if (startedCountdown)
@@ -1037,14 +1034,13 @@ class PlayState extends MusicBeatState
 				FlxG.switchState(new StoryMenuState());
 
 				// if ()
-				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
+				
 
 				if (SONG.validScore)
 				{
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 				}
 
-				FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
 			}
 			else

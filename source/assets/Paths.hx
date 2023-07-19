@@ -4,7 +4,7 @@ class Paths {
     public static var audioExt:String = #if web "mp3" #else "ogg" #end;
     public static var prefix:String = "assets";
 
-    private static inline function pathToExt(path:String, ext:String)
+    private static inline function pathToExt(path:String, ext:String, ?additionalExtensions:Array<String>)
         return '$prefix/$path.$ext';
 
     public static inline function txt(path:String)
@@ -20,7 +20,10 @@ class Paths {
         return pathToExt(path, "xml");
 
     public static inline function image(path:String)
-        return pathToExt(path, "png");
+        return pathToExt(path, "png", ["jpg", "jpeg"]);
+
+    public static inline function font(path:String)
+        return pathToExt(path, "ttf", ["otf"]);
 
 
 

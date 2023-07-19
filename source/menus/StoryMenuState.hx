@@ -33,8 +33,6 @@ class StoryMenuState extends MusicBeatState
 	];
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true];
-
 	var weekCharacters:Array<Dynamic> = [
 		['dad', 'bf', 'gf'],
 		['dad', 'bf', 'gf'],
@@ -124,8 +122,8 @@ class StoryMenuState extends MusicBeatState
 			weekThing.antialiasing = true;
 			// weekThing.updateHitbox();
 
-			// Needs an offset thingie
-			if (!weekUnlocked[i])
+			// will maybe reuse later??
+			if (false)
 			{
 				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x);
 				lock.frames = ui_tex;

@@ -12,4 +12,7 @@ class Assets {
         var trimmed:String;
         return [for(l in FLAssets.getText(Paths.txt(path)).replace("\r", "").split("\n")) if ((trimmed = l.trim()) != "" && !trimmed.startsWith("#")) trimmed];
     }
+
+    public static inline function exists(path)
+        return FLAssets.exists(path);
 }

@@ -16,7 +16,6 @@ class FreeplayState extends MusicBeatState
 {
 	var songs:Array<String> = [];
 
-	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
 
@@ -120,33 +119,6 @@ class FreeplayState extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		// FlxG.sound.playMusic('assets/music/title' + TitleState.soundExt, 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
-		selector = new FlxText();
-
-		selector.size = 40;
-		selector.text = ">";
-		// add(selector);
-
-		var swag:Alphabet = new Alphabet(1, 0, "swag");
-
-		// JUST DOIN THIS SHIT FOR TESTING!!!
-		/* 
-			var md:String = Markdown.markdownToHtml(Assets.getText('CHANGELOG.md'));
-
-			var texFel:TextField = new TextField();
-			texFel.width = FlxG.width;
-			texFel.height = FlxG.height;
-			// texFel.
-			texFel.htmlText = md;
-
-			FlxG.stage.addChild(texFel);
-
-			// scoreText.textField.htmlText = md;
-
-			trace(md);
-		 */
-
 		super.create();
 	}
 
@@ -230,11 +202,6 @@ class FreeplayState extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		#if !switch
-		NGio.logEvent('Fresh');
-		#end
-
-		// NGio.logEvent('Fresh');
 		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt, 0.4);
 
 		curSelected += change;
@@ -244,8 +211,6 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		// selector.y = (70 * curSelected) + 30;
-
 		#if !switch
 		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
 		// lerpScore = 0;
@@ -253,20 +218,14 @@ class FreeplayState extends MusicBeatState
 
 		FlxG.sound.playMusic('assets/music/' + songs[curSelected] + "_Inst" + TitleState.soundExt, 0);
 
-		var bullShit:Int = 0;
-
-		for (item in grpSongs.members)
+		for (i => item in grpSongs.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = i - curSelected;
 
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
+			if (item.targetY == 0) {
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
+			} else {
+				item.alpha = 0.6;
 			}
 		}
 	}

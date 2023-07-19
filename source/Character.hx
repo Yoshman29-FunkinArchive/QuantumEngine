@@ -524,7 +524,7 @@ class Character extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
-		if (!curCharacter.startsWith('bf'))
+		if (!isPlayer)
 		{
 			if (animation.curAnim.name.startsWith('sing'))
 			{
@@ -545,7 +545,7 @@ class Character extends FlxSprite
 		switch (curCharacter)
 		{
 			case 'gf':
-				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
+				if (animation.curAnim.finished && animation.curAnim.name == 'hairFall')
 					playAnim('danceRight');
 		}
 
@@ -563,7 +563,7 @@ class Character extends FlxSprite
 		{
 			switch (curCharacter)
 			{
-				case 'gf':
+				case 'gf' | 'gf-christmas' | 'gf-car' | 'gf-pixel':
 					if (!animation.curAnim.name.startsWith('hair'))
 					{
 						danced = !danced;
@@ -573,46 +573,6 @@ class Character extends FlxSprite
 						else
 							playAnim('danceLeft');
 					}
-
-				case 'gf-christmas':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-
-				case 'gf-car':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-				case 'gf-pixel':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-
-				case 'spooky':
-					danced = !danced;
-
-					if (danced)
-						playAnim('danceRight');
-					else
-						playAnim('danceLeft');
 				default:
 					playAnim('idle');
 			}
@@ -623,9 +583,9 @@ class Character extends FlxSprite
 	{
 		animation.play(AnimName, Force, Reversed, Frame);
 
-		var daOffset = animOffsets.get(animation.curAnim.name);
-		if (animOffsets.exists(animation.curAnim.name))
+		if (animOffsets.exists(AnimName))
 		{
+			var daOffset = animOffsets.get(AnimName);
 			offset.set(daOffset[0], daOffset[1]);
 		}
 		else
@@ -641,8 +601,7 @@ class Character extends FlxSprite
 			{
 				danced = false;
 			}
-
-			if (AnimName == 'singUP' || AnimName == 'singDOWN')
+			else if (AnimName == 'singUP' || AnimName == 'singDOWN')
 			{
 				danced = !danced;
 			}

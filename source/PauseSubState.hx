@@ -84,12 +84,6 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.switchState(new MainMenuState());
 			}
 		}
-
-		if (FlxG.keys.justPressed.J)
-		{
-			// for reference later!
-			// PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxKey.J, null);
-		}
 	}
 
 	override function destroy()
@@ -110,18 +104,14 @@ class PauseSubState extends MusicBeatSubstate
 
 		var bullShit:Int = 0;
 
-		for (item in grpMenuShit.members)
+		for (i => item in grpMenuShit.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = i - curSelected;
 
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
+			if (item.targetY == 0) {
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
+			} else {
+				item.alpha = 0.6;
 			}
 		}
 	}

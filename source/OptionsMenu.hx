@@ -93,35 +93,30 @@ class OptionsMenu extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		#if !switch
-		NGio.logEvent('Fresh');
-		#end
-
 		FlxG.sound.play('assets/sounds/scrollMenu' + TitleState.soundExt, 0.4);
 
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = grpControls.length - 1;
-		if (curSelected >= grpControls.length)
+			curSelected = songs.length - 1;
+		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		// selector.y = (70 * curSelected) + 30;
+		#if !switch
+		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		// lerpScore = 0;
+		#end
 
-		var bullShit:Int = 0;
+		FlxG.sound.playMusic('assets/music/' + songs[curSelected] + "_Inst" + TitleState.soundExt, 0);
 
-		for (item in grpControls.members)
+		for (i => item in grpSongs.members)
 		{
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			item.targetY = i - curSelected;
 
-			item.alpha = 0.6;
-			// item.setGraphicSize(Std.int(item.width * 0.8));
-
-			if (item.targetY == 0)
-			{
+			if (item.targetY == 0) {
 				item.alpha = 1;
-				// item.setGraphicSize(Std.int(item.width));
+			} else {
+				item.alpha = 0.6;
 			}
 		}
 	}

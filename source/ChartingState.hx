@@ -1,6 +1,5 @@
 package;
 
-import Section.SwagSection;
 import Song.SwagSong;
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
@@ -878,7 +877,7 @@ class ChartingState extends MusicBeatState
 
 	private function addSection(lengthInSteps:Int = 16):Void
 	{
-		var sec:SwagSection = {
+		var sec:Section = {
 			lengthInSteps: lengthInSteps,
 			bpm: _song.bpm,
 			changeBPM: false,
@@ -975,7 +974,7 @@ class ChartingState extends MusicBeatState
 	}
 
 	/*
-	function calculateSectionLengths(?sec:SwagSection):Int
+	function calculateSectionLengths(?sec:Section):Int
 	{
 		var daLength:Int = 0;
 

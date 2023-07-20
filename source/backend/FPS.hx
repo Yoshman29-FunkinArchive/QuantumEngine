@@ -10,6 +10,7 @@ import java.vm.Gc;
 #elseif neko
 import neko.vm.Gc;
 #end
+import openfl.system.System;
 
 import flixel.addons.editors.ogmo.FlxOgmo3Loader.DecalData;
 import openfl.text.TextFormat;

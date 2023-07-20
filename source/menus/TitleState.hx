@@ -60,6 +60,7 @@ class TitleState extends MusicBeatState
 		if (!backend.plugins.Conductor.instance.playing())
 		{
 			// TODO: conductor
+			backend.plugins.Conductor.instance.sounds.volume = 0;
 			backend.plugins.Conductor.instance.loadAndPlay('menus/freakyMenu');
 			backend.plugins.Conductor.instance.fadeIn(4, 0, 0.7);
 		}

@@ -79,6 +79,16 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
                 _songPosition += elapsed * 1000;
             }
 
+            var masterSound = sounds.sounds[0];
+            for(s in sounds.sounds) {
+                if (s == masterSound) continue;
+                if (!(s is ConductorSound)) continue;
+                var sound = cast(s, ConductorSound);
+                if (sound.isSoundDelayed(elapsed, masterSound)) {
+                    sound.time = _songPosition;
+                }
+            }
+
             var latestBPMChange = 0;
             for(k=>b in bpmChanges) {
                 if (b.songTime > _songPosition) break;
@@ -352,6 +362,27 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
     }
 }
 
+// TODO: Delay Calculations
 class ConductorSound extends FlxSound {
     public var delayTime:Float = 0;
+    public var delayTimeReductionCooldown:Float = 0;
+
+    public override function update(elapsed:Float) {
+        super.update(elapsed);
+        if (delayTimeReductionCooldown > 0)
+            delayTimeReductionCooldown -= elapsed;
+        else
+            delayTime -= elapsed / 4;
+    }
+    public function isSoundDelayed(elapsed:Float, masterSound:FlxSound):Bool {
+        if (time != masterSound.time) {
+            delayTime += elapsed;
+            delayTimeReductionCooldown = 0.01; // 10 ms
+            if (delayTime > 0.02) {
+                // 20ms threshold
+                return true;
+            }
+        }
+        return false;
+    }
 }

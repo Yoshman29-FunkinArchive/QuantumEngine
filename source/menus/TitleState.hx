@@ -135,16 +135,12 @@ class TitleState extends MusicBeatState
 	}
 
 	inline function getIntroTextShit():Array<Array<String>>
-		return [for(a in Assets.getCoolTextFile('config/introText')) a.split("--")];
+		return [for(a in Assets.getCoolTextFile(Paths.txt('config/introText'))) a.split("--")];
 
 	var transitioning:Bool = false;
 
 	override function update(elapsed:Float)
 	{
-		if (FlxG.sound.music != null)
-			Conductor.songPosition = FlxG.sound.music.time;
-		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
-
 		if (FlxG.keys.justPressed.F)
 		{
 			FlxG.fullscreen = !FlxG.fullscreen;

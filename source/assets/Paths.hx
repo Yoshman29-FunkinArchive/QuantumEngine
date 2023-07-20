@@ -33,4 +33,7 @@ class Paths {
 
     public static inline function vert(path:String)
         return pathToExt(path, "vert");
+
+    public static inline function bpmDef(path:String)
+        return pathToExt(path, "bpm");
 }

@@ -1,5 +1,7 @@
 package backend;
 
+import backend.cache.AssetLibraryTree;
+import assets.FunkinCache;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
@@ -29,6 +31,8 @@ class Main extends Sprite
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 		Highscore.load();
 		backend.plugins.Conductor.init();
+		FunkinCache.init();
+		AssetLibraryTree.init();
 
 		configureTransition();
 

@@ -10,8 +10,9 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
 - [x] Get rid of base game stuff in source
 - [x] Turn Conductor into a flixel plugin (updates independently of MusicBeatState)
 - [ ] Make source work with new assets
-    - [ ] Fix assets caching
-    - [ ] Source assets
+    - [x] Implement FunkinCache
+    - [ ] Fix BitmapFrontEnd
+    - [x] Source assets
     - [ ] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
 - [ ] Complete PlayState rewrite
     - [ ] Rewrite controls

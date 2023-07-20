@@ -77,7 +77,7 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
     public override function update(elapsed:Float) {
         super.update(elapsed);
 
-        if (sounds.sounds.length > 0) {
+        if (playing()) {
             var masterSound = sounds.sounds[0];
             if (__lastUpdateTime != masterSound.time) {
                 _songPosition = __lastUpdateTime = masterSound.time;

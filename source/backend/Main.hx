@@ -30,7 +30,7 @@ class Main extends Sprite
 		PlayerSettings.init();
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 		Highscore.load();
-		backend.plugins.Conductor.init();
+		Conductor.init();
 		FunkinCache.init();
 		AssetLibraryTree.init();
 		// configure the replacement for the cache

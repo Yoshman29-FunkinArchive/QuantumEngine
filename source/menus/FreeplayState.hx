@@ -1,6 +1,6 @@
 package menus;
 
-import assets.chart.Song;
+import assets.chart.Chart;
 import game.PlayState;
 import backend.Highscore;
 import flash.text.TextField;
@@ -131,16 +131,12 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted)
 		{
-			var poop:String = Highscore.formatSong(songs[curSelected].toLowerCase(), curDifficulty);
-
-			trace(poop);
-
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].toLowerCase());
+			// TODO: custom difficulties PLEASE
+			PlayState.SONG = Chart.loadFrom(songs[curSelected].toLowerCase(), ["easy", "normal", "hard"][curDifficulty]);
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
 			FlxG.switchState(new PlayState());
-			if (FlxG.sound.music != null)
-				FlxG.sound.music.stop();
+			Conductor.instance.stop();
 		}
 	}
 

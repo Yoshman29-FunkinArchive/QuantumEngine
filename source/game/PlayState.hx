@@ -1,15 +1,14 @@
 package game;
 
+import game.stages.Stage;
+import assets.chart.Chart;
 import menus.FreeplayState;
 import menus.StoryMenuState;
 import backend.Highscore;
 import menus.GameOverSubstate;
 import menus.GitarooPause;
-import assets.chart.Section;
 import menus.PauseSubState;
 import menus.TitleState;
-import assets.chart.Song;
-import assets.chart.Song.SwagSong;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -51,11 +50,24 @@ using StringTools;
 class PlayState extends MusicBeatState
 {
 	public static var curStage:String = '';
-	public static var SONG:SwagSong;
+	// public static var SONG:SwagSong;
+	public static var SONG:Chart;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 	public static var daPixelZoom:Float = 6;
 	public static var campaignScore:Int = 0;
+
+	public static var instance:PlayState;
+
+	public var stage:Stage;
+
+	public override function create() {
+		super.create();
+
+		instance = this;
+
+		add(stage = Type.createInstance(SONG.stage, []));
+	}
 }

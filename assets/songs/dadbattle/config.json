@@ -1,0 +1,8 @@
+{
+    "name": "Dadbattle",
+    "color": null,
+    "icon": "dad",
+    "difficulties": ["easy", "normal", "hard"],
+
+    "stage": "DefaultStage"
+}

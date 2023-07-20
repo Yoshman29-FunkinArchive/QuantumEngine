@@ -35,10 +35,10 @@ class MainMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		if (!backend.plugins.Conductor.instance.playing())
+		if (!Conductor.instance.playing())
 		{
 			// TODO: conductor
-			backend.plugins.Conductor.instance.loadAndPlay('menus/freakyMenu');
+			Conductor.instance.loadAndPlay('menus/freakyMenu');
 		}
 
 		persistentUpdate = persistentDraw = true;

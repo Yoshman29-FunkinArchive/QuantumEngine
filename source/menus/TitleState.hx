@@ -56,12 +56,12 @@ class TitleState extends MusicBeatState
 	function startIntro()
 	{
 		
-		if (!backend.plugins.Conductor.instance.playing())
+		if (!Conductor.instance.playing())
 		{
 			// TODO: conductor
-			backend.plugins.Conductor.instance.sounds.volume = 0;
-			backend.plugins.Conductor.instance.loadAndPlay('menus/freakyMenu');
-			backend.plugins.Conductor.instance.fadeIn(4, 0, 0.7);
+			Conductor.instance.sounds.volume = 0;
+			Conductor.instance.loadAndPlay('menus/freakyMenu');
+			Conductor.instance.fadeIn(4, 0, 0.7);
 		}
 
 		persistentUpdate = true;

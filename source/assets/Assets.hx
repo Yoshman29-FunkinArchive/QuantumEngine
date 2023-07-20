@@ -31,12 +31,13 @@ class Assets {
         return [for(l in AssetsFL.getText(path).replace("\r", "").split("\n")) if ((trimmed = l.trim()) != "" && !trimmed.startsWith("#")) trimmed];
     }
 
-    public static function getJson(path):Dynamic {
-        var data = AssetsFL.getText(path);
+    public static inline function getJsonIfExists(path):Dynamic
+        return Assets.exists(path) ? getJson(path) : null;
 
+    public static function getJson(path):Dynamic {
         var json = null;
         try {
-            json = Json.parse(data);
+            json = Json.parse(AssetsFL.getText(path));
         } catch(e) {
             FlxG.log.error('Failed to parse JSON at $path: ${e.toString()}');
         }

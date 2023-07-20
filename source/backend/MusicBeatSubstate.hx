@@ -13,9 +13,9 @@ class MusicBeatSubstate extends FlxSubState
 	private var curMeasure(get, null):Int;
 	private var controls(get, never):Controls;
 
-	private inline function get_curBeat() return backend.plugins.Conductor.instance.curBeat;
-	private inline function get_curStep() return backend.plugins.Conductor.instance.curStep;
-	private inline function get_curMeasure() return backend.plugins.Conductor.instance.curMeasure;
+	private inline function get_curBeat() return Conductor.instance.curBeat;
+	private inline function get_curStep() return Conductor.instance.curStep;
+	private inline function get_curMeasure() return Conductor.instance.curMeasure;
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
@@ -30,9 +30,9 @@ class MusicBeatSubstate extends FlxSubState
 	override function create()
 	{
 		super.create();
-		backend.plugins.Conductor.onBeat.add(_onBeat);
-		backend.plugins.Conductor.onStep.add(_onStep);
-		backend.plugins.Conductor.onMeasure.add(_onMeasure);
+		Conductor.onBeat.add(_onBeat);
+		Conductor.onStep.add(_onStep);
+		Conductor.onMeasure.add(_onMeasure);
 		FlxG.signals.postStateSwitch.addOnce(postCreate);
 	}
 
@@ -51,8 +51,8 @@ class MusicBeatSubstate extends FlxSubState
 
 	public override function destroy() {
 		super.destroy();
-		backend.plugins.Conductor.onBeat.remove(_onBeat);
-		backend.plugins.Conductor.onStep.remove(_onStep);
-		backend.plugins.Conductor.onMeasure.remove(_onMeasure);
+		Conductor.onBeat.remove(_onBeat);
+		Conductor.onStep.remove(_onStep);
+		Conductor.onMeasure.remove(_onMeasure);
 	}
 }

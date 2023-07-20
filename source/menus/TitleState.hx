@@ -1,6 +1,5 @@
 package menus;
 
-import backend.Conductor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -65,7 +64,6 @@ class TitleState extends MusicBeatState
 			backend.plugins.Conductor.instance.fadeIn(4, 0, 0.7);
 		}
 
-		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);

@@ -1,6 +1,5 @@
 package backend;
 
-import backend.Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
@@ -30,7 +29,7 @@ class MusicBeatState extends FlxUIState
 		return stepHit();
 	private inline function _onMeasure(curBeat:Int)
 		return measureHit();
-	
+
 	override function create()
 	{
 		super.create();

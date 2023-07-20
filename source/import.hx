@@ -5,7 +5,7 @@ import openfl.utils.Assets as OpenFLAssets;
 import backend.MusicBeatState;
 import backend.MusicBeatSubstate;
 import backend.Controls;
-import backend.Conductor;
+import backend.plugins.Conductor;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

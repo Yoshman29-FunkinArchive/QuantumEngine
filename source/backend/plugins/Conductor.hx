@@ -40,12 +40,18 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
     public static var instance:Conductor;
 
     public var _songPosition:Float = 0;
+
     public var curMeasureFloat:Float = 0;
     public var curBeatFloat:Float = 0;
     public var curStepFloat:Float = 0;
+
     public var curMeasure:Int = 0;
     public var curBeat:Int = 0;
     public var curStep:Int = 0;
+
+    public var crochet:Float = 0;
+    public var stepCrochet:Float = 0;
+    public var measureCrochet:Float = 0;
 
     private var __lastUpdateTime:Float = -1;
     private var __lastVolume:Float = -1;
@@ -108,6 +114,9 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
             curMeasureFloat = curBPMChange.measureTime + (overheadtime / curBPMChange.measureCrochet);
             curBeatFloat = curBPMChange.beatTime + (overheadtime / curBPMChange.crochet);
             curStepFloat = curBPMChange.stepTime + (overheadtime / curBPMChange.stepCrochet);
+            crochet = curBPMChange.crochet;
+            stepCrochet = curBPMChange.stepCrochet;
+            measureCrochet = curBPMChange.measureCrochet;
 
             var oldStep = curStep;
             var oldBeat = curBeat;

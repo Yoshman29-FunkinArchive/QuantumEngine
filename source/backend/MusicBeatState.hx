@@ -30,12 +30,18 @@ class MusicBeatState extends FlxUIState
 		return stepHit();
 	private inline function _onMeasure(curBeat:Int)
 		return measureHit();
+	
 	override function create()
 	{
 		super.create();
 		backend.plugins.Conductor.onBeat.add(_onBeat);
 		backend.plugins.Conductor.onStep.add(_onStep);
 		backend.plugins.Conductor.onMeasure.add(_onMeasure);
+		FlxG.signals.postStateSwitch.addOnce(postCreate);
+	}
+
+	function postCreate() {
+
 	}
 
 	override function update(elapsed:Float)

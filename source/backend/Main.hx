@@ -33,6 +33,8 @@ class Main extends Sprite
 		backend.plugins.Conductor.init();
 		FunkinCache.init();
 		AssetLibraryTree.init();
+		// configure the replacement for the cache
+		FlxG.bitmap.configure();
 
 		configureTransition();
 

@@ -9,11 +9,14 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
 - [x] Sorted source
 - [x] Get rid of base game stuff in source
 - [x] Turn Conductor into a flixel plugin (updates independently of MusicBeatState)
-- [ ] Make source work with new assets
+- [x] Make source work with new assets
     - [x] Implement FunkinCache
-    - [ ] Fix BitmapFrontEnd
+    - [x] Fix BitmapFrontEnd
     - [x] Source assets
-    - [ ] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
+    - [?] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
+- [ ] New chart system
+    - [ ] Create chart system
+    - [ ] Make it read chart formats for **Codename** and **Psych**
 - [ ] Complete PlayState rewrite
     - [ ] Rewrite controls
     - [ ] New chart parser

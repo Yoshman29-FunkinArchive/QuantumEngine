@@ -28,13 +28,15 @@ class Main extends Sprite
 		PlayerSettings.init();
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 		Highscore.load();
-		configureOof();
+		backend.plugins.Conductor.init();
+
+		configureTransition();
 
 
 		FlxG.switchState(new TitleState());
 	}
 
-	public function configureOof() {
+	public function configureTransition() {
 		var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
 		diamond.persist = true;
 		diamond.destroyOnNoUse = false;

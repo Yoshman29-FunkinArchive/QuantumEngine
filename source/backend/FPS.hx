@@ -1,5 +1,6 @@
 package backend;
 
+import openfl.events.KeyboardEvent;
 #if cpp
 import cpp.vm.Gc;
 #elseif hl
@@ -13,6 +14,7 @@ import neko.vm.Gc;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader.DecalData;
 import openfl.text.TextFormat;
 import openfl.text.TextField;
+import openfl.ui.Keyboard;
 
 class FPS extends TextField {
     public var cacheCount:Int = 20;
@@ -20,6 +22,8 @@ class FPS extends TextField {
     public var cache:Array<Float>;
 
     public var curFPS(default, null):Float = 0;
+
+    public var debugEnabled:Bool = false;
 
     public function new(x:Float, y:Float, color = 0xFFFFFF) {
         super();
@@ -36,6 +40,13 @@ class FPS extends TextField {
         defaultTextFormat = new TextFormat("_sans", 12, color);
 
         cache = [for(_ in 0...cacheCount) 0];
+
+        FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent) {
+			switch(e.keyCode) {
+				case #if web Keyboard.NUMBER_3 #else Keyboard.F3 #end: // 3 on web or F3 on windows, linux and other things that runs code
+                debugEnabled = !debugEnabled;
+			}
+		});
     }
 
     private override function __enterFrame(deltaTime:Float) {
@@ -48,7 +59,17 @@ class FPS extends TextField {
         total /= cacheCount;
         curFPS = total;
 
-        text = 'FPS: ${Std.int(curFPS)}\nMemory: ${CoolUtil.getSizeString(currentMemUsage())}';
+        var text = 'FPS: ${Std.int(curFPS)}\nMemory: ${CoolUtil.getSizeString(currentMemUsage())}';
+        if (debugEnabled) for(plugin in FlxG.plugins.list) {
+            if (plugin is IHasDebugInfo) {
+                var debugPlugin = cast(plugin, IHasDebugInfo);
+                text += '\n\n';
+                text += '=== ${Type.getClassName(Type.getClass(debugPlugin))} ===\n';
+                text += cast(debugPlugin, IHasDebugInfo).getDebugInfo();
+                text += '\n\n';
+            }
+        }
+        this.text = text;
     }
 
 	public static inline function currentMemUsage() {
@@ -60,4 +81,8 @@ class FPS extends TextField {
 		return 0;
 		#end
 	}
+}
+
+interface IHasDebugInfo {
+    public function getDebugInfo():String;
 }

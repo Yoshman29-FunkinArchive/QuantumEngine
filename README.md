@@ -18,3 +18,9 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
 ## TODONT LIST:
 
 - [x] "mods" folder
+
+## ADDED FEATURE LIST
+
+- Reorganized assets
+- Reorganized source
+- Rewritten Conductor (now works as a plugin, allows for more extensibility)

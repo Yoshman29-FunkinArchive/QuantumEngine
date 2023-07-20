@@ -56,12 +56,12 @@ class TitleState extends MusicBeatState
 
 	function startIntro()
 	{
-		if (!initialized)
+		
+		if (!backend.plugins.Conductor.instance.playing())
 		{
-			// TODO: change this to Conductor
-			FlxG.sound.playMusic(Paths.sound('menus/freakyMenu'), 0);
-
-			FlxG.sound.music.fadeIn(4, 0, 0.7);
+			// TODO: conductor
+			backend.plugins.Conductor.instance.loadAndPlay('menus/freakyMenu');
+			backend.plugins.Conductor.instance.fadeIn(4, 0, 0.7);
 		}
 
 		Conductor.changeBPM(102);

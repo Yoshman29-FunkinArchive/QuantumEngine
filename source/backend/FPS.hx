@@ -24,8 +24,6 @@ class FPS extends TextField {
 
     public var curFPS(default, null):Float = 0;
 
-    public var debugEnabled:Bool = false;
-
     public function new(x:Float, y:Float, color = 0xFFFFFF) {
         super();
 
@@ -41,18 +39,13 @@ class FPS extends TextField {
         defaultTextFormat = new TextFormat("_sans", 12, color);
 
         cache = [for(_ in 0...cacheCount) 0];
-
-        FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent) {
-			switch(e.keyCode) {
-				case #if web Keyboard.NUMBER_3 #else Keyboard.F3 #end: // 3 on web or F3 on windows, linux and other things that runs code
-                debugEnabled = !debugEnabled;
-			}
-		});
     }
 
     private override function __enterFrame(deltaTime:Float) {
         cache[curCacheID] = 1 / FlxG.elapsed;
         curCacheID = (curCacheID + 1) % cacheCount;
+
+        this.visible = !FlxG.debugger.visible;
 
         var total:Float = 0;
         for(c in cache)
@@ -61,15 +54,6 @@ class FPS extends TextField {
         curFPS = total;
 
         var text = 'FPS: ${Std.int(curFPS)}\nMemory: ${CoolUtil.getSizeString(currentMemUsage())}';
-        if (debugEnabled) for(plugin in FlxG.plugins.list) {
-            if (plugin is IHasDebugInfo) {
-                var debugPlugin = cast(plugin, IHasDebugInfo);
-                text += '\n\n';
-                text += '=== ${Type.getClassName(Type.getClass(debugPlugin))} ===\n';
-                text += cast(debugPlugin, IHasDebugInfo).getDebugInfo();
-                text += '\n\n';
-            }
-        }
         this.text = text;
     }
 
@@ -82,8 +66,4 @@ class FPS extends TextField {
 		return 0;
 		#end
 	}
-}
-
-interface IHasDebugInfo {
-    public function getDebugInfo():String;
 }

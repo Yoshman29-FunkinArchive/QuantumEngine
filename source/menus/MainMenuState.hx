@@ -35,7 +35,7 @@ class MainMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		if (!Conductor.instance.playing())
+		if (!Conductor.instance.playing)
 		{
 			// TODO: conductor
 			Conductor.instance.loadAndPlay('menus/freakyMenu');

@@ -1,5 +1,7 @@
 package backend;
 
+import flixel.system.debug.watch.Tracker.TrackerProfile;
+import flixel.system.debug.watch.Tracker;
 import backend.cache.AssetLibraryTree;
 import assets.FunkinCache;
 import flixel.math.FlxRect;
@@ -38,6 +40,8 @@ class Main extends Sprite
 
 		configureTransition();
 
+		setupDebug();
+
 
 		FlxG.switchState(new TitleState());
 	}
@@ -51,5 +55,18 @@ class Main extends Sprite
 			new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
 		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7 * 0.75, new FlxPoint(0, 1),
 			{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+	}
+
+	public function setupDebug() {
+        #if debug
+        // CONDUCTOR
+        FlxG.debugger.addTrackerProfile(new TrackerProfile(Conductor, [
+            "songPosition", "curBPM", "curMeasure", "curBeat",
+            "curStep", "crochet", "stepCrochet", "measureCrochet",
+            "bpmChangeID", "playing"], []));
+        var window = cast(FlxG.debugger.track(Conductor.instance), Tracker);
+		FlxG.signals.preStateSwitch.remove(window.removeAll);
+		FlxG.signals.preStateSwitch.remove(window.close);
+        #end
 	}
 }

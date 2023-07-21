@@ -1,10 +1,11 @@
 package backend.plugins;
 
+import flixel.system.debug.watch.Tracker;
+import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import lime.net.oauth.OAuthVersion;
 import flixel.tweens.FlxTween;
 import flixel.system.FlxSound;
-import backend.FPS.IHasDebugInfo;
 import flixel.system.FlxSoundGroup;
 
 
@@ -33,13 +34,14 @@ typedef BPMChange = {
 
 
 
-class Conductor extends FlxBasic implements IHasDebugInfo  {
+class Conductor extends FlxBasic {
     public var sounds:FlxSoundGroup = new FlxSoundGroup();
     public var curPlayingPath = null;
 
     public static var instance:Conductor;
 
-    public var _songPosition:Float = 0;
+    private var __empty:String = "";
+    public var songPosition:Float = 0;
 
     public var curMeasureFloat:Float = 0;
     public var curBeatFloat:Float = 0;
@@ -60,6 +62,8 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
     public var bpmChanges:Array<BPMChange> = [];
     public var curBPM:Float = 0;
 
+    public var playing(get, null):Bool;
+
     public static var onBeat:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
     public static var onStep:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
     public static var onMeasure:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
@@ -77,12 +81,12 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
     public override function update(elapsed:Float) {
         super.update(elapsed);
 
-        if (playing()) {
+        if (playing) {
             var masterSound = sounds.sounds[0];
             if (__lastUpdateTime != masterSound.time) {
-                _songPosition = __lastUpdateTime = masterSound.time;
+                songPosition = __lastUpdateTime = masterSound.time;
             } else {
-                _songPosition += elapsed * 1000;
+                songPosition += elapsed * 1000;
             }
 
             var masterSound = sounds.sounds[0];
@@ -91,13 +95,13 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
                 if (!(s is ConductorSound)) continue;
                 var sound = cast(s, ConductorSound);
                 if (sound.isSoundDelayed(elapsed, masterSound)) {
-                    sound.time = _songPosition;
+                    sound.time = songPosition;
                 }
             }
 
             var latestBPMChange = 0;
             for(k=>b in bpmChanges) {
-                if (b.songTime > _songPosition) break;
+                if (b.songTime > songPosition) break;
                 latestBPMChange = k;
             }
 
@@ -108,7 +112,7 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
             }
 
             var curBPMChange = bpmChanges[bpmChangeID];
-            var overheadtime = _songPosition - curBPMChange.songTime;
+            var overheadtime = songPosition - curBPMChange.songTime;
 
             curBPM = curBPMChange.def.bpm;
             curMeasureFloat = curBPMChange.measureTime + (overheadtime / curBPMChange.measureCrochet);
@@ -158,19 +162,8 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
         }
     }
 
-    public function playing() {
+    public function get_playing() {
         return sounds.sounds.length > 0 && sounds.sounds[0].playing;
-    }
-
-    @:keep
-    public function getDebugInfo() {
-        return 'songPosition: ${Std.int(_songPosition)}\n' +
-        'BPM: ${curBPM}\n' +
-        'Measure: ${curMeasure}\n' +
-        'Beat: ${curBeat}\n' +
-        'Step: ${curStep}\n' +
-        'nb of sounds: ${sounds.sounds.length}\n' +
-        'playing: ${playing()}\n';
     }
 
     public function load(path:String, forceReplay:Bool = false, ?additionalTracks:Array<String>, ?bpmDefPath:String) {
@@ -245,7 +238,7 @@ class Conductor extends FlxBasic implements IHasDebugInfo  {
         sounds.resume();
 
     private function __resetVars() {
-        _songPosition = 0;
+        songPosition = 0;
         curBeat = 0;
         curBeatFloat = 0;
         curMeasure = 0;

@@ -18,15 +18,17 @@ class Assets {
      * Returns frames at specified path
      * @param path 
      */
-    public static inline function getFrames(path:String):FlxFramesCollection {
-        var frames = {
-            if (Assets.exists(Paths.xml(path)))
-                FlxAtlasFrames.fromSparrow(Paths.image(path), Paths.xml(path));
-            else if (Assets.exists(Paths.txt(path)))
-                FlxAtlasFrames.fromSpriteSheetPacker(Paths.image(path), Paths.txt(path));
-            else
-                null;
-        };
+    public static function getFrames(path:String):FlxFramesCollection {
+        var frames:FlxAtlasFrames = null;
+
+        var imgPath = Paths.image(path);
+        var f = FlxAtlasFrames.findFrame(FlxG.bitmap.add(imgPath));
+        if (f != null)
+            frames = f;
+        else if (Assets.exists(Paths.xml(path)))
+            frames = FlxAtlasFrames.fromSparrow(imgPath, Paths.xml(path));
+        else if (Assets.exists(Paths.txt(path)))
+            frames = FlxAtlasFrames.fromSpriteSheetPacker(imgPath, Paths.txt(path));
 
         if (frames == null) {
             FlxG.log.warn('Frames at ${path} not found.');
@@ -34,8 +36,7 @@ class Assets {
         }
 
         @:privateAccess
-        if (frames.parent.frameCollections[USER("animations")] == null) {
-            trace("gen animation for " + path);
+        if (!frames.parent.frameCollections.exists(USER("animations"))) {
             var data = getJsonIfExists(Paths.json(path));
             if (data != null && data is Array) {
                 var animations:Array<AnimDefinition> = cast data;
@@ -78,10 +79,10 @@ class Assets {
                 
                 @:privateAccess {
 
-                    var nameAnimPairs:Array<NameAnimPair> = [];
+                    var nameAnimPairs:Array<FlxAnimation> = [];
 
                     for(k=>a in animController._animations) {
-                        nameAnimPairs.push(new NameAnimPair(k, a.clone(null)));
+                        nameAnimPairs.push(a.clone(null));
                     }
                     
                     frames.parent.frameCollectionTypes.push(USER("animations"));
@@ -127,39 +128,26 @@ class Assets {
 }
 
 class AssetsUtil {
-    public static inline function loadFrames(sprite:FlxSprite, path:String) {
+    public static function loadFrames(sprite:FlxSprite, path:String) {
         var frames = Assets.getFrames(path);
         if (frames == null)
-            return sprite;
+            return;
 
-        
+
         sprite.frames = frames;
 
         @:privateAccess {
             // hack
             if (frames.parent.frameCollections.exists(USER("animations"))) {
-                var animations:Array<NameAnimPair> = cast frames.parent.getFramesCollections(USER("animations"));
+                var animations:Array<FlxAnimation> = cast frames.parent.getFramesCollections(USER("animations"));
 
-                sprite.animation._animations = [for(a in animations) a.name => a.anim.clone(sprite.animation)];
-                FlxG.bitmap.mustDestroy.remove(sprite.frames.parent);
+                sprite.animation._animations = [for(a in animations) a.name => a.clone(sprite.animation)];
+                // for(anim in animations) {
+                //     sprite.animation._animations.set(anim.name, anim.clone(sprite.animation));
+                // }
             }
         }
 
-        return sprite;
-    }
-}
-
-class NameAnimPair implements IFlxDestroyable {
-    public var name:String;
-    public var anim:FlxAnimation;
-
-    public function new(name:String, anim:FlxAnimation) {
-        this.name = name;
-        this.anim = anim;
-    }
-
-    public function destroy() {
-        anim = FlxDestroyUtil.destroy(anim);
     }
 }
 

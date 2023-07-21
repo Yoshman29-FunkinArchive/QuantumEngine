@@ -1,5 +1,6 @@
 package debug;
 
+import openfl.Vector;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.Lib;
 
@@ -13,7 +14,7 @@ class FrameBenchmark extends MusicBeatState {
 
         for(_ in 0...10000) {
             var spr = new FlxSprite(320, 360);
-            spr.frames = FlxAtlasFrames.fromSparrow('assets/debug/NOTE_assets.png', 'assets/debug/NOTE_assets.xml');
+            spr.frames = FlxAtlasFrames.fromSparrow(Paths.image('debug/NOTE_assets'), Paths.xml('debug/NOTE_assets'));
 
             spr.animation.addByPrefix('greenScroll', 'green0');
             spr.animation.addByPrefix('redScroll', 'red0');
@@ -34,6 +35,10 @@ class FrameBenchmark extends MusicBeatState {
         }
         var elapsed = Lib.getTimer() - curTime;
         trace('No JSON: ${elapsed}');
+
+        for(m in members)
+            m.destroy();
+        members = [];
         
         curTime = Lib.getTimer();
 
@@ -42,7 +47,35 @@ class FrameBenchmark extends MusicBeatState {
             spr.loadFrames('debug/NOTE_assets_autogen');
             add(spr);
         }
+
         elapsed = Lib.getTimer() - curTime;
         trace('JSON: ${elapsed}');
+        curTime = Lib.getTimer();
+
+        members = cpp.NativeArray.create(10000);
+        length = 10000;
+        for(i in 0...10000) {
+            var spr = new FlxSprite(960, 360);
+            spr.loadFrames('debug/NOTE_assets_autogen');
+            members[i] = spr;
+        }
+
+        elapsed = Lib.getTimer() - curTime;
+        trace('JSON + preallocated: ${elapsed}');
+        curTime = Lib.getTimer();
+
+        var test = new Vector<FlxSprite>(65535);
+        elapsed = Lib.getTimer() - curTime;
+        trace('Vector: ${elapsed}');
+
+        curTime = Lib.getTimer();
+        var test2:Array<FlxSprite> = [for(_ in 0...65535) null];
+        elapsed = Lib.getTimer() - curTime;
+        trace('Array: ${elapsed}');
+
+        curTime = Lib.getTimer();
+        var test3:Array<FlxSprite> = cpp.NativeArray.create(65535);
+        elapsed = Lib.getTimer() - curTime;
+        trace('NativeArray: ${elapsed}');
     }
 }

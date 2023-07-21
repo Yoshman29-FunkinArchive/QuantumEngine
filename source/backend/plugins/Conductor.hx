@@ -364,7 +364,6 @@ class Conductor extends FlxBasic {
     }
 }
 
-// TODO: Delay Calculations
 class ConductorSound extends FlxSound {
     public var delayTime:Float = 0;
     public var delayTimeReductionCooldown:Float = 0;
@@ -386,5 +385,47 @@ class ConductorSound extends FlxSound {
             }
         }
         return false;
+    }
+}
+
+class ConductorUtils {
+    public static function getTimeForBeat(bpmChanges:Array<BPMChange>, beat:Float) {
+        var latest = bpmChanges[0];
+        for(b in bpmChanges) {
+            if (b.beatTime > beat)
+                break;
+            latest = b;
+        }
+        return latest.songTime + ((beat - latest.beatTime) * latest.crochet);
+    }
+
+    public static function getBeatForTime(bpmChanges:Array<BPMChange>, time:Float) {
+        var latest = bpmChanges[0];
+        for(b in bpmChanges) {
+            if (b.songTime > time)
+                break;
+            latest = b;
+        }
+        return latest.beatTime + ((time - latest.songTime) / latest.crochet);
+    }
+
+    public static function getTimeForMeasure(bpmChanges:Array<BPMChange>, measure:Float) {
+        var latest = bpmChanges[0];
+        for(b in bpmChanges) {
+            if (b.measureTime > measure)
+                break;
+            latest = b;
+        }
+        return latest.songTime + ((measure - latest.measureTime) * latest.measureCrochet);
+    }
+
+    public static function getMeasureForTime(bpmChanges:Array<BPMChange>, time:Float) {
+        var latest = bpmChanges[0];
+        for(b in bpmChanges) {
+            if (b.songTime > time)
+                break;
+            latest = b;
+        }
+        return latest.measureTime + ((time - latest.songTime) / latest.measureCrochet);
     }
 }

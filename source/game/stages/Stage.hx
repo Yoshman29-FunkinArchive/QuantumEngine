@@ -54,3 +54,9 @@ class CharGroup extends FlxGroup {
         this.y = y;
     }
 }
+
+enum abstract CharPosName(String) from String to String {
+    var PLAYER = "player";
+    var OPPONENT = "opponent";
+    var GIRLFRIEND = "girlfriend";
+}

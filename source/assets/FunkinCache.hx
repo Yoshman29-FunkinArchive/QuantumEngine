@@ -1,6 +1,5 @@
 package assets;
 
-import cpp.vm.Gc;
 import openfl.utils.AssetCache;
 import openfl.display.BitmapData;
 import openfl.media.Sound;
@@ -43,8 +42,8 @@ class FunkinCache extends AssetCache {
 		FlxG.signals.postStateSwitch.add(function() {
 			instance.clearSecondLayer();
 
-			#if sys
-			Gc.run(true);
+			#if cpp
+			cpp.vm.Gc.run(true);
 			#end
 		});
 	}

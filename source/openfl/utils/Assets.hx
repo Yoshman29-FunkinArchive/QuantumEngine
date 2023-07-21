@@ -243,12 +243,10 @@ class Assets
 	{
 		#if (lime_vorbis && lime > "7.9.0")
 		var path = getPath(id);
-		// TODO: What if it is a WAV or non-Vorbis file?
 		var vorbisFile = VorbisFile.fromFile(path);
 		var buffer = AudioBuffer.fromVorbisFile(vorbisFile);
 		return Sound.fromAudioBuffer(buffer);
 		#else
-		// TODO: Streaming sound
 		return getSound(id, useCache);
 		#end
 	}
@@ -368,7 +366,6 @@ class Assets
 				instance.__bind(library, className);
 			}
 			#else
-			// TODO: Consolidate behavior
 			library.bind(className);
 			#end
 		}

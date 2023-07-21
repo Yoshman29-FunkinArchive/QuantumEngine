@@ -59,3 +59,9 @@ class CoolUtil
 		return str;
 	}
 }
+
+class CoolExtension {
+	public static inline function getCurAnimName(animController:FlxAnimationController) {
+		return animController.curAnim != null ? animController.curAnim.name : null;
+	}
+}

@@ -52,7 +52,7 @@ class FrameBenchmark extends MusicBeatState {
         trace('JSON: ${elapsed}');
         curTime = Lib.getTimer();
 
-        members = cpp.NativeArray.create(10000);
+        members = cast new Vector<FlxSprite>(10000);
         length = 10000;
         for(i in 0...10000) {
             var spr = new FlxSprite(960, 360);
@@ -73,9 +73,9 @@ class FrameBenchmark extends MusicBeatState {
         elapsed = Lib.getTimer() - curTime;
         trace('Array: ${elapsed}');
 
-        curTime = Lib.getTimer();
-        var test3:Array<FlxSprite> = cpp.NativeArray.create(65535);
-        elapsed = Lib.getTimer() - curTime;
-        trace('NativeArray: ${elapsed}');
+        // curTime = Lib.getTimer();
+        // var test3:Array<FlxSprite> = cpp.NativeArray.create(65535);
+        // elapsed = Lib.getTimer() - curTime;
+        // trace('NativeArray: ${elapsed}');
     }
 }

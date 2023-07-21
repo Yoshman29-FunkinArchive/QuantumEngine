@@ -36,7 +36,7 @@ class DefaultStage extends Stage {
         stageCurtains.active = false;
         add(stageCurtains);
 
-        addCharGroup(100, 100, "dad");
-        addCharGroup(770, 100, "boyfriend");
+        addCharGroup(100, 100, "opponent");
+        addCharGroup(770, 100, "player");
     }
 }

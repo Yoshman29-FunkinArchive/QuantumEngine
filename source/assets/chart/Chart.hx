@@ -1,5 +1,8 @@
 package assets.chart;
 
+import game.Character;
+import game.Note;
+import game.SongEvent;
 import haxe.Json;
 import game.stages.Stage;
 import assets.chart.SongMeta.SongMetaData;
@@ -9,7 +12,7 @@ class Chart {
     /**
      * Stage used in this song
      */
-    public var stage:Class<Stage>; // TODO: Stage
+    public var stage:Class<Stage>;
 
     /**
      * All audio files paths used for the instrumental of this song (do not put in Paths.sound)
@@ -30,6 +33,11 @@ class Chart {
      * Name of the song
      */
     public var songMeta:SongMetaData = null;
+
+    /**
+     * Song events
+     */
+    public var events:Array<SongEvent> = [];
 
     /**
      * Load a chart from a specified song
@@ -64,15 +72,24 @@ class Chart {
 
         chartFile.stage = (cl == null) ? Stage : cl;
 
-        var jsonData = Assets.getJsonIfExists(Paths.json(fixPath('chart', Paths.json)));
+        var jsonData:Dynamic = Assets.getJsonIfExists(Paths.json(fixPath('chart', Paths.json)));
+
         if (jsonData == null) {
             return chartFile;
         }
+
+        if (Reflect.hasField(jsonData, "song") && jsonData.song != null && !(jsonData.song is String))
+            jsonData = jsonData.song;
 
         if (Reflect.hasField(jsonData, "notes") && Reflect.hasField(jsonData, "player1")) {
             // PSYCH / BASE GAME FORMAT
             BaseGameParser.parse(chartFile, jsonData);
         }
+
+        #if html5
+        js.Browser.console.log(chartFile);
+        js.Browser.console.log(jsonData);
+        #end
 
         return chartFile;
     }
@@ -83,11 +100,40 @@ class Chart {
 }
 
 class ChartStrumLine {
-    public var cpu:Bool = false;
+    public var cpu:Bool = true;
     public var xPos:Float = 0.25;
-    public var character:String = "bf";
+    public var character:ChartCharacter = new ChartCharacter();
+    public var visible:Bool = true;
 
-    public function new(cpu:Bool = false) {
+    public var notes:Array<ChartNote> = [];
+
+    public function new(cpu:Bool = true) {
         this.cpu = cpu;
+    }
+}
+
+class ChartNote {
+    public var time:Float;
+    public var strum:Int;
+    public var sustainLength:Float;
+    public var type:Class<Note> = Note;
+
+    public function new(time:Float, strum:Int, sustainLength:Float, type:Class<Note> = null) {
+        if (type == null)
+            type = Note;
+
+        this.time = time;
+        this.type = type;
+        this.sustainLength = sustainLength;
+    }
+}
+
+class ChartCharacter {
+    public var character:String;
+    public var position:String;
+
+    public function new(character:String = "bf", position:CharPosName = PLAYER) {
+        this.character = character;
+        this.position = position;
     }
 }

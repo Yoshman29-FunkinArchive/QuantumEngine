@@ -69,5 +69,7 @@ class PlayState extends MusicBeatState
 		instance = this;
 
 		add(stage = Type.createInstance(SONG.stage, []));
+
+		
 	}
 }

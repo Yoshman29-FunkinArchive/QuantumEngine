@@ -37,7 +37,6 @@ class MainMenuState extends MusicBeatState
 
 		if (!Conductor.instance.playing)
 		{
-			// TODO: conductor
 			Conductor.instance.loadAndPlay('menus/freakyMenu');
 		}
 

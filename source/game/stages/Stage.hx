@@ -4,7 +4,7 @@ import flixel.group.FlxGroup;
 
 @:keep
 class Stage extends FlxGroup {
-    public var characterGroups:Map<String, FlxGroup> = [];
+    public var characterGroups:Map<String, CharGroup> = [];
 
     public var prefix:String = "";
 
@@ -23,6 +23,10 @@ class Stage extends FlxGroup {
 
     }
 
+    public function addCharGroup(x:Float, y:Float, name:String) {
+        characterGroups[name] = new CharGroup(x, y);
+    }
+
     public override function destroy() {
         super.destroy();
 
@@ -37,4 +41,16 @@ class Stage extends FlxGroup {
     public function beatHit(_:Int) {}
     public function stepHit(_:Int) {}
     public function measureHit(_:Int) {}
+}
+
+class CharGroup extends FlxGroup {
+
+    public var x:Float;
+    public var y:Float;
+
+    public function new(x:Float, y:Float) {
+        super();
+        this.x = x;
+        this.y = y;
+    }
 }

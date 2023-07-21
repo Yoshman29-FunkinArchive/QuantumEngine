@@ -245,7 +245,7 @@ class AlphaCharacter extends FlxSprite
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
-		frames = Assets.getFrames('menus/ui/alphabet');
+		this.loadFrames('menus/ui/alphabet');
 
 		antialiasing = true;
 	}

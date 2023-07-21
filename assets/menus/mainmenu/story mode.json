@@ -1,0 +1,14 @@
+[
+    {
+        "name": "idle",
+        "prefix": "story mode basic",
+        "fps": 24,
+        "loop": true
+    },
+    {
+        "name": "selected",
+        "prefix": "story mode white",
+        "fps": 24,
+        "loop": true
+    }
+]

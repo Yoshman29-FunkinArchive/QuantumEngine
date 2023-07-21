@@ -1,0 +1,14 @@
+[
+    {
+        "name": "idle",
+        "prefix": "freeplay basic",
+        "fps": 24,
+        "loop": true
+    },
+    {
+        "name": "selected",
+        "prefix": "freeplay white",
+        "fps": 24,
+        "loop": true
+    }
+]

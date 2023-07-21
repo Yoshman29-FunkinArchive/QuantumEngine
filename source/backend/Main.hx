@@ -1,5 +1,6 @@
 package backend;
 
+import flixel.system.debug.Window;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.system.debug.watch.Tracker;
 import backend.cache.AssetLibraryTree;
@@ -59,14 +60,66 @@ class Main extends Sprite
 
 	public function setupDebug() {
         #if debug
+		var windows:Array<Tracker> = [];
         // CONDUCTOR
         FlxG.debugger.addTrackerProfile(new TrackerProfile(Conductor, [
             "songPosition", "curBPM", "curMeasure", "curBeat",
             "curStep", "crochet", "stepCrochet", "measureCrochet",
             "bpmChangeID", "playing"], []));
-        var window = cast(FlxG.debugger.track(Conductor.instance), Tracker);
-		FlxG.signals.preStateSwitch.remove(window.removeAll);
-		FlxG.signals.preStateSwitch.remove(window.close);
+		windows.push(cast(FlxG.debugger.track(Conductor.instance), Tracker));
+
+		// FUNKIN CACHE
+		FlxG.debugger.addTrackerProfile(new TrackerProfile(FunkinCacheTracker, ["cachedBitmaps", "cachedSounds", "cachedFonts", "cachedFlixelGraphics"]));
+		windows.push(cast(FlxG.debugger.track(new FunkinCacheTracker()), Tracker));
+		
+		
+		// REMOVING AUTO CLOSE
+		for(window in windows) {
+			FlxG.signals.preStateSwitch.remove(window.removeAll);
+			FlxG.signals.preStateSwitch.remove(window.close);
+		}
         #end
 	}
 }
+
+#if debug
+class FunkinCacheTracker {
+	public var cachedBitmaps(get, null):Int;
+	public var cachedSounds(get, null):Int;
+	public var cachedFonts(get, null):Int;
+	public var cachedFlixelGraphics(get, null):Int;
+
+	private function get_cachedBitmaps() {
+		var am = 0;
+		for(e in FunkinCache.instance.bitmapData.keys())
+			am++;
+		return am; 
+	}
+
+	private function get_cachedSounds() {
+		var am = 0;
+		for(e in FunkinCache.instance.sound.keys())
+			am++;
+		return am; 
+	}
+
+	private function get_cachedFonts() {
+		var am = 0;
+		for(e in FunkinCache.instance.font.keys())
+			am++;
+		return am; 
+	}
+
+	private function get_cachedFlixelGraphics() {
+		var am = 0;
+		@:privateAccess
+		for(e in FlxG.bitmap._cache.keys())
+			am++;
+		return am; 
+	}
+
+	public function new() {
+
+	}
+}
+#end

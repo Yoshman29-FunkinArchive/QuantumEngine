@@ -1,0 +1,14 @@
+[
+    {
+        "name": "idle",
+        "prefix": "donate basic",
+        "fps": 24,
+        "loop": true
+    },
+    {
+        "name": "selected",
+        "prefix": "donate white",
+        "fps": 24,
+        "loop": true
+    }
+]

@@ -15,3 +15,4 @@ import flixel.FlxObject;
 import utils.CoolUtil;
 
 using StringTools;
+using assets.Assets.AssetsUtil;

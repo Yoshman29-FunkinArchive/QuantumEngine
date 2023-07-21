@@ -1,5 +1,6 @@
 package assets.chart;
 
+import haxe.Json;
 import game.stages.Stage;
 import assets.chart.SongMeta.SongMetaData;
 import flixel.group.FlxGroup;
@@ -13,7 +14,7 @@ class Chart {
     /**
      * All audio files paths used for the instrumental of this song (do not put in Paths.sound)
      */
-    public var audioFiles:Array<String> = [];
+    public var instPath:String = null;
 
     /**
      * Strumlines that this chart contains
@@ -48,7 +49,7 @@ class Chart {
             return 'songs/$lSong/$path';
         };
 
-        chartFile.audioFiles = [fixPath('Inst', Paths.sound)];
+        chartFile.instPath = fixPath('Inst', Paths.sound);
 
         var additionalMeta = SongMeta.getAdditionalDiffMeta(lSong, lDiff);
         if (additionalMeta != null)
@@ -63,6 +64,16 @@ class Chart {
 
         chartFile.stage = (cl == null) ? Stage : cl;
 
+        var jsonData = Assets.getJsonIfExists(Paths.json(fixPath('chart', Paths.json)));
+        if (jsonData == null) {
+            return chartFile;
+        }
+
+        if (Reflect.hasField(jsonData, "notes") && Reflect.hasField(jsonData, "player1")) {
+            // PSYCH / BASE GAME FORMAT
+            BaseGameParser.parse(chartFile, jsonData);
+        }
+
         return chartFile;
     }
 
@@ -74,7 +85,6 @@ class Chart {
 class ChartStrumLine {
     public var cpu:Bool = false;
     public var xPos:Float = 0.25;
-    
     public var character:String = "bf";
 
     public function new(cpu:Bool = false) {

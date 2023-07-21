@@ -13,7 +13,7 @@ class Assets {
      * Returns frames at specified path
      * @param path 
      */
-    public static function getFrames(path) {
+    public static function getFrames(path:String) {
         return FlxAtlasFrames.fromSparrow(Paths.image(path), Paths.xml(path));
     }
 
@@ -46,4 +46,10 @@ class Assets {
 
     public static inline function exists(path)
         return AssetsFL.exists(path);
+}
+
+class AssetsUtil {
+    public static function loadFrames(sprite:FlxSprite, path:String) {
+        
+    }
 }

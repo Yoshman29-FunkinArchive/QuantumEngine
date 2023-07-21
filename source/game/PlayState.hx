@@ -63,6 +63,8 @@ class PlayState extends MusicBeatState
 
 	public var stage:Stage;
 
+	public var camHUD:FlxCamera;
+
 	public override function create() {
 		super.create();
 
@@ -70,6 +72,14 @@ class PlayState extends MusicBeatState
 
 		add(stage = Type.createInstance(SONG.stage, []));
 
+		camHUD = new FlxCamera();
+		FlxG.cameras.add(camHUD, false);
+		camHUD.bgColor = 0; // transparent
 		
+		for(strLine in SONG.strumLines) {
+			if (strLine.visible) {
+				add(new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine.cpu));
+			}
+		}
 	}
 }

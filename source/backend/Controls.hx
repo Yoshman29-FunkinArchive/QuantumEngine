@@ -17,10 +17,10 @@ class Controls {
 		"BACK" => new ActionControl("ui_back", [FlxKey.ESCAPE, FlxKey.BACKSPACE]),
 		
 		// INGAME
-		"LEFT_NOTE" => new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]),
-		"DOWN_NOTE" => new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]),
-		"UP_NOTE" => new ActionControl("note_up", [FlxKey.UP, FlxKey.W]),
-		"RIGHT_NOTE" => new ActionControl("note_right", [FlxKey.RIGHT, FlxKey.D]),
+		"NOTE_LEFT" => new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]),
+		"NOTE_DOWN" => new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]),
+		"NOTE_UP" => new ActionControl("note_up", [FlxKey.UP, FlxKey.W]),
+		"NOTE_RIGHT" => new ActionControl("note_right", [FlxKey.RIGHT, FlxKey.D]),
 		"PAUSE" => new ActionControl("pause", [FlxKey.ENTER, FlxKey.P, FlxKey.ESCAPE]),
 		"RESET" => new ActionControl("reset", [FlxKey.R]),
 	];
@@ -131,4 +131,20 @@ class ActionControl {
 		__justReleased.addGamepad(InputID, JUST_RELEASED, GamepadID);
 		__released.addGamepad(InputID, JUST_RELEASED, GamepadID);
 	}
+
+	public var pressed(get, null):Bool;
+	public var justPressed(get, null):Bool;
+	public var justReleased(get, null):Bool;
+
+	inline static function addButtons(action:FlxActionDigital, buttons:Array<FlxGamepadInputID>, state, id)
+	{
+		for (button in buttons)
+			action.addGamepad(button, state, id);
+	}
+	private inline function get_pressed()
+		return __pressed.check();
+	private inline function get_justPressed()
+		return __justPressed.check();
+	private inline function get_justReleased()
+		return __justReleased.check();
 }

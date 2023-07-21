@@ -52,7 +52,7 @@ class FrameBenchmark extends MusicBeatState {
         trace('JSON: ${elapsed}');
         curTime = Lib.getTimer();
 
-        members = cast new Vector<FlxSprite>(10000);
+        members = CoolUtil.allocArray(10000);
         length = 10000;
         for(i in 0...10000) {
             var spr = new FlxSprite(960, 360);

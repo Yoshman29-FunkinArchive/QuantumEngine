@@ -30,7 +30,6 @@ class Main extends Sprite
 		#end
 		
 		// initiating backend shit
-		PlayerSettings.init();
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 		Highscore.load();
 		Conductor.init();

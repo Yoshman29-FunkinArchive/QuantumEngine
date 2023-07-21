@@ -100,24 +100,24 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UP_P)
+			if (Controls.justPressed.UP)
 			{
 				FlxG.sound.play(Paths.sound('menus/sfx/scroll'));
 				changeItem(-1);
 			}
 
-			if (controls.DOWN_P)
+			if (Controls.justPressed.DOWN)
 			{
 				FlxG.sound.play(Paths.sound('menus/sfx/scroll'));
 				changeItem(1);
 			}
 
-			if (controls.BACK)
+			if (Controls.justPressed.BACK)
 			{
 				FlxG.switchState(new TitleState());
 			}
 
-			if (controls.ACCEPT)
+			if (Controls.justPressed.ACCEPT)
 			{
 				if (optionShit[curSelected] == 'donate')
 				{

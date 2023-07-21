@@ -1,5 +1,6 @@
 package utils;
 
+import flixel.animation.FlxAnimationController;
 import lime.utils.Assets;
 
 using StringTools;
@@ -57,6 +58,14 @@ class CoolUtil
 	public static inline function addEndZeros(str:String, num:Int) {
 		while(str.length < num) str = '${str}0';
 		return str;
+	}
+
+	public static inline function allocArray<T>(size:Int) {
+		#if cpp
+		return cpp.NativeArray.create(size);
+		#else
+		return cast new Vector<T>(10000);
+		#end
 	}
 }
 

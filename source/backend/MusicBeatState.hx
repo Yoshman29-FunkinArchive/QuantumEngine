@@ -14,21 +14,14 @@ class MusicBeatState extends FlxUIState
 	private var curStep(get, null):Int;
 	private var curBeat(get, null):Int;
 	private var curMeasure(get, null):Int;
-	private var controls(get, never):Controls;
 
 	private inline function get_curBeat() return Conductor.instance.curBeat;
 	private inline function get_curStep() return Conductor.instance.curStep;
 	private inline function get_curMeasure() return Conductor.instance.curMeasure;
 
-	inline function get_controls():Controls
-		return PlayerSettings.player1.controls;
-
-	private inline function _onBeat(curBeat:Int)
-		return beatHit();
-	private inline function _onStep(curBeat:Int)
-		return stepHit();
-	private inline function _onMeasure(curBeat:Int)
-		return measureHit();
+	private inline function _onBeat(curBeat:Int) return beatHit();
+	private inline function _onStep(curBeat:Int) return stepHit();
+	private inline function _onMeasure(curBeat:Int) return measureHit();
 
 	override function create()
 	{

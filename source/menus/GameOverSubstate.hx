@@ -43,12 +43,12 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		if (controls.ACCEPT)
+		if (Controls.justPressed.ACCEPT)
 		{
 			endBullshit();
 		}
 
-		if (controls.BACK)
+		if (Controls.justPressed.BACK)
 		{
 			Conductor.instance.stop();
 

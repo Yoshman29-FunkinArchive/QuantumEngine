@@ -36,7 +36,7 @@ class Strum extends FlxSprite {
                 case "static":
                     if (Controls.controls[parent.controlsArray[id]].justPressed) {
                         animation.play("pressed");
-                        parent.character._.animation.play("sing-" + ["LEFT", "DOWN", "UP", "RIGHT"][id]);
+                        parent.character.playSingAnim(id);
                     }
                 case "pressed":
                     if (Controls.controls[parent.controlsArray[id]].justReleased)

@@ -13,15 +13,16 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
     - [x] Implement FunkinCache
     - [x] Fix BitmapFrontEnd
     - [x] Source assets
-    - [?] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
+    - [x] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
 - [ ] New chart system
-    - [ ] Create chart system
-    - [ ] Make it read chart formats for **Codename** and **Psych**
+    - [x] Create chart system
+    - [ ] Make it read chart formats for **Psych / Base Game**
+    - [ ] Make it read chart formats for **Codename**
 - [ ] Complete PlayState rewrite
-    - [ ] Rewrite controls
-    - [ ] New chart parser
-    - [ ] New stage system based on FlxGroups
-    - [ ] Change Character into an interface (and extend it)
+    - [x] Rewrite controls
+    - [x] New chart parser
+    - [x] New stage system based on FlxGroups
+    - [x] Change Character into an interface (and extend it)
     - [ ] New Note system
 
 ## TODONT LIST:
@@ -30,6 +31,10 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
 
 ## ADDED FEATURE LIST
 
-- Reorganized assets
-- Reorganized source
-- Rewritten Conductor (now works as a plugin, allows for more extensibility)
+- **Reorganized assets**: Got rid of data, images, sounds, etc... Redone for ease of use.
+- **Reorganized source**: Now disposed into folders.
+- **Rewritten Conductor**: now works as a plugin, allows for any game song to use BPM changes via additional .bpm file (including main menu and gameover)
+    - `FlxG.sound.playMusic()` now obsolete, use `Conductor.instance.loadAndPlay()`
+- **Rewritten Characters**: Characters now have separate classes and can extend anything that extends FlxSprite (FlxSpriteGroup, FlxAnimate...)
+- **Rewritten Stages**: Stages are now FlxGroups separated into singular classes. Since theyre groups, they can be easily interchanged midsong with some coding.
+- **Rewritten Chart System**: Charts allows now for more than 2 strumlines (no chart format tho, use the Codename Engine one if you want best compatibility)

@@ -7,12 +7,13 @@ class SpriteCharacter extends FlxSprite implements Character {
 		return this;
 
     public var lastSingStep:Float = -5000;
-    public var isPlayer:Bool = false;
+    public var flipped:Bool = false;
 
-    public function new(x:Float, y:Float, isPlayer:Bool) {
+    public function new(x:Float, y:Float, flipped:Bool) {
         super(x, y);
-        this.isPlayer = isPlayer;
-        flipX = isPlayer;
+        this.flipped = flipped;
+        if (flipped)
+            scale.x *= -1;
     }
 
 	public function playMissAnim(strumID:Int, ?note:Note) {

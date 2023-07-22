@@ -19,6 +19,11 @@ class Strum extends FlxSprite {
 
     }
 
+    public function confirm() {
+        animation.play("confirm");
+        lastHitTime = Conductor.instance.songPosition;
+    }
+
     public override function update(elapsed:Float) {
         super.update(elapsed);
         if (cpu) {
@@ -34,10 +39,8 @@ class Strum extends FlxSprite {
         } else {
             switch(animation.getCurAnimName()) {
                 case "static":
-                    if (Controls.controls[parent.controlsArray[id]].justPressed) {
+                    if (Controls.controls[parent.controlsArray[id]].justPressed)
                         animation.play("pressed");
-                        parent.character.playSingAnim(id);
-                    }
                 case "pressed":
                     if (Controls.controls[parent.controlsArray[id]].justReleased)
                         animation.play("static");

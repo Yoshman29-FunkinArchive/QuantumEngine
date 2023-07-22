@@ -61,7 +61,7 @@ class CoolUtil
 		return str;
 	}
 
-	public static inline function allocArray<T>(size:Int) {
+	public static inline function allocArray<T>(size:Int):Array<T> {
 		#if cpp
 		return cpp.NativeArray.create(size);
 		#else
@@ -76,5 +76,21 @@ class CoolUtil
 class CoolExtension {
 	public static inline function getCurAnimName(animController:FlxAnimationController) {
 		return animController.curAnim != null ? animController.curAnim.name : null;
+	}
+	
+	/**
+	 * Basically indexOf, but starts from the end.
+	 * @param array Array to scan
+	 * @param element Element
+	 * @return Index, or -1 if unsuccessful.
+	 */
+	 public static inline function indexOfFromLast<T>(array:Array<T>, element:T):Int {
+		var i = array.length - 1;
+		while(i >= 0) {
+			if (array[i] == element)
+				break;
+			i--;
+		}
+		return i;
 	}
 }

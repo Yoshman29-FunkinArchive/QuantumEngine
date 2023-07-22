@@ -19,3 +19,5 @@ using assets.Assets.AssetsUtil;
 using backend.plugins.Conductor.ConductorUtils;
 
 using utils.CoolUtil.CoolExtension;
+
+import flixel.util.FlxDestroyUtil;

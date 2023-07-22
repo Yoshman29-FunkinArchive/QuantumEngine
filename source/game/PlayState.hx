@@ -29,6 +29,8 @@ class PlayState extends MusicBeatState
 
 	public var hud:FlxGroup;
 
+	public var strumLines:Array<StrumLine> = []; // make it a group maybe
+
 	public override function create() {
 		super.create();
 
@@ -41,12 +43,14 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camHUD, false);
 		camHUD.bgColor = 0; // transparent
 		add(hud);
+
+		var vocalTracks:Array<String> = [];
 		
 		for(strLine in SONG.strumLines) {
 			var strumLine:StrumLine = null;
-			if (strLine.visible) {
-				hud.add(strumLine = new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine.cpu));
-			}
+			hud.add(strumLine = new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine));
+			strumLines.push(strumLine);
+			strumLine.visible = strLine.visible;
 
 			if (strLine.character != null) {
 				if (stage.characterGroups.exists(strLine.character.position)) {
@@ -59,16 +63,60 @@ class PlayState extends MusicBeatState
 
 					if (strumLine != null)
 						strumLine.character = char;
+
 				} else {
 					FlxG.log.error('CHART ERROR: Character position "${strLine.character.position}" not found in stage ${Type.getClassName(SONG.stage)}');
 				}
 			}
+
+			for(vocalTrack in strLine.vocalTracks) {
+				if (!vocalTracks.contains(vocalTrack))
+					vocalTracks.push(vocalTrack);
+			}
+
+			var requiredNotes = 0;
+			for(note in strLine.notes) {
+				if (note.type == null) continue;
+				requiredNotes += 1;
+
+				// if (note.sustainLength > 10) {
+				// 	var curCrochet = SONG.bpmChanges.getTimeForBeat(SONG.bpmChanges.getBeatForTime(note.time) + 1) - note.time;
+				// 	requiredNotes += Std.int(note.sustainLength / curCrochet);
+				// }
+			}
+
+			strumLine.notes.allocate(requiredNotes);
+
+			var i = 0;
+			for(note in strLine.notes) {
+				if (note.type == null) continue;
+				
+				var n:Note = Type.createInstance(note.type, [strumLine, note, false]);
+				strumLine.notes.members[i++] = n;
+
+				// if (note.sustainLength > 10) {
+				// 	var curCrochet = SONG.bpmChanges.getTimeForBeat(SONG.bpmChanges.getBeatForTime(note.time) + 1) - note.time;
+				// 	requiredNotes += Std.int(note.sustainLength / curCrochet);
+				// }
+			}
+
+			strumLine.notes.sortNotes();
 		}
 
 
 		// TODO: countdown
-		Conductor.instance.load(SONG.instPath);
+		Conductor.instance.load(SONG.instPath, true, vocalTracks);
 		Conductor.instance.bpmChanges = SONG.bpmChanges;
+
+		for(s in strumLines) {
+			for(v in s.strLine.vocalTracks) {
+				var index = vocalTracks.indexOf(v);
+				if (index >= 0)
+					s.vocalTracks.push(cast Conductor.instance.sounds.sounds[index+1])
+				else
+					s.vocalTracks.push(null);
+			}
+		}
 
 		Conductor.instance.play();
 	}

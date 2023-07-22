@@ -3,7 +3,7 @@ package assets.chart;
 import game.characters.Character.CharacterUtil;
 
 class BaseGameParser {
-    public static function parse(chart:Chart, data:SwagSong) {
+    public static function parse(chart:Chart, data:SwagSong, fixPath:String->(String->String)->String) {
 		var p1:ChartStrumLine = new ChartStrumLine(false);
 		var p2:ChartStrumLine = new ChartStrumLine(true);
 
@@ -32,6 +32,16 @@ class BaseGameParser {
 
 
 		var camTarget = -1;
+
+		if (!!data.needsVoices) {
+			var usesSeparateVocals = Assets.exists(Paths.sound(fixPath("Voices_P1", Paths.sound)));
+			if (usesSeparateVocals) {
+				p1.vocalTracks.push(fixPath("Voices_P1", Paths.sound));
+				p2.vocalTracks.push(fixPath("Voices_P2", Paths.sound));
+			} else {
+				p1.vocalTracks.push(fixPath("Voices", Paths.sound));
+			}
+		}
 
 		for(k=>section in data.notes) {
 			var secTarget = (section.gfSection ? 2 : (section.mustHitSection ? 0 : 1));

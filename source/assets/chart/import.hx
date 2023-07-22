@@ -3,4 +3,4 @@ import assets.chart.Chart.ChartStrumLine;
 import assets.chart.Chart.ChartCharacter;
 import assets.chart.Chart.ChartNote;
 import game.stages.Stage.CharPosName;
-import game.Note;
+import game.notes.Note;

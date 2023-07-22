@@ -1,8 +1,9 @@
 package assets.chart;
 
+import game.notes.DefaultNote;
 import game.characters.Character;
 import game.characters.SpriteCharacter;
-import game.Note;
+import game.notes.Note;
 import game.SongEvent;
 import haxe.Json;
 import game.stages.Stage;
@@ -84,12 +85,11 @@ class Chart {
 
         if (Reflect.hasField(jsonData, "notes") && Reflect.hasField(jsonData, "player1")) {
             // PSYCH / BASE GAME FORMAT
-            BaseGameParser.parse(chartFile, jsonData);
+            BaseGameParser.parse(chartFile, jsonData, fixPath);
         }
 
         #if html5
         js.Browser.console.log(chartFile);
-        js.Browser.console.log(jsonData);
         #end
 
         return chartFile;
@@ -108,6 +108,8 @@ class ChartStrumLine {
 
     public var notes:Array<ChartNote> = [];
 
+    public var vocalTracks:Array<String> = [];
+
     public function new(cpu:Bool = true) {
         this.cpu = cpu;
     }
@@ -121,10 +123,11 @@ class ChartNote {
 
     public function new(time:Float, strum:Int, sustainLength:Float, type:Class<Note> = null) {
         if (type == null)
-            type = Note;
+            type = DefaultNote;
 
         this.time = time;
         this.type = type;
+        this.strum = strum;
         this.sustainLength = sustainLength;
     }
 }

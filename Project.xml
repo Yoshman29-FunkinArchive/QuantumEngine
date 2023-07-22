@@ -93,6 +93,10 @@
 	
 	<haxeflag name="--macro" value="include('game.stages')" />
 
+	<!-- _____________________________ Engine Defines ___________________________ -->
+	
+	<haxedef name="GPU_TEXTURES_SUPPORT" unless="web" />
+
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->

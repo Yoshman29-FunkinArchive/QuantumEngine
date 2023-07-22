@@ -80,6 +80,16 @@ class PlayState extends MusicBeatState
 		camHUD.zoom += 0.03;
 	}
 
+	public override function beatHit() {
+		super.beatHit();
+
+		for(cGrp in stage.characterGroups) for(m in cGrp.members) {
+			if (m == null) continue;
+			if (m is Character)
+				cast(m, Character).dance(curBeat, false);
+		}
+	}
+
 	public override function update(elapsed:Float) {
 		super.update(elapsed);
 

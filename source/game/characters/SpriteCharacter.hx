@@ -32,10 +32,10 @@ class SpriteCharacter extends FlxSprite implements Character {
         if (!force) {
             switch(getAnimPrefix()) {
                 case "sing":
-                    if (Conductor.instance.curStepFloat - lastSingStep < 1.5)
+                    if (Conductor.instance.curStepFloat - lastSingStep < 3.5)
                         return;
                 case "miss":
-                    if (Conductor.instance.curStepFloat - lastSingStep < 2.5)
+                    if (Conductor.instance.curStepFloat - lastSingStep < 7.5)
                         return;
                 case "long":
                     if (!animation.curAnim.finished)
@@ -47,7 +47,7 @@ class SpriteCharacter extends FlxSprite implements Character {
     }
 
     public function playDanceAnim(beat:Int) {
-        animation.play("dance-idle", true);
+        animation.play("dance-idle", false);
     }
 
     private function getAnimPrefix():String {

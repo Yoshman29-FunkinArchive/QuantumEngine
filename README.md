@@ -24,6 +24,13 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
     - [x] New stage system based on FlxGroups
     - [x] Change Character into an interface (and extend it)
     - [ ] New Note system
+- [ ] Menus
+    - [ ] Update Freeplay to use icons & config.json
+    - [ ] Update Story Menu to a better format
+- [ ] Save & Options
+    - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
+    - [ ] Add Separate save for Options
+    - [ ] Add Options
 
 ## TODONT LIST:
 

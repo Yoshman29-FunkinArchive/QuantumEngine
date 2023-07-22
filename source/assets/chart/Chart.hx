@@ -1,6 +1,7 @@
 package assets.chart;
 
-import game.Character;
+import game.characters.Character;
+import game.characters.SpriteCharacter;
 import game.Note;
 import game.SongEvent;
 import haxe.Json;
@@ -102,7 +103,7 @@ class Chart {
 class ChartStrumLine {
     public var cpu:Bool = true;
     public var xPos:Float = 0.25;
-    public var character:ChartCharacter = new ChartCharacter();
+    public var character:ChartCharacter = new ChartCharacter(SpriteCharacter);
     public var visible:Bool = true;
 
     public var notes:Array<ChartNote> = [];
@@ -129,10 +130,10 @@ class ChartNote {
 }
 
 class ChartCharacter {
-    public var character:String;
+    public var character:Class<Character>;
     public var position:String;
 
-    public function new(character:String = "bf", position:CharPosName = PLAYER) {
+    public function new(character:Class<Character>, position:CharPosName = PLAYER) {
         this.character = character;
         this.position = position;
     }

@@ -1,5 +1,7 @@
 package assets.chart;
 
+import game.characters.Character.CharacterUtil;
+
 class BaseGameParser {
     public static function parse(chart:Chart, data:SwagSong) {
 		var p1:ChartStrumLine = new ChartStrumLine(false);
@@ -8,8 +10,8 @@ class BaseGameParser {
         chart.strumLines.push(p1);
         chart.strumLines.push(p2);
 
-		p1.character = new ChartCharacter(data.player1, PLAYER);
-		p2.character = new ChartCharacter(data.player2, OPPONENT);
+		p1.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.player1), PLAYER);
+		p2.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.player2), OPPONENT);
 
 		p1.xPos = 0.75;
 
@@ -23,7 +25,7 @@ class BaseGameParser {
 			gf = new ChartStrumLine();
 			gf.visible = false;
 			gf.xPos = 0.5;
-			gf.character = new ChartCharacter(data.gfVersion, GIRLFRIEND);
+			gf.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.gfVersion), GIRLFRIEND);
 			chart.strumLines.push(gf);
 		}
 

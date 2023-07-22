@@ -26,7 +26,7 @@ class DefaultStage extends Stage {
         stageFront.active = false;
         add(stageFront);
 
-        addCharGroup(400, 130, "girlfriend");
+        addCharGroup(400, 130, "girlfriend", false, 0.95, 0.95);
 
         stageCurtains = new FlxSprite(-500, -300).loadGraphic(Paths.image(p('curtains')));
         stageCurtains.scale.set(0.9, 0.9);
@@ -37,6 +37,6 @@ class DefaultStage extends Stage {
         add(stageCurtains);
 
         addCharGroup(100, 100, "opponent");
-        addCharGroup(770, 100, "player");
+        addCharGroup(770, 100, "player", true);
     }
 }

@@ -23,8 +23,8 @@ class Stage extends FlxGroup {
 
     }
 
-    public function addCharGroup(x:Float, y:Float, name:String) {
-        characterGroups[name] = new CharGroup(x, y);
+    public function addCharGroup(x:Float, y:Float, name:String, flip:Bool = false, scrollX:Float = 1, scrollY:Float = 1) {
+        add(characterGroups[name] = new CharGroup(x, y, flip, scrollX, scrollY));
     }
 
     public override function destroy() {
@@ -48,10 +48,18 @@ class CharGroup extends FlxGroup {
     public var x:Float;
     public var y:Float;
 
-    public function new(x:Float, y:Float) {
+    public var scrollX:Float;
+    public var scrollY:Float;
+
+    public var flip:Bool;
+
+    public function new(x:Float, y:Float, flip:Bool = false, scrollX:Float = 1, scrollY:Float = 1) {
         super();
         this.x = x;
         this.y = y;
+        this.scrollX = scrollX;
+        this.scrollY = scrollY;
+        this.flip = flip;
     }
 }
 

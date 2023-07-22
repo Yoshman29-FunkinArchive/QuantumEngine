@@ -1,5 +1,6 @@
 package game;
 
+import game.characters.Character;
 import game.strums.DefaultStrum;
 import game.strums.Strum;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -8,6 +9,8 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
     public var controlsArray:Array<String> = ["NOTE_LEFT", "NOTE_DOWN", "NOTE_UP", "NOTE_RIGHT"];
 
     public var cpu:Bool = false;
+
+    public var character:Character;
 
     public function new(x:Float, y:Float, cpu:Bool = false) {
         super();

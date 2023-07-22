@@ -1,0 +1,98 @@
+[
+    {
+        "name": "dance-idle",
+        "prefix": "BF idle dance",
+        "fps": 24,
+        "loop": false,
+        "x": -5,
+        "y": 0
+    },
+
+
+
+    {
+        "name": "sing-UP",
+        "prefix": "BF NOTE UP0",
+        "fps": 24,
+        "loop": false,
+        "x": -29,
+        "y": 27
+    },
+    {
+        "name": "sing-LEFT",
+        "prefix": "BF NOTE LEFT0",
+        "fps": 24,
+        "loop": false,
+        "x": 12,
+        "y": -6
+    },
+    {
+        "name": "sing-RIGHT",
+        "prefix": "BF NOTE RIGHT0",
+        "fps": 24,
+        "loop": false,
+        "x": -38,
+        "y": -7
+    },
+    {
+        "name": "sing-DOWN",
+        "prefix": "BF NOTE DOWN0",
+        "fps": 24,
+        "loop": false,
+        "x": -10,
+        "y": -50
+    },
+
+
+    
+    {
+        "name": "miss-UP",
+        "prefix": "BF NOTE UP MISS",
+        "fps": 24,
+        "loop": false,
+        "x": -29,
+        "y": 27
+    },
+    {
+        "name": "miss-LEFT",
+        "prefix": "BF NOTE LEFT MISS",
+        "fps": 24,
+        "loop": false,
+        "x": 12,
+        "y": 24
+    },
+    {
+        "name": "miss-RIGHT",
+        "prefix": "BF NOTE RIGHT MISS",
+        "fps": 24,
+        "loop": false,
+        "x": -30,
+        "y": 21
+    },
+    {
+        "name": "miss-DOWN",
+        "prefix": "BF NOTE DOWN MISS",
+        "fps": 24,
+        "loop": false,
+        "x": -11,
+        "y": -19
+    },
+
+
+    {
+        "name": "dance-HEY",
+        "prefix": "BF HEY",
+        "fps": 24,
+        "loop": false,
+        "x": 7,
+        "y": 4
+    },
+    {
+        "name": "dance-SCARED",
+        "prefix": "BF idle shaking",
+        "fps": 24,
+        "loop": true,
+        "x": -4,
+        "y": 0
+    }
+]

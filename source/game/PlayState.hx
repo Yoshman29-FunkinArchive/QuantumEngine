@@ -1,49 +1,11 @@
 package game;
 
+import flixel.group.FlxGroup;
 import game.stages.Stage;
 import assets.chart.Chart;
-import menus.FreeplayState;
-import menus.StoryMenuState;
-import backend.Highscore;
-import menus.GameOverSubstate;
-import menus.GitarooPause;
-import menus.PauseSubState;
-import menus.TitleState;
-import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxGame;
-import flixel.FlxObject;
-import flixel.FlxSprite;
-import flixel.FlxState;
-import flixel.FlxSubState;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.effects.FlxTrail;
-import flixel.addons.effects.FlxTrailArea;
-import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxWaveEffect;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.atlas.FlxAtlas;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
-import flixel.system.FlxSound;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.ui.FlxBar;
-import flixel.util.FlxCollision;
-import flixel.util.FlxColor;
-import flixel.util.FlxSort;
-import flixel.util.FlxStringUtil;
-import flixel.util.FlxTimer;
-import haxe.Json;
-import lime.utils.Assets;
-import openfl.display.BlendMode;
-import openfl.display.StageQuality;
-import openfl.filters.ShaderFilter;
+import game.characters.Character;
 
 using StringTools;
 
@@ -65,6 +27,8 @@ class PlayState extends MusicBeatState
 
 	public var camHUD:FlxCamera;
 
+	public var hud:FlxGroup;
+
 	public override function create() {
 		super.create();
 
@@ -72,14 +36,54 @@ class PlayState extends MusicBeatState
 
 		add(stage = Type.createInstance(SONG.stage, []));
 
-		camHUD = new FlxCamera();
+		hud = new FlxGroup();
+		hud.camera = camHUD = new FlxCamera();
 		FlxG.cameras.add(camHUD, false);
 		camHUD.bgColor = 0; // transparent
+		add(hud);
 		
 		for(strLine in SONG.strumLines) {
+			var strumLine:StrumLine = null;
 			if (strLine.visible) {
-				add(new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine.cpu));
+				hud.add(strumLine = new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine.cpu));
+			}
+
+			if (strLine.character != null) {
+				if (stage.characterGroups.exists(strLine.character.position)) {
+					var grp = stage.characterGroups.get(strLine.character.position);
+					var char:Character = Type.createInstance(strLine.character.character, [0, 0, grp.flip]);
+					grp.add(char._);
+					char._.setPosition(grp.x, grp.y);
+					char._.scrollFactor.x *= grp.scrollX;
+					char._.scrollFactor.y *= grp.scrollY;
+
+					if (strumLine != null)
+						strumLine.character = char;
+				} else {
+					FlxG.log.error('CHART ERROR: Character position "${strLine.character.position}" not found in stage ${Type.getClassName(SONG.stage)}');
+				}
 			}
 		}
+
+
+		// TODO: countdown
+		Conductor.instance.load(SONG.instPath);
+		Conductor.instance.bpmChanges = SONG.bpmChanges;
+
+		Conductor.instance.play();
+	}
+
+	public override function measureHit() {
+		super.measureHit();
+
+		FlxG.camera.zoom += 0.015;
+		camHUD.zoom += 0.03;
+	}
+
+	public override function update(elapsed:Float) {
+		super.update(elapsed);
+
+		FlxG.camera.zoom = CoolUtil.fLerp(FlxG.camera.zoom, stage.camZoom, 0.05);
+		camHUD.zoom = CoolUtil.fLerp(camHUD.zoom, 1, 0.05);
 	}
 }

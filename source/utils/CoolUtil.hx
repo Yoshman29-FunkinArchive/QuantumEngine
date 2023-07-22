@@ -1,5 +1,6 @@
 package utils;
 
+import flixel.math.FlxMath;
 import flixel.animation.FlxAnimationController;
 import lime.utils.Assets;
 
@@ -67,6 +68,9 @@ class CoolUtil
 		return cast new haxe.ds.Vector<T>(10000);
 		#end
 	}
+
+	public static inline function fLerp(v1:Float, v2:Float, ratio:Float)
+		return FlxMath.lerp(v1, v2, ratio * FlxG.elapsed * 60);
 }
 
 class CoolExtension {

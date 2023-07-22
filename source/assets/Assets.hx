@@ -1,5 +1,6 @@
 package assets;
 
+import flixel.graphics.frames.FlxFrame;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 import flixel.animation.FlxAnimation;
@@ -69,6 +70,24 @@ class Assets {
                             animController.add(a.name, a.indices, fps, loop, flipX, flipY);
                         } else {
                             FlxG.log.warn('Animations JSON: Animation ${a.name} does not contain frame info, skipping ($path)');
+                            continue;
+                        }
+                    }
+
+                    if (a.x != null || a.y != null) {
+                        // apply offset
+
+                        var anim = animController.getByName(a.name);
+                        var foundFrames:Array<FlxFrame> = [];
+                        for(i in anim.frames) {
+                            var correspondingFrame = frames.frames[i];
+                            if (!foundFrames.contains(correspondingFrame))
+                                foundFrames.push(correspondingFrame);
+                        }
+    
+                        for(f in foundFrames) {
+                            if (a.x != null) f.offset.x -= a.x;
+                            if (a.y != null) f.offset.y -= a.y;
                         }
                     }
                 }
@@ -147,7 +166,6 @@ class AssetsUtil {
                 // }
             }
         }
-
     }
 }
 
@@ -157,6 +175,8 @@ typedef AnimDefinition = {
     @:optional var indices:Array<Int>;
     @:optional var fps:Int;
     @:optional var loop:Bool;
-    var flipX:Bool;
-    var flipY:Bool;
+    @:optional var flipX:Bool;
+    @:optional var flipY:Bool;
+    @:optional var x:Float;
+    @:optional var y:Float;
 }

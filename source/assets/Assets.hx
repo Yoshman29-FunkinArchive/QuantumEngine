@@ -1,5 +1,6 @@
 package assets;
 
+import haxe.ds.Vector;
 import flixel.graphics.frames.FlxFrame;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
@@ -47,7 +48,7 @@ class Assets {
         
                 var animController = dummySprite.animation;
                 
-
+                var newFrames:Array<FlxFrame> = [];
                 for(a in animations) {
                     if (a.name == null) {
                         FlxG.log.warn('Animations JSON: Animation without name found, skipping ($path)');
@@ -74,23 +75,25 @@ class Assets {
                         }
                     }
 
-                    if (a.x != null || a.y != null) {
-                        // apply offset
 
-                        var anim = animController.getByName(a.name);
-                        var foundFrames:Array<FlxFrame> = [];
-                        for(i in anim.frames) {
-                            var correspondingFrame = frames.frames[i];
-                            if (!foundFrames.contains(correspondingFrame))
-                                foundFrames.push(correspondingFrame);
-                        }
-    
-                        for(f in foundFrames) {
-                            if (a.x != null) f.offset.x -= a.x;
-                            if (a.y != null) f.offset.y -= a.y;
-                        }
+                    var anim = animController.getByName(a.name);
+                    var beginningPos = newFrames.length;
+                    for(i in anim.frames) {
+                        var correspondingFrame = frames.frames[i];
+                        newFrames.push(correspondingFrame.copyTo());
                     }
+
+                    for(i in beginningPos...newFrames.length) {
+                        var f = newFrames[i];
+                        if (a.x != null) f.offset.x -= a.x;
+                        if (a.y != null) f.offset.y -= a.y;
+                    }
+
+                    anim.frames = [for(i in beginningPos...(newFrames.length)) i];
                 }
+
+                frames.frames = newFrames;
+
                 
                 @:privateAccess
                 frames.parent._destroyOnNoUse = false;

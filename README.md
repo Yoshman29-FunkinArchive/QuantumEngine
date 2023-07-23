@@ -23,7 +23,13 @@ new engine that wont go like cne and yce did and will only serve ONE purpose: ba
     - [x] New chart parser
     - [x] New stage system based on FlxGroups
     - [x] Change Character into an interface (and extend it)
-    - [ ] New Note system
+        - [x] Sparrow characters support
+        - [x] Animate Atlas characters support
+    - [x] New Note system
+    - [ ] Add sustains to the note system
+    - [ ] Add score, misses & accuracy
+    - [ ] Add healthbar & icons
+    - [ ] Add Game Over screen
 - [ ] Menus
     - [ ] Update Freeplay to use icons & config.json
     - [ ] Update Story Menu to a better format

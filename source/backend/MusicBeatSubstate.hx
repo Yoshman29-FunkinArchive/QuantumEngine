@@ -27,9 +27,9 @@ class MusicBeatSubstate extends FlxSubState
 	override function create()
 	{
 		super.create();
-		Conductor.onBeat.add(_onBeat);
-		Conductor.onStep.add(_onStep);
-		Conductor.onMeasure.add(_onMeasure);
+		Conductor.instance.onBeat.add(_onBeat);
+		Conductor.instance.onStep.add(_onStep);
+		Conductor.instance.onMeasure.add(_onMeasure);
 		FlxG.signals.postStateSwitch.addOnce(postCreate);
 	}
 
@@ -48,8 +48,8 @@ class MusicBeatSubstate extends FlxSubState
 
 	public override function destroy() {
 		super.destroy();
-		Conductor.onBeat.remove(_onBeat);
-		Conductor.onStep.remove(_onStep);
-		Conductor.onMeasure.remove(_onMeasure);
+		Conductor.instance.onBeat.remove(_onBeat);
+		Conductor.instance.onStep.remove(_onStep);
+		Conductor.instance.onMeasure.remove(_onMeasure);
 	}
 }

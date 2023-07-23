@@ -59,7 +59,7 @@ class TitleState extends MusicBeatState
 		if (!Conductor.instance.playing)
 		{
 			Conductor.instance.sounds.volume = 0;
-			Conductor.instance.loadAndPlay('menus/freakyMenu');
+			Conductor.instance.loadAndPlay('menus/freakyMenu', true);
 			Conductor.instance.fadeIn(4, 0, 0.7);
 		}
 

@@ -67,7 +67,7 @@ class Note extends FlxSprite
 
 	public function updatePosition(strum:Strum) {
 		// TODO: scroll speed and angle support
-		this.setPosition(strum.x, strum.y + ((time - Conductor.instance.songPosition) / 1.5));
+		this.setPosition(strum.x, strum.y + ((time - Conductor.instance.songPosition) / 1));
 	}
 
 	public function create() {}

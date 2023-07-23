@@ -78,6 +78,12 @@ class CoolExtension {
 		return animController.curAnim != null ? animController.curAnim.name : null;
 	}
 	
+
+	public static inline function nullify<T>(array:Array<T>, value:T = null) {
+		for(i in 0...array.length)
+			array[i] = value;
+	}
+
 	/**
 	 * Basically indexOf, but starts from the end.
 	 * @param array Array to scan

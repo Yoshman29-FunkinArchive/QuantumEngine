@@ -35,10 +35,10 @@ typedef BPMChange = {
 
 
 class Conductor extends FlxBasic {
+    public static var instance:Conductor;
+
     public var sounds:FlxSoundGroup = new FlxSoundGroup();
     public var curPlayingPath = null;
-
-    public static var instance:Conductor;
 
     private var __empty:String = "";
     public var songPosition:Float = 0;
@@ -64,18 +64,36 @@ class Conductor extends FlxBasic {
 
     public var playing(get, null):Bool;
 
-    public static var onBeat:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
-    public static var onStep:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
-    public static var onMeasure:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+    public var onBeat:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+    public var onStep:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+    public var onMeasure:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
 
     public function new() {
         super();
+    }
 
-        FlxG.plugins.add(this);
+    public override function destroy() {
+        super.destroy();
+        for(s in sounds.sounds) {
+            s.stop();
+            s.destroy();
+        }
+        sounds = null;
+
+        onBeat.removeAll();
+        onStep.removeAll();
+        onMeasure.removeAll();
+
+        onBeat = null;
+        onStep = null;
+        onMeasure = null;
+
+        bpmChanges = null;
     }
 
     public static function init() {
         instance = new Conductor();
+        FlxG.plugins.add(instance);
     }
 
     public override function update(elapsed:Float) {
@@ -204,17 +222,22 @@ class Conductor extends FlxBasic {
         SHADOW FUNCTIONS
     */
     
-    public inline function loadAndPlay(path:String) {
+    public inline function loadAndPlay(path:String, loop:Bool = false) {
         load(path);
-        play();
+        play(false, loop);
     }
-    public inline function play(ForceRestart:Bool = false, StartTime:Float = 0.0, ?EndTime:Float)
+    public inline function play(ForceRestart:Bool = false, Loop:Bool = false, StartTime:Float = 0.0, ?EndTime:Float) {
         for(s in sounds.sounds)
             if (s != null) {
                 s.play(ForceRestart, StartTime, EndTime);
                 @:privateAccess
                 s.updateTransform();
+                s.looped = Loop;
             }
+
+        for(s in sounds.sounds)
+            s.time = sounds.sounds[0].time;
+    }
 
     public inline function stop()
         for(s in sounds.sounds)
@@ -234,8 +257,11 @@ class Conductor extends FlxBasic {
     public inline function pause()
         sounds.pause();
 
-    public inline function resume()
+    public inline function resume() {
+        for(s in sounds.sounds)
+            s.time = songPosition;
         sounds.resume();
+    }
 
     private function __resetVars() {
         songPosition = 0;
@@ -376,11 +402,11 @@ class ConductorSound extends FlxSound {
             delayTime -= elapsed / 4;
     }
     public function isSoundDelayed(elapsed:Float, masterSound:FlxSound):Bool {
-        if (time != masterSound.time) {
+        if (Math.abs(time - masterSound.time) > 25) {
             delayTime += elapsed;
-            delayTimeReductionCooldown = 0.01; // 10 ms
+            delayTimeReductionCooldown = 0.005; // 5 ms
             if (delayTime > 0.02) {
-                // 20ms threshold
+                delayTime = 0;
                 return true;
             }
         }

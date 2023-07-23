@@ -38,6 +38,10 @@ class Main extends Sprite
 		// configure the replacement for the cache
 		FlxG.bitmap.configure();
 
+		FlxG.fixedTimestep = false;
+
+		FlxG.drawFramerate = FlxG.updateFramerate = 120;
+
 		configureTransition();
 
 		setupDebug();

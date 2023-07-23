@@ -65,7 +65,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
 		{
-			Conductor.instance.loadAndPlay('game/gameover/gameOver');
+			Conductor.instance.loadAndPlay('game/gameover/gameOver', true);
 		}
 	}
 

@@ -35,6 +35,42 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
         }
     }
 
+    function updateCPU(note:Note) {
+        if (note.tooLate) {
+            note.onMiss(this);
+        }
+        if (note.canBeHit && note.mustHitCPU && !note.wasGoodHit && note.time < Conductor.instance.songPosition) {
+            note.onHit(this);
+        }
+    }
+
+    function updatePlayer(note:Note) {
+        if (note.tooLate)
+            note.onMiss(this);
+
+        if (note.canBeHit && !note.wasGoodHit) {
+            if (note.isSustainNote) {
+                if (pressedArray[note.strumID]) {
+                    additionalPressedNotes.push(note);
+                }
+            } else {
+                if (justPressedArray[note.strumID]) {
+                    if (notesPerStrum[note.strumID] == null) {
+                        notesPerStrum[note.strumID] = note;
+                    } else if (notesPerStrum[note.strumID].time == note.time) {
+                        additionalPressedNotes.push(note);
+                    }
+                }
+            }
+        }
+    }
+
+    var notesPerStrum:Array<Note> = [];
+    var additionalPressedNotes:Array<Note>;
+    var justPressedArray:Array<Bool>;
+    var pressedArray:Array<Bool>;
+    var justReleasedArray:Array<Bool>;
+
     public override function update(elapsed:Float) {
         for(e in members)
             e.cpu = cpu;
@@ -42,41 +78,29 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 
 
         if (cpu) {
-            notes.forEach(function(note) {
-                if (note.tooLate) {
-                    note.onMiss(this);
-                }
-                if (note.canBeHit && note.mustHitCPU && !note.wasGoodHit && note.time < Conductor.instance.songPosition) {
-                    note.onHit(this);
-                }
-            });
+            notes.forEach(updateCPU);
         } else {
-            var notesPerStrum = CoolUtil.allocArray(length);
-            var additionalPressedNotes:Array<Note> = [];
-            var justPressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justPressed];
-            var pressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].pressed];
-            var justReleasedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justReleased];
+            if (notesPerStrum.length != length) {
+                notesPerStrum = CoolUtil.allocArray(length);
+                additionalPressedNotes = [];
+                justPressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justPressed];
+                pressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].pressed];
+                justReleasedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justReleased];
+            } else {
+                notesPerStrum.nullify();
+                additionalPressedNotes = [];
+                justPressedArray.nullify(false);
+                pressedArray.nullify(false);
+                justReleasedArray.nullify(false);
 
-            notes.forEach(function(note) {
-                if (note.tooLate)
-                    note.onMiss(this);
-    
-                if (note.canBeHit && !note.wasGoodHit) {
-                    if (note.isSustainNote) {
-                        if (pressedArray[note.strumID]) {
-                            additionalPressedNotes.push(note);
-                        }
-                    } else {
-                        if (justPressedArray[note.strumID]) {
-                            if (notesPerStrum[note.strumID] == null) {
-                                notesPerStrum[note.strumID] = note;
-                            } else if (notesPerStrum[note.strumID].time == note.time) {
-                                additionalPressedNotes.push(note);
-                            }
-                        }
-                    }
+                for(i in 0...length) {
+                    justPressedArray[i] = Controls.controls[controlsArray[i]].justPressed;
+                    pressedArray[i] = Controls.controls[controlsArray[i]].pressed;
+                    justReleasedArray[i] = Controls.controls[controlsArray[i]].justReleased;
                 }
-            });
+            }
+
+            notes.forEach(updatePlayer);
 
             for(n in notesPerStrum)
                 if (n != null)

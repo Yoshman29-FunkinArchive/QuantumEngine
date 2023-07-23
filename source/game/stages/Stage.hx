@@ -12,9 +12,9 @@ class Stage extends FlxGroup {
 
     public function new() {
         super();
-		Conductor.onBeat.add(beatHit);
-		Conductor.onStep.add(stepHit);
-		Conductor.onMeasure.add(measureHit);
+		Conductor.instance.onBeat.add(beatHit);
+		Conductor.instance.onStep.add(stepHit);
+		Conductor.instance.onMeasure.add(measureHit);
 
         create();
     }
@@ -30,9 +30,9 @@ class Stage extends FlxGroup {
     public override function destroy() {
         super.destroy();
 
-		Conductor.onBeat.remove(beatHit);
-		Conductor.onStep.remove(stepHit);
-		Conductor.onMeasure.remove(measureHit);
+		Conductor.instance.onBeat.remove(beatHit);
+		Conductor.instance.onStep.remove(stepHit);
+		Conductor.instance.onMeasure.remove(measureHit);
     }
 
     public inline function p(text:String)

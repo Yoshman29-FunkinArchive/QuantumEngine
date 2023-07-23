@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState
 
 		if (!Conductor.instance.playing)
 		{
-			Conductor.instance.loadAndPlay('menus/freakyMenu');
+			Conductor.instance.loadAndPlay('menus/freakyMenu', true);
 		}
 
 		persistentUpdate = persistentDraw = true;

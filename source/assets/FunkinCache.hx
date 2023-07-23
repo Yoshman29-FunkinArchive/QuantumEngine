@@ -41,10 +41,6 @@ class FunkinCache extends AssetCache {
 
 		FlxG.signals.postStateSwitch.add(function() {
 			instance.clearSecondLayer();
-
-			#if cpp
-			cpp.vm.Gc.run(true);
-			#end
 		});
 	}
 

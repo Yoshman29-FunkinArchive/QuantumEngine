@@ -6,6 +6,8 @@ class SpriteCharacter extends FlxSprite implements Character {
 	public function get__():FlxSprite
 		return this;
 
+    public var cameraOffset:FlxPoint = FlxPoint.get(125, -100);
+
     public var lastSingStep:Float = -5000;
     public var flipped:Bool = false;
 
@@ -44,6 +46,18 @@ class SpriteCharacter extends FlxSprite implements Character {
         }
 
         playDanceAnim(beat);
+    }
+
+    public function getCameraPosition():FlxPoint {
+        var midpoint = getMidpoint(FlxPoint.get());
+        midpoint.x -= offset.x;
+        midpoint.y -= offset.y;
+        if (flipped)
+            midpoint.x -= cameraOffset.x;
+        else
+            midpoint.x += cameraOffset.x;
+        midpoint.y += cameraOffset.y;
+        return midpoint;
     }
 
     public function playDanceAnim(beat:Int) {

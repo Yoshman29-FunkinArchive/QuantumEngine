@@ -44,7 +44,7 @@ class BaseGameParser {
 		}
 
 		for(k=>section in data.notes) {
-			var secTarget = (section.gfSection ? 2 : (section.mustHitSection ? 0 : 1));
+			var secTarget = (section.gfSection ? 2 : (section.mustHitSection ? 1 : 0));
 
 			if (secTarget != camTarget) {
 				chart.events.push(new SongEvent(chart.bpmChanges.getTimeForMeasure(k), ECameraMove(camTarget)));

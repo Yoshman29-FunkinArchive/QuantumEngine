@@ -8,6 +8,8 @@ interface Character {
     public function playSingAnim(strumID:Int, ?note:Note):Void;
 
     public function dance(beat:Int, force:Bool):Void;
+
+    public function getCameraPosition():FlxPoint;
     
 }
 

@@ -25,24 +25,39 @@ class PlayState extends MusicBeatState
 
 	public var stage:Stage;
 
-	public var camHUD:FlxCamera;
+	public var camGame:FunkinCamera;
+	public var camHUD:FunkinCamera;
 
 	public var hud:FlxGroup;
 
 	public var strumLines:Array<StrumLine> = []; // make it a group maybe
+
+	public var eventHandler:EventHandler;
+
+	public var camTarget:FlxObject;
 
 	public override function create() {
 		super.create();
 
 		instance = this;
 
-		add(stage = Type.createInstance(SONG.stage, []));
+		// SETTING UP PLAYSTATE STUFF
+		FlxG.cameras.reset(camGame = new FunkinCamera());
 
 		hud = new FlxGroup();
-		hud.camera = camHUD = new FlxCamera();
+		hud.camera = camHUD = new FunkinCamera();
 		FlxG.cameras.add(camHUD, false);
 		camHUD.bgColor = 0; // transparent
 		add(hud);
+
+		camTarget = new FlxObject(0, 0, 2, 2);
+		add(camTarget);
+
+		camGame.follow(camTarget, LOCKON, 0.04);
+
+
+		// SETTING UP CHART RELATED STUFF
+		add(stage = Type.createInstance(SONG.stage, []));
 
 		var vocalTracks:Array<String> = [];
 		
@@ -118,6 +133,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		eventHandler = new EventHandler([for(e in SONG.events) e], onEvent);
+		add(eventHandler);
+
 		Conductor.instance.play();
 	}
 
@@ -126,6 +144,19 @@ class PlayState extends MusicBeatState
 
 		FlxG.camera.zoom += 0.015;
 		camHUD.zoom += 0.03;
+	}
+
+	public function onEvent(event:SongEvent) {
+		switch(event.type) {
+			case ECameraMove(strID):
+				var strum = strumLines[strID];
+				if (strum != null && strum.character != null) {
+					var pos = strum.character.getCameraPosition();
+					camTarget.setPosition(pos.x, pos.y);
+					pos.put();
+				}
+		}
+		stage.onEvent(event);
 	}
 
 	public override function beatHit() {

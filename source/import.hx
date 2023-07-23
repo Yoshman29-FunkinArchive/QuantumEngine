@@ -11,6 +11,9 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxBasic;
 import flixel.FlxObject;
+import flixel.math.FlxPoint;
+import flixel.math.FlxMath;
+import backend.FunkinCamera;
 
 import utils.CoolUtil;
 

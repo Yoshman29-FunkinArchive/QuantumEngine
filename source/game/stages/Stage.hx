@@ -38,9 +38,11 @@ class Stage extends FlxGroup {
     public inline function p(text:String)
         return '$prefix$text';
 
+    // EVENTS
     public function beatHit(_:Int) {}
     public function stepHit(_:Int) {}
     public function measureHit(_:Int) {}
+    public function onEvent(_:SongEvent) {}
 }
 
 class CharGroup extends FlxGroup {

@@ -35,6 +35,16 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
         }
     }
 
+    public function muteVocals() {
+        for(v in vocalTracks)
+            v.volume = 0;
+    }
+
+    public function unmuteVocals() {
+        for(v in vocalTracks)
+            v.volume = 1;
+    }
+
     function updateCPU(note:Note) {
         if (note.tooLate) {
             note.onMiss(this);

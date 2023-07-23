@@ -1,8 +1,8 @@
 package game.characters;
 
 class Girlfriend extends AtlasCharacter {
-    public function new(x:Float, y:Float, flipped:Bool) {
-        super(x, y, flipped, Paths.atlas('game/characters/gf'));
+    public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine) {
+        super(x, y, flipped, parent, Paths.atlas('game/characters/gf'));
         antialiasing = true;
 
         anim.addBySymbol("sing-cheer", "GF Cheer", 24, false);

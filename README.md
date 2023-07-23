@@ -1,7 +1,9 @@
 # baldi engine
 
 ![isabelle](art/picture.png)
-new engine that wont go like cne and yce did and will only serve ONE purpose: baldi funkin' also uses extensible code cause i love this and fuck you
+new engine that i made for baldi's basics in funkin', and maybe other mods from me or my friends
+
+it does the job + has extensible code, however no mods folder since its what caused issues with my older engines.
 
 ## TODO LIST:
 

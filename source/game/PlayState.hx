@@ -1,5 +1,6 @@
 package game;
 
+import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import game.stages.Stage;
 import assets.chart.Chart;
@@ -29,10 +30,12 @@ class PlayState extends MusicBeatState
 	public var camHUD:FunkinCamera;
 
 	public var hud:FlxGroup;
+	public var scoreTxt:FlxText;
 
 	public var strumLines:Array<StrumLine> = []; // make it a group maybe
 
 	public var eventHandler:EventHandler;
+	public var stats:GameStats;
 
 	public var camTarget:FlxObject;
 
@@ -50,10 +53,20 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor = 0; // transparent
 		add(hud);
 
+		scoreTxt = new FlxText(0, FlxG.height - 50, FlxG.width, "Score:0 - Misses:0 - Accuracy: 100%", 16);
+		scoreTxt.font = Paths.font('fonts/vcr');
+		scoreTxt.alignment = CENTER;
+		scoreTxt.borderSize = 1;
+		scoreTxt.borderColor = 0xFF000000;
+		scoreTxt.borderStyle = OUTLINE;
+		hud.add(scoreTxt);
+
 		camTarget = new FlxObject(0, 0, 2, 2);
 		add(camTarget);
 
 		camGame.follow(camTarget, LOCKON, 0.04);
+
+		
 
 
 		// SETTING UP CHART RELATED STUFF
@@ -70,7 +83,7 @@ class PlayState extends MusicBeatState
 			if (strLine.character != null) {
 				if (stage.characterGroups.exists(strLine.character.position)) {
 					var grp = stage.characterGroups.get(strLine.character.position);
-					var char:Character = Type.createInstance(strLine.character.character, [0, 0, grp.flip]);
+					var char:Character = Type.createInstance(strLine.character.character, [0, 0, grp.flip, strumLine]);
 					grp.add(char._);
 					char._.setPosition(grp.x, grp.y);
 					char._.scrollFactor.x *= grp.scrollX;
@@ -125,6 +138,7 @@ class PlayState extends MusicBeatState
 
 		for(s in strumLines) {
 			for(v in s.strLine.vocalTracks) {
+				trace(v);
 				var index = vocalTracks.indexOf(v);
 				if (index >= 0)
 					s.vocalTracks.push(cast Conductor.instance.sounds.sounds[index+1])
@@ -136,7 +150,15 @@ class PlayState extends MusicBeatState
 		eventHandler = new EventHandler([for(e in SONG.events) e], onEvent);
 		add(eventHandler);
 
+		stats = new GameStats();
+		stats.onChange.add((_) -> updateScore());
+		updateScore();
+
 		Conductor.instance.play();
+	}
+
+	public function updateScore() {
+		scoreTxt.text = stats.toString();
 	}
 
 	public override function measureHit() {
@@ -153,6 +175,7 @@ class PlayState extends MusicBeatState
 				if (strum != null && strum.character != null) {
 					var pos = strum.character.getCameraPosition();
 					camTarget.setPosition(pos.x, pos.y);
+					camGame.follow(camTarget, LOCKON, 0.04);
 					pos.put();
 				}
 		}

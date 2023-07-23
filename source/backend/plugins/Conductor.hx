@@ -206,8 +206,10 @@ class Conductor extends FlxBasic {
             curPlayingPath = path;
             if (additionalTracks == null)
                 additionalTracks = [path];
-            else
+            else {
+                additionalTracks = [for(a in additionalTracks) a];
                 additionalTracks.insert(0, path);
+            }
             for(e in additionalTracks) {
                 var sound = new ConductorSound().loadEmbedded(Paths.sound(e));
                 sound.autoDestroy = false;

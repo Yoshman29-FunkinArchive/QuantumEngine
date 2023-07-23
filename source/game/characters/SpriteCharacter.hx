@@ -10,24 +10,33 @@ class SpriteCharacter extends FlxSprite implements Character {
 
     public var lastSingStep:Float = -5000;
     public var flipped:Bool = false;
+    public var parent:StrumLine = null;
 
-    public function new(x:Float, y:Float, flipped:Bool) {
+    public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine) {
         super(x, y);
         this.flipped = flipped;
+        this.parent = parent;
         if (flipped)
             scale.x *= -1;
+
+        // preloading miss sfxs
+        for(i in 1...4)
+            FlxG.sound.load(Paths.sound('game/sfx/missnote$i'));
     }
 
 	public function playMissAnim(strumID:Int, ?note:Note) {
         lastSingStep = Conductor.instance.curStepFloat;
 
         animation.play("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
+        FlxG.sound.play(Paths.sound('game/sfx/missnote${FlxG.random.int(1, 3)}'), FlxG.random.float(0.1, 0.2));
+        parent.muteVocals();
     }
 
 	public function playSingAnim(strumID:Int, ?note:Note) {
         lastSingStep = Conductor.instance.curStepFloat;
 
         animation.play("sing-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
+        parent.unmuteVocals();
     }
 
 	public function dance(beat:Int, force:Bool) {

@@ -75,11 +75,15 @@ class Note extends FlxSprite
 	public function onHit(strumLine:StrumLine) {
 		strumLine.character.playSingAnim(strumID, this);
 		strumLine.members[strumID].confirm();
+		if (!strumLine.cpu)
+			PlayState.instance.stats.calculateRating(this);
 		delete();
 	}
 
 	public function onMiss(strumLine:StrumLine) {
 		strumLine.character.playMissAnim(strumID, this);
+		if (!strumLine.cpu)
+			PlayState.instance.stats.misses++;
 		delete();
 	}
 

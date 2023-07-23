@@ -2,6 +2,8 @@ package game.characters;
 
 interface Character {
     public var _(get, null):FlxSprite;
+    
+    public var parent:StrumLine;
 
     public function playMissAnim(strumID:Int, ?note:Note):Void;
 

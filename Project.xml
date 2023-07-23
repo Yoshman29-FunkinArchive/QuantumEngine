@@ -57,6 +57,7 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
+	<haxelib name="flxanimate" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

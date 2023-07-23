@@ -18,6 +18,8 @@ class CharacterUtil {
         switch(charName) {
             case "bf":
                 return Boyfriend;
+            case "gf":
+                return Girlfriend;
         }
         
         var cl:Class<Character> = cast Type.resolveClass('game.characters.${charName}');

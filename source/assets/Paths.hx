@@ -36,4 +36,7 @@ class Paths {
 
     public static inline function bpmDef(path:String)
         return pathToExt(path, "bpm");
+
+    public static inline function atlas(path:String)
+        return '$prefix/$path';
 }

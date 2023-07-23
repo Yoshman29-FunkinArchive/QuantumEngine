@@ -99,4 +99,9 @@ class CoolExtension {
 		}
 		return i;
 	}
+
+	public static inline function mod(num:Int, m:Int) {
+		var result = num % m;
+		return (result < 0) ? m + result : result;
+	}
 }

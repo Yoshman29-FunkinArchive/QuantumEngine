@@ -28,8 +28,8 @@ it does the job + has extensible code, however no mods folder since its what cau
         - [x] Sparrow characters support
         - [x] Animate Atlas characters support
     - [x] New Note system
-    - [ ] Add sustains to the note system
-    - [ ] Add score, misses & accuracy
+    - [x] Add sustains to the note system
+    - [x] Add score, misses & accuracy
     - [ ] Add healthbar & icons
     - [ ] Add Game Over screen
 - [ ] Menus

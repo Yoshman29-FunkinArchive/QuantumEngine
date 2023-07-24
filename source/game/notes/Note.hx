@@ -131,7 +131,6 @@ class Note extends FlxSprite
 
 	public override function draw() {
 		if (isSustainNote && prevNote != null) {
-			
 
 			// TODO: angle
 			for(c in cameras) {
@@ -154,27 +153,37 @@ class Note extends FlxSprite
 				var uv = frame.uv;
 				var uvY = FlxMath.lerp(uv.y, uv.height, ratio);
 
+				// tl
 				__uv[0] = uv.x;
 				__uv[1] = uvY;
+				// tr
 				__uv[2] = uv.width;
 				__uv[3] = uvY;
+				// bl
 				__uv[4] = uv.x;
 				__uv[5] = uv.height;
+				// br
 				__uv[6] = uv.width;
 				__uv[7] = uv.height;
 
+				// tl
 				__vertexPos[0] = topPos.x - xOffsetTop;
 				__vertexPos[1] = topPos.y - yOffsetTop;
+				// tr
 				__vertexPos[2] = topPos.x + xOffsetTop;
 				__vertexPos[3] = topPos.y + yOffsetTop;
+				// bl
 				__vertexPos[4] = bottomPos.x - xOffsetBottom;
 				__vertexPos[5] = bottomPos.y - yOffsetBottom;
+				// br
 				__vertexPos[6] = bottomPos.x + xOffsetBottom;
 				__vertexPos[7] = bottomPos.y + yOffsetBottom;
 
 				c.drawTriangles(graphic, __vertexPos, __triangles, __uv, __colors, FlxPoint.weak(0, 0), blend, false, antialiasing, colorTransform, shader);
+
+				topPos.put();
+				bottomPos.put();
 			}
-			
 
 			return;
 		}

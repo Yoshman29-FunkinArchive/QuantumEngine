@@ -67,6 +67,8 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
                 if (justPressedArray[note.strumID]) {
                     if (notesPerStrum[note.strumID] == null) {
                         notesPerStrum[note.strumID] = note;
+                    } else if (notesPerStrum[note.strumID].time > note.time) {
+                        notesPerStrum[note.strumID] = note;
                         additionalPressedNotes[note.strumID] = [];
                     } else if (notesPerStrum[note.strumID].time == note.time) {
                         additionalPressedNotes[note.strumID].push(note);

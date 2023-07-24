@@ -123,6 +123,12 @@ class Note extends FlxSprite
 		exists = false;
 	}
 
+
+	var __triangles = Vector.ofArray([0, 1, 2, /**/ 1, 2, 3]);
+	var __vertexPos = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+	var __colors = Vector.ofArray([0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF]);
+	var __uv = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+
 	public override function draw() {
 		if (isSustainNote && prevNote != null) {
 			
@@ -148,25 +154,25 @@ class Note extends FlxSprite
 				var uv = frame.uv;
 				var uvY = FlxMath.lerp(uv.y, uv.height, ratio);
 
+				__uv[0] = uv.x;
+				__uv[1] = uvY;
+				__uv[2] = uv.width;
+				__uv[3] = uvY;
+				__uv[4] = uv.x;
+				__uv[5] = uv.height;
+				__uv[6] = uv.width;
+				__uv[7] = uv.height;
 
+				__vertexPos[0] = topPos.x - xOffsetTop;
+				__vertexPos[1] = topPos.y - yOffsetTop;
+				__vertexPos[2] = topPos.x + xOffsetTop;
+				__vertexPos[3] = topPos.y + yOffsetTop;
+				__vertexPos[4] = bottomPos.x - xOffsetBottom;
+				__vertexPos[5] = bottomPos.y - yOffsetBottom;
+				__vertexPos[6] = bottomPos.x + xOffsetBottom;
+				__vertexPos[7] = bottomPos.y + yOffsetBottom;
 
-				// TODO: cache arrays and optimize
-				c.drawTriangles(graphic, Vector.ofArray([
-					topPos.x - xOffsetTop, topPos.y - yOffsetTop,
-					topPos.x + xOffsetTop, topPos.y + yOffsetTop,
-					bottomPos.x - xOffsetBottom, bottomPos.y - yOffsetBottom,
-					bottomPos.x + xOffsetBottom, bottomPos.y + yOffsetBottom]),
-					Vector.ofArray([
-						0, 1, 2,
-						1, 2, 3]),
-					Vector.ofArray([
-						uv.x, uvY,
-						uv.width, uvY,
-						uv.x, uv.height,
-						uv.width, uv.height]),
-					Vector.ofArray([0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF]),
-					FlxPoint.weak(0, 0),
-					blend, false, antialiasing, colorTransform, shader);
+				c.drawTriangles(graphic, __vertexPos, __triangles, __uv, __colors, FlxPoint.weak(0, 0), blend, false, antialiasing, colorTransform, shader);
 			}
 			
 

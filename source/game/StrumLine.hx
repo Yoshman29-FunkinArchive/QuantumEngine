@@ -61,14 +61,15 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
         if (note.canBeHit && !note.wasGoodHit) {
             if (note.isSustainNote) {
                 if (pressedArray[note.strumID] && note.time < Conductor.instance.songPosition) {
-                    additionalPressedNotes.push(note);
+                    pressedSustains.push(note);
                 }
             } else {
                 if (justPressedArray[note.strumID]) {
                     if (notesPerStrum[note.strumID] == null) {
                         notesPerStrum[note.strumID] = note;
+                        additionalPressedNotes[note.strumID] = [];
                     } else if (notesPerStrum[note.strumID].time == note.time) {
-                        additionalPressedNotes.push(note);
+                        additionalPressedNotes[note.strumID].push(note);
                     }
                 }
             }
@@ -76,7 +77,8 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
     }
 
     var notesPerStrum:Array<Note> = [];
-    var additionalPressedNotes:Array<Note>;
+    var additionalPressedNotes:Array<Array<Note>>;
+    var pressedSustains:Array<Note>;
     var justPressedArray:Array<Bool>;
     var pressedArray:Array<Bool>;
     var justReleasedArray:Array<Bool>;
@@ -92,13 +94,15 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
         } else {
             if (notesPerStrum.length != length) {
                 notesPerStrum = CoolUtil.allocArray(length);
-                additionalPressedNotes = [];
+                additionalPressedNotes = [for(i in 0...length) []];
+                pressedSustains = [];
                 justPressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justPressed];
                 pressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].pressed];
                 justReleasedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justReleased];
             } else {
                 notesPerStrum.nullify();
-                additionalPressedNotes = [];
+                additionalPressedNotes.nullify([]);
+                pressedSustains = [];
                 justPressedArray.nullify(false);
                 pressedArray.nullify(false);
                 justReleasedArray.nullify(false);
@@ -115,7 +119,10 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
             for(n in notesPerStrum)
                 if (n != null)
                     n.onHit(this);
-            for(n in additionalPressedNotes)
+            for(str in additionalPressedNotes)
+                for(n in str)
+                    n.onHit(this);
+            for(n in pressedSustains)
                 n.onHit(this);
         }
 

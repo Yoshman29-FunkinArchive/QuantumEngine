@@ -116,10 +116,12 @@ class PlayState extends MusicBeatState
 			strumLine.notes.allocate(requiredNotes);
 
 			var i = 0;
+			var n:Note = null;
+
 			for(note in strLine.notes) {
 				if (note.type == null) continue;
 				
-				var n:Note = Type.createInstance(note.type, [strumLine, note, false]);
+				n = Type.createInstance(note.type, [strumLine, note, false]);
 				strumLine.notes.members[i++] = n;
 
 				if (note.sustainLength > 1) {
@@ -130,6 +132,15 @@ class PlayState extends MusicBeatState
 						strumLine.notes.members[i++] = n;
 					}
 				}
+			}
+
+			var old:Note = null;
+			for(n in strumLine.notes.members) {
+				if (old != null) {
+					old.nextNote = n;
+					n.prevNote = old;
+				}
+				old = n;
 			}
 
 			strumLine.notes.sortNotes();
@@ -144,7 +155,6 @@ class PlayState extends MusicBeatState
 
 		for(s in strumLines) {
 			for(v in s.strLine.vocalTracks) {
-				trace(v);
 				var index = vocalTracks.indexOf(v);
 				if (index >= 0)
 					s.vocalTracks.push(cast Conductor.instance.sounds.sounds[index+1])

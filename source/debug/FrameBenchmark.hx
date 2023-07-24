@@ -1,81 +1,52 @@
 package debug;
 
+import assets.chart.Chart.ChartNote;
+import game.notes.DefaultNote;
 import openfl.Vector;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.Lib;
 
 class FrameBenchmark extends MusicBeatState {
     public override function create() {
+        var e = new ChartNote(0, 0, 0);
+        var note:DefaultNote = new DefaultNote(null, e, false);
+        var sustain1:DefaultNote = new DefaultNote(null, e, true, 100, 100, false, note);
+        var sustain2:DefaultNote = new DefaultNote(null, e, true, 200, 100, false, note);
+        var sustain3:DefaultNote = new DefaultNote(null, e, true, 300, 100, false, note);
+        var sustain4:DefaultNote = new DefaultNote(null, e, true, 400, 100, false, note);
+        var sustain5:DefaultNote = new DefaultNote(null, e, true, 500, 100, false, note);
+        var sustain6:DefaultNote = new DefaultNote(null, e, true, 600, 100, true, note);
 
-        FlxG.bitmap.add('assets/debug/NOTE_assets.png');
-        FlxG.bitmap.add('assets/debug/NOTE_assets_autogen.png');
+        note.nextNote = sustain1;
+        sustain1.prevNote = note;
 
-        var curTime = Lib.getTimer();
+        sustain1.nextNote = sustain2;
+        sustain2.prevNote = sustain1;
 
-        for(_ in 0...10000) {
-            var spr = new FlxSprite(320, 360);
-            spr.frames = FlxAtlasFrames.fromSparrow(Paths.image('debug/NOTE_assets'), Paths.xml('debug/NOTE_assets'));
+        sustain2.nextNote = sustain3;
+        sustain3.prevNote = sustain2;
 
-            spr.animation.addByPrefix('greenScroll', 'green0');
-            spr.animation.addByPrefix('redScroll', 'red0');
-            spr.animation.addByPrefix('blueScroll', 'blue0');
-            spr.animation.addByPrefix('purpleScroll', 'purple0');
+        sustain3.nextNote = sustain4;
+        sustain4.prevNote = sustain3;
 
-            spr.animation.addByPrefix('purpleholdend', 'pruple end hold');
-            spr.animation.addByPrefix('greenholdend', 'green hold end');
-            spr.animation.addByPrefix('redholdend', 'red hold end');
-            spr.animation.addByPrefix('blueholdend', 'blue hold end');
+        sustain4.nextNote = sustain5;
+        sustain5.prevNote = sustain4;
 
-            spr.animation.addByPrefix('purplehold', 'purple hold piece');
-            spr.animation.addByPrefix('greenhold', 'green hold piece');
-            spr.animation.addByPrefix('redhold', 'red hold piece');
-            spr.animation.addByPrefix('bluehold', 'blue hold piece');
+        sustain5.nextNote = sustain6;
+        sustain6.prevNote = sustain5;
 
-            add(spr);
+        for(k=>n in [note, sustain1, sustain2, sustain3, sustain4, sustain5, sustain6]) {
+            n.autoUpdateInput = false;
+            n.autoUpdatePosition = false;
+            n.setPosition(640 + (Math.sin(k * Math.PI / 4) * 100), (k+1) * 125);
+            n.angle = 25 * (1 - Math.sin(k * Math.PI / 4));
+            add(n);
         }
-        var elapsed = Lib.getTimer() - curTime;
-        trace('No JSON: ${elapsed}');
+    }
 
-        for(m in members)
-            m.destroy();
-        members = [];
-        
-        curTime = Lib.getTimer();
-
-        for(_ in 0...10000) {
-            var spr = new FlxSprite(960, 360);
-            spr.loadFrames('debug/NOTE_assets_autogen');
-            add(spr);
-        }
-
-        elapsed = Lib.getTimer() - curTime;
-        trace('JSON: ${elapsed}');
-        curTime = Lib.getTimer();
-
-        members = CoolUtil.allocArray(10000);
-        length = 10000;
-        for(i in 0...10000) {
-            var spr = new FlxSprite(960, 360);
-            spr.loadFrames('debug/NOTE_assets_autogen');
-            members[i] = spr;
-        }
-
-        elapsed = Lib.getTimer() - curTime;
-        trace('JSON + preallocated: ${elapsed}');
-        curTime = Lib.getTimer();
-
-        var test = new Vector<FlxSprite>(65535);
-        elapsed = Lib.getTimer() - curTime;
-        trace('Vector: ${elapsed}');
-
-        curTime = Lib.getTimer();
-        var test2:Array<FlxSprite> = [for(_ in 0...65535) null];
-        elapsed = Lib.getTimer() - curTime;
-        trace('Array: ${elapsed}');
-
-        // curTime = Lib.getTimer();
-        // var test3:Array<FlxSprite> = cpp.NativeArray.create(65535);
-        // elapsed = Lib.getTimer() - curTime;
-        // trace('NativeArray: ${elapsed}');
+    public override function update(elapsed:Float) {
+        super.update(elapsed);
+        FlxG.camera.scroll.x = CoolUtil.fLerp(FlxG.camera.scroll.x, (-640 + (FlxG.mouse.screenX)) / 2, 0.125);
+        FlxG.camera.scroll.y = CoolUtil.fLerp(FlxG.camera.scroll.y, (-360 + (FlxG.mouse.screenY)) / 2, 0.125);
     }
 }

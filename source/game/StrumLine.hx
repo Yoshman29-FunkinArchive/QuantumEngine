@@ -60,7 +60,7 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 
         if (note.canBeHit && !note.wasGoodHit) {
             if (note.isSustainNote) {
-                if (pressedArray[note.strumID]) {
+                if (pressedArray[note.strumID] && note.time < Conductor.instance.songPosition) {
                     additionalPressedNotes.push(note);
                 }
             } else {

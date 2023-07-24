@@ -1,5 +1,7 @@
 package game.notes;
 
+import flixel.math.FlxAngle;
+import openfl.Vector;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
@@ -27,6 +29,10 @@ class Note extends FlxSprite
 
 	public var mustHitCPU:Bool = true;
 	public var autoUpdateInput:Bool = true;
+	public var autoUpdatePosition:Bool = true;
+
+	public var nextNote:Note = null;
+	public var prevNote:Note = null;
 
 	public static var swagWidth:Float = 160 * 0.7;
 	
@@ -35,16 +41,18 @@ class Note extends FlxSprite
 	public var latePressWindow:Float = 250;
 	public var missWindow:Float = 250;
 
-	public function new(parent:StrumLine, data:ChartNote, isSustainNote:Bool = false, sustainOffset:Float = 0, sustainLength:Float = 0, endSustain:Bool = false)
+	public function new(parent:StrumLine, data:ChartNote, isSustainNote:Bool = false, sustainOffset:Float = 0, sustainLength:Float = 0, endSustain:Bool = false, prevNote:Note = null, nextNote:Note = null)
 	{
 		super();
 		this.parent = parent;
-		this.strumID = data.strum % parent.members.length;
+		this.strumID = (parent == null) ? data.strum : (data.strum % parent.members.length);
 		this.time = data.time + sustainOffset;
 		this.isSustainNote = isSustainNote;
 		this.sustainOffset = sustainOffset;
 		this.sustainLength = sustainLength;
 		this.endSustain = endSustain;
+		this.prevNote = prevNote;
+		this.nextNote = nextNote;
 
 		create();
 
@@ -69,7 +77,10 @@ class Note extends FlxSprite
 		
 		if (autoUpdateInput)
 			updateInput();
-		updatePosition(parent.members[strumID]);
+		if (autoUpdatePosition)
+			updatePosition(parent.members[strumID]);
+		if (isSustainNote && prevNote != null && prevNote.autoUpdatePosition && !prevNote.exists)
+			prevNote.updatePosition(parent.members[strumID]);
         
         centerOffsets();
         centerOrigin();
@@ -87,15 +98,6 @@ class Note extends FlxSprite
 	public function updatePosition(strum:Strum) {
 		// TODO: scroll speed and angle support
 		var yOffset:Float = ((time - Conductor.instance.songPosition) / 1);
-		if (isSustainNote) {
-			if (endSustain) {
-				yOffset -= ((1 - scale.y) / 2) * frameHeight;
-				yOffset += scale.y * frameHeight;
-			}
-			else
-				yOffset += swagWidth / 2;
-		}
-
 		this.setPosition(strum.x, strum.y + yOffset);
 	}
 
@@ -117,7 +119,47 @@ class Note extends FlxSprite
 	}
 
 	public function delete() {
-		destroy();
 		exists = false;
+	}
+
+	public override function draw() {
+		if (isSustainNote && prevNote != null) {
+			
+
+			// TODO: angle
+			for(c in cameras) {
+				var topPos = prevNote.getScreenPosition(FlxPoint.get(), c);
+				var bottomPos = getScreenPosition(FlxPoint.get(), c);
+
+				var xOffsetTop = (width / 2) * Math.cos(prevNote.angle * FlxAngle.TO_RAD);
+				var yOffsetTop = (width / 2) * Math.sin(prevNote.angle * FlxAngle.TO_RAD);
+				var xOffsetBottom = (width / 2) * Math.cos(angle * FlxAngle.TO_RAD);
+				var yOffsetBottom = (width / 2) * Math.sin(angle * FlxAngle.TO_RAD);
+
+				var uv = frame.uv;
+
+				// TODO: cache arrays and optimize
+				c.drawTriangles(graphic, Vector.ofArray([
+					topPos.x - xOffsetTop, topPos.y - yOffsetTop,
+					topPos.x + xOffsetTop, topPos.y + yOffsetTop,
+					bottomPos.x - xOffsetBottom, bottomPos.y - yOffsetBottom,
+					bottomPos.x + xOffsetBottom, bottomPos.y + yOffsetBottom]),
+					Vector.ofArray([
+						0, 1, 2,
+						1, 2, 3]),
+					Vector.ofArray([
+						uv.x, uv.y,
+						uv.width, uv.y,
+						uv.x, uv.height,
+						uv.width, uv.height]),
+					Vector.ofArray([0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF]),
+					FlxPoint.weak(0, 0),
+					blend, false, antialiasing, colorTransform, shader);
+			}
+			
+
+			return;
+		}
+		super.draw();
 	}
 }

@@ -456,4 +456,24 @@ class ConductorUtils {
         }
         return latest.measureTime + ((time - latest.songTime) / latest.measureCrochet);
     }
+
+    public static function getTimeForStep(bpmChanges:Array<BPMChange>, step:Float) {
+        var latest = bpmChanges[0];
+        for(b in bpmChanges) {
+            if (b.stepTime > step)
+                break;
+            latest = b;
+        }
+        return latest.songTime + ((step - latest.stepTime) * latest.stepCrochet);
+    }
+
+    public static function getStepForTime(bpmChanges:Array<BPMChange>, time:Float) {
+        var latest = bpmChanges[0];
+        for(b in bpmChanges) {
+            if (b.songTime > time)
+                break;
+            latest = b;
+        }
+        return latest.stepTime + ((time - latest.songTime) / latest.stepCrochet);
+    }
 }

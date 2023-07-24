@@ -11,6 +11,5 @@ class DefaultNote extends Note {
         scale.set(0.7, 0.7);
 
         antialiasing = true;
-        updateHitbox();
     }
 }

@@ -32,7 +32,7 @@ class PlayState extends MusicBeatState
 	public var hud:FlxGroup;
 	public var scoreTxt:FlxText;
 
-	public var strumLines:Array<StrumLine> = []; // make it a group maybe
+	public var strumLines:FlxTypedGroup<StrumLine> = new FlxTypedGroup<StrumLine>(); // make it a group maybe
 
 	public var eventHandler:EventHandler;
 	public var stats:GameStats;
@@ -77,7 +77,7 @@ class PlayState extends MusicBeatState
 		for(strLine in SONG.strumLines) {
 			var strumLine:StrumLine = null;
 			hud.add(strumLine = new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine));
-			strumLines.push(strumLine);
+			strumLines.add(strumLine);
 			strumLine.visible = strLine.visible;
 
 			if (strLine.character != null) {
@@ -107,10 +107,10 @@ class PlayState extends MusicBeatState
 				if (note.type == null) continue;
 				requiredNotes += 1;
 
-				// if (note.sustainLength > 10) {
-				// 	var curCrochet = SONG.bpmChanges.getTimeForBeat(SONG.bpmChanges.getBeatForTime(note.time) + 1) - note.time;
-				// 	requiredNotes += Std.int(note.sustainLength / curCrochet);
-				// }
+				if (note.sustainLength > 1) {
+					var curCrochet = SONG.bpmChanges.getTimeForBeat(SONG.bpmChanges.getBeatForTime(note.time) + 1) - note.time;
+					requiredNotes += Std.int(note.sustainLength / curCrochet);
+				}
 			}
 
 			strumLine.notes.allocate(requiredNotes);
@@ -122,14 +122,20 @@ class PlayState extends MusicBeatState
 				var n:Note = Type.createInstance(note.type, [strumLine, note, false]);
 				strumLine.notes.members[i++] = n;
 
-				// if (note.sustainLength > 10) {
-				// 	var curCrochet = SONG.bpmChanges.getTimeForBeat(SONG.bpmChanges.getBeatForTime(note.time) + 1) - note.time;
-				// 	requiredNotes += Std.int(note.sustainLength / curCrochet);
-				// }
+				if (note.sustainLength > 1) {
+					var curCrochet:Float = (SONG.bpmChanges.getTimeForStep(SONG.bpmChanges.getStepForTime(note.time) + 1) - note.time);
+					var am = Std.int(note.sustainLength / curCrochet);
+					for(index in 0...am) {
+						var n:Note = Type.createInstance(note.type, [strumLine, note, true, index * curCrochet, curCrochet, index == am-1]);
+						strumLine.notes.members[i++] = n;
+					}
+				}
 			}
 
 			strumLine.notes.sortNotes();
 		}
+
+		hud.add(strumLines);
 
 
 		// TODO: countdown
@@ -171,7 +177,7 @@ class PlayState extends MusicBeatState
 	public function onEvent(event:SongEvent) {
 		switch(event.type) {
 			case ECameraMove(strID):
-				var strum = strumLines[strID];
+				var strum = strumLines.members[strID];
 				if (strum != null && strum.character != null) {
 					var pos = strum.character.getCameraPosition();
 					camTarget.setPosition(pos.x, pos.y);

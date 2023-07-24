@@ -16,6 +16,8 @@ class Note extends FlxSprite
 	public var strumID:Int = 0;
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var endSustain:Bool = false;
+	public var sustainOffset:Float = 0;
 
 	// NOTE IN-GAME
 	public var mustPress:Bool = false;
@@ -33,16 +35,33 @@ class Note extends FlxSprite
 	public var latePressWindow:Float = 250;
 	public var missWindow:Float = 250;
 
-	public function new(parent:StrumLine, data:ChartNote, isSustainNote:Bool = false, sustainOffset:Float = 0, sustainLength:Float)
+	public function new(parent:StrumLine, data:ChartNote, isSustainNote:Bool = false, sustainOffset:Float = 0, sustainLength:Float = 0, endSustain:Bool = false)
 	{
 		super();
 		this.parent = parent;
 		this.strumID = data.strum % parent.members.length;
 		this.time = data.time + sustainOffset;
+		this.isSustainNote = isSustainNote;
+		this.sustainOffset = sustainOffset;
+		this.sustainLength = sustainLength;
+		this.endSustain = endSustain;
+
 		create();
 
-		// TODO: sustains
-		animation.play("scroll");
+		if (isSustainNote) {
+			if (endSustain) {
+				animation.play("holdend");
+			} else {
+				animation.play("hold");
+				scale.y = sustainLength / frameHeight;
+				height = Math.abs(scale.y) * frameHeight;
+				offset.y = -0.5 * (height - frameHeight);
+			}
+			alpha *= 0.6;
+		} else {
+			animation.play("scroll");
+		}
+		updateHitbox();
 	}
 
 	public override function update(elapsed:Float) {
@@ -67,7 +86,17 @@ class Note extends FlxSprite
 
 	public function updatePosition(strum:Strum) {
 		// TODO: scroll speed and angle support
-		this.setPosition(strum.x, strum.y + ((time - Conductor.instance.songPosition) / 1));
+		var yOffset:Float = ((time - Conductor.instance.songPosition) / 1);
+		if (isSustainNote) {
+			if (endSustain) {
+				yOffset -= ((1 - scale.y) / 2) * frameHeight;
+				yOffset += scale.y * frameHeight;
+			}
+			else
+				yOffset += swagWidth / 2;
+		}
+
+		this.setPosition(strum.x, strum.y + yOffset);
 	}
 
 	public function create() {}

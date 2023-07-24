@@ -53,3 +53,10 @@ it does the job + has extensible code, however no mods folder since its what cau
 - **Rewritten Characters**: Characters now have separate classes and can extend anything that extends FlxSprite (FlxSpriteGroup, FlxAnimate...)
 - **Rewritten Stages**: Stages are now FlxGroups separated into singular classes. Since theyre groups, they can be easily interchanged midsong with some coding.
 - **Rewritten Chart System**: Charts allows now for more than 2 strumlines (no chart format tho, use the Codename Engine one if you want best compatibility)
+
+## CREDITS
+- Yoshman29 - programmer
+- Ne_Eo - additional help & added some fixes
+- Baldi's Basics in Funkin' team - lol theyre the reason this engine exists
+- Funkin Crew - The original game
+- mystman12 - for making baldis basics

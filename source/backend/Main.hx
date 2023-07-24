@@ -16,6 +16,7 @@ import menus.TitleState;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
+import backend.FlixelFixer2000;
 
 class Main extends Sprite
 {
@@ -41,6 +42,8 @@ class Main extends Sprite
 		FlxG.fixedTimestep = false;
 
 		FlxG.drawFramerate = FlxG.updateFramerate = 120;
+
+		FlixelFixer2000.fix();
 
 		configureTransition();
 

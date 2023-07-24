@@ -1,5 +1,6 @@
 package game.notes;
 
+import flixel.math.FlxRect;
 import flixel.math.FlxAngle;
 import openfl.Vector;
 import flixel.FlxSprite;
@@ -114,7 +115,7 @@ class Note extends FlxSprite
 	public function onMiss(strumLine:StrumLine) {
 		strumLine.character.playMissAnim(strumID, this);
 		if (!strumLine.cpu)
-			PlayState.instance.stats.misses++;
+			PlayState.instance.stats.miss();
 		delete();
 	}
 
@@ -131,12 +132,23 @@ class Note extends FlxSprite
 				var topPos = prevNote.getScreenPosition(FlxPoint.get(), c);
 				var bottomPos = getScreenPosition(FlxPoint.get(), c);
 
+				var ratio:Float = 0;
+				if (!prevNote.exists) {
+					ratio = FlxMath.bound((Conductor.instance.songPosition - prevNote.time) / (time - prevNote.time), 0, 1);
+
+					topPos.x = FlxMath.lerp(topPos.x, bottomPos.x, ratio);
+					topPos.y = FlxMath.lerp(topPos.y, bottomPos.y, ratio);
+				}
+
 				var xOffsetTop = (width / 2) * Math.cos(prevNote.angle * FlxAngle.TO_RAD);
 				var yOffsetTop = (width / 2) * Math.sin(prevNote.angle * FlxAngle.TO_RAD);
 				var xOffsetBottom = (width / 2) * Math.cos(angle * FlxAngle.TO_RAD);
 				var yOffsetBottom = (width / 2) * Math.sin(angle * FlxAngle.TO_RAD);
 
 				var uv = frame.uv;
+				var uvY = FlxMath.lerp(uv.y, uv.height, ratio);
+
+
 
 				// TODO: cache arrays and optimize
 				c.drawTriangles(graphic, Vector.ofArray([
@@ -148,8 +160,8 @@ class Note extends FlxSprite
 						0, 1, 2,
 						1, 2, 3]),
 					Vector.ofArray([
-						uv.x, uv.y,
-						uv.width, uv.y,
+						uv.x, uvY,
+						uv.width, uvY,
 						uv.x, uv.height,
 						uv.width, uv.height]),
 					Vector.ofArray([0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF]),

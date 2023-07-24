@@ -54,8 +54,23 @@ class NoteGroup extends FlxTypedGroup<Note> {var __loopSprite:Note;
 			if (__loopSprite == null || !__loopSprite.exists || !__loopSprite.visible)
 				continue;
 			if (__loopSprite.time - Conductor.instance.songPosition > 1500) break;
-			__loopSprite.draw();
+			if (__loopSprite.isSustainNote)
+				__loopSprite.draw();
 		}
+
+		
+
+		i = members.length-1;
+		__loopSprite = null;
+		while(i >= 0) {
+			__loopSprite = members[i--];
+			if (__loopSprite == null || !__loopSprite.exists || !__loopSprite.visible)
+				continue;
+			if (__loopSprite.time - Conductor.instance.songPosition > 1500) break;
+			if (!__loopSprite.isSustainNote)
+				__loopSprite.draw();
+		}
+
 		__currentlyLooping = oldCur;
 
 		@:privateAccess FlxCamera._defaultCameras = oldDefaultCameras;

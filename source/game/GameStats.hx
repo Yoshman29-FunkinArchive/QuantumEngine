@@ -45,6 +45,11 @@ class GameStats {
     }
 
     public function calculateRating(note:Note) {
+        if (note.isSustainNote) {
+            _accuracy_amount += 0.25;
+            _accuracy_value += 0.25;
+            return;
+        }
         var diff = Math.abs(note.time - Conductor.instance.songPosition) / note.latePressWindow;
 
         var rating:Rating = SICK;
@@ -84,6 +89,7 @@ class GameStats {
     public function miss() {
         _misses++;
         _accuracy_amount += 1;
+        onChange.dispatch(this);
     }
 
     public function toString() {

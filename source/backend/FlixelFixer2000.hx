@@ -133,7 +133,7 @@ class FlixelFixer2000 {
         untyped __cpp__('
             curAudioFix = new AudioFixClient();
         ');
-        FlxG.signals.preStateCreate.add((_) -> fixAudio());
+        FlxG.signals.postUpdate.add(fixAudio);
         #end
         
         // "+" key not working fix for macos (by Ne_Eo)
@@ -156,8 +156,6 @@ class FlixelFixer2000 {
                     e.stop();
                 }
             }
-            if (FlxG.sound.music != null)
-                FlxG.sound.music.stop();
 
             AudioManager.shutdown();
             AudioManager.init();
@@ -165,7 +163,6 @@ class FlixelFixer2000 {
 
             for(e in playingList) {
                 e.sound.play(e.time);
-                e.sound.time = e.time;
             }
 
             audioDisconnected = false;

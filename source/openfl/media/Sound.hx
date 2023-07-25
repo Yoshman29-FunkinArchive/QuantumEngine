@@ -1,6 +1,5 @@
 package openfl.media;
 
-import backend.FlixelFixer2000;
 #if !flash
 import haxe.Int64;
 import openfl.events.Event;
@@ -637,10 +636,12 @@ class Sound extends EventDispatcher
 			return null;
 		}
 
-		if (changeID < FlixelFixer2000.changeID) {
-			changeID = FlixelFixer2000.changeID;
+		#if !macro
+		if (changeID < backend.FlixelFixer2000.changeID) {
+			changeID = backend.FlixelFixer2000.changeID;
 			regen();
 		}
+		#end
 
 		if (sndTransform == null)
 		{

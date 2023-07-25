@@ -1,3 +1,3 @@
-package menus;
-
+#if !macro
 import menus.ui.*;
+#end

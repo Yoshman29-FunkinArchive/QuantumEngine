@@ -1,6 +1,5 @@
 package openfl.utils;
 
-import backend.cache.GPUBitmapData;
 import openfl.utils._internal.Log;
 import openfl.display.BitmapData;
 import openfl.display.MovieClip;
@@ -113,8 +112,8 @@ class Assets
 			var bitmapData:BitmapData = null;
 
 			// TODO: option to turn GPU textures off
-			#if GPU_TEXTURES_SUPPORT if (pushToGPU && true) {
-				bitmapData = new GPUBitmapData(0, 0, true, 0);
+			#if (GPU_TEXTURES_SUPPORT && !macro) if (pushToGPU && true) {
+				bitmapData = new backend.cache.GPUBitmapData(0, 0, true, 0);
 				bitmapData.__fromImage(image);
 			} else #end {
 				bitmapData = BitmapData.fromImage(image);
@@ -495,8 +494,8 @@ class Assets
 				#else
 				var bitmapData:BitmapData = null;
 				// TODO: gpu texture option
-				#if GPU_TEXTURES_SUPPORT if (true) {
-					bitmapData = new GPUBitmapData(0, 0, true, 0);
+				#if (GPU_TEXTURES_SUPPORT && !macro) if (true) {
+					bitmapData = new backend.cache.GPUBitmapData(0, 0, true, 0);
 					bitmapData.__fromImage(image);
 				} else #end {
 					bitmapData = BitmapData.fromImage(image);

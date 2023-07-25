@@ -113,7 +113,7 @@ class PlayState extends MusicBeatState
 
 				if (note.sustainLength > 1) {
 					var curCrochet = SONG.bpmChanges.getTimeForBeat(SONG.bpmChanges.getBeatForTime(note.time) + 1) - note.time;
-					requiredNotes += Std.int(note.sustainLength / curCrochet);
+					requiredNotes += Math.ceil(note.sustainLength / curCrochet);
 				}
 			}
 
@@ -130,9 +130,9 @@ class PlayState extends MusicBeatState
 
 				if (note.sustainLength > 1) {
 					var curCrochet:Float = (SONG.bpmChanges.getTimeForStep(SONG.bpmChanges.getStepForTime(note.time) + 1) - note.time);
-					var am = Std.int(note.sustainLength / curCrochet);
-					for(index in 0...am) {
-						var n:Note = Type.createInstance(note.type, [strumLine, note, true, index * curCrochet, curCrochet, index == am-1]);
+					var am = Math.ceil(note.sustainLength / curCrochet);
+					for(index in 1...am) {
+						n = Type.createInstance(note.type, [strumLine, note, true, index * curCrochet, curCrochet, index == am-1]);
 						strumLine.notes.members[i++] = n;
 					}
 				}

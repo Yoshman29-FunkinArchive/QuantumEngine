@@ -136,12 +136,12 @@ class FolderAssetLibrary extends AssetLibrary {
 		return true;
 	}
 
-    public static function registerFont(font:Font) {
+	public static function registerFont(font:Font) {
 		var openflFont = new OpenFLFont();
 		@:privateAccess
 		openflFont.__fromLimeFont(font);
 		OpenFLFont.registerFont(openflFont);
 		return font;
-    }
+	}
 }
 #end

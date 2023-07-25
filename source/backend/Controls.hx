@@ -15,7 +15,7 @@ class Controls {
 		"RIGHT" => new ActionControl("ui_right", [FlxKey.RIGHT, FlxKey.D]),
 		"ACCEPT" => new ActionControl("ui_accept", [FlxKey.ENTER]),
 		"BACK" => new ActionControl("ui_back", [FlxKey.ESCAPE, FlxKey.BACKSPACE]),
-		
+
 		// INGAME
 		"NOTE_LEFT" => new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]),
 		"NOTE_DOWN" => new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]),
@@ -71,37 +71,37 @@ class ControlResolver {
 	public var LEFT_NOTE(get, null):Bool;
 	private inline function get_LEFT_NOTE()
 		return Controls.controls["LEFT_NOTE"].getState(state);
-	
+
 	public var DOWN_NOTE(get, null):Bool;
 	private inline function get_DOWN_NOTE()
 		return Controls.controls["DOWN_NOTE"].getState(state);
-	
+
 	public var UP_NOTE(get, null):Bool;
 	private inline function get_UP_NOTE()
 		return Controls.controls["UP_NOTE"].getState(state);
-	
+
 	public var RIGHT_NOTE(get, null):Bool;
 	private inline function get_RIGHT_NOTE()
 		return Controls.controls["RIGHT_NOTE"].getState(state);
-	
+
 	public var PAUSE(get, null):Bool;
 	private inline function get_PAUSE()
 		return Controls.controls["PAUSE"].getState(state);
-	
+
 	public var RESET(get, null):Bool;
 	private inline function get_RESET()
 		return Controls.controls["RESET"].getState(state);
 }
 
 class ActionControl {
-    public var __pressed:FlxActionDigital = new FlxActionDigital();
-    public var __justPressed:FlxActionDigital = new FlxActionDigital();
-    public var __justReleased:FlxActionDigital = new FlxActionDigital();
-    public var __released:FlxActionDigital = new FlxActionDigital();
+	public var __pressed:FlxActionDigital = new FlxActionDigital();
+	public var __justPressed:FlxActionDigital = new FlxActionDigital();
+	public var __justReleased:FlxActionDigital = new FlxActionDigital();
+	public var __released:FlxActionDigital = new FlxActionDigital();
 
 	public var saveID:String;
 
-    public function new(saveID:String, defaultKeys:Array<FlxKey>) {
+	public function new(saveID:String, defaultKeys:Array<FlxKey>) {
 		this.saveID = saveID;
 		// TODO: Save keybinds
 

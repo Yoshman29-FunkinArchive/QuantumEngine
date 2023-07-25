@@ -66,14 +66,14 @@ class PlayState extends MusicBeatState
 
 		camGame.follow(camTarget, LOCKON, 0.04);
 
-		
+
 
 
 		// SETTING UP CHART RELATED STUFF
 		add(stage = Type.createInstance(SONG.stage, []));
 
 		var vocalTracks:Array<String> = [];
-		
+
 		for(strLine in SONG.strumLines) {
 			var strumLine:StrumLine = null;
 			hud.add(strumLine = new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine));
@@ -120,7 +120,7 @@ class PlayState extends MusicBeatState
 
 			for(note in strLine.notes) {
 				if (note.type == null) continue;
-				
+
 				n = Type.createInstance(note.type, [strumLine, note, false]);
 				strumLine.notes.members[i++] = n;
 

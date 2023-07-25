@@ -112,7 +112,7 @@ class Assets
 			#else
 			var bitmapData:BitmapData = null;
 
-            // TODO: option to turn GPU textures off
+			// TODO: option to turn GPU textures off
 			#if GPU_TEXTURES_SUPPORT if (pushToGPU && true) {
 				bitmapData = new GPUBitmapData(0, 0, true, 0);
 				bitmapData.__fromImage(image);
@@ -494,7 +494,7 @@ class Assets
 				var bitmapData = image.src;
 				#else
 				var bitmapData:BitmapData = null;
-                // TODO: gpu texture option
+				// TODO: gpu texture option
 				#if GPU_TEXTURES_SUPPORT if (true) {
 					bitmapData = new GPUBitmapData(0, 0, true, 0);
 					bitmapData.__fromImage(image);

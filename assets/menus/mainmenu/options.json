@@ -1,14 +1,14 @@
 [
-    {
-        "name": "idle",
-        "prefix": "options basic",
-        "fps": 24,
-        "loop": true
-    },
-    {
-        "name": "selected",
-        "prefix": "options white",
-        "fps": 24,
-        "loop": true
-    }
+	{
+		"name": "idle",
+		"prefix": "options basic",
+		"fps": 24,
+		"loop": true
+	},
+	{
+		"name": "selected",
+		"prefix": "options white",
+		"fps": 24,
+		"loop": true
+	}
 ]

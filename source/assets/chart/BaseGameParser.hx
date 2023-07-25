@@ -3,12 +3,12 @@ package assets.chart;
 import game.characters.Character.CharacterUtil;
 
 class BaseGameParser {
-    public static function parse(chart:Chart, data:SwagSong, fixPath:String->(String->String)->String) {
+	public static function parse(chart:Chart, data:SwagSong, fixPath:String->(String->String)->String) {
 		var p1:ChartStrumLine = new ChartStrumLine(false);
 		var p2:ChartStrumLine = new ChartStrumLine(true);
 
-        chart.strumLines.push(p1);
-        chart.strumLines.push(p2);
+		chart.strumLines.push(p1);
+		chart.strumLines.push(p2);
 
 		p1.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.player1), PLAYER);
 		p2.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.player2), OPPONENT);
@@ -17,7 +17,7 @@ class BaseGameParser {
 
 
 		var gf:ChartStrumLine = null;
-		
+
 		if (data.gfVersion == null)
 			data.gfVersion = "gf";
 
@@ -63,7 +63,7 @@ class BaseGameParser {
 				(bfNote ? p1 : p2).notes.push(new ChartNote(time, id, susLen));
 			}
 		}
-    }
+	}
 }
 
 

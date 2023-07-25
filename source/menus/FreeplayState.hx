@@ -34,7 +34,7 @@ class FreeplayState extends MusicBeatState
 	{
 		songs = CoolUtil.coolTextFile(Paths.txt('config/freeplaySonglist'));
 
-		/* 
+		/*
 			if (FlxG.sound.music != null)
 			{
 				if (!FlxG.sound.music.playing)

@@ -18,7 +18,7 @@ import lime.graphics.opengl.GL;
 
 /**
  * Internal storage system to prevent graphics from being used repeatedly in memory.
- * 
+ *
  * Accessed via `FlxG.bitmap`.
  */
 class BitmapFrontEnd
@@ -48,10 +48,10 @@ class BitmapFrontEnd
 		reset();
 	}
 
-    public function configure() {
-        FlxG.signals.preStateSwitch.add(mapCacheAsDestroyable);
-        FlxG.signals.postStateSwitch.add(clearFinalCache);
-    }
+	public function configure() {
+		FlxG.signals.preStateSwitch.add(mapCacheAsDestroyable);
+		FlxG.signals.postStateSwitch.add(clearFinalCache);
+	}
 
 	public function onAssetsReload(_):Void
 	{
@@ -190,7 +190,7 @@ class BitmapFrontEnd
 	{
 		var graphic = _cache.get(key);
 		if (graphic != null)
-            mustDestroy.remove(graphic);
+			mustDestroy.remove(graphic);
 		return _cache.get(key);
 	}
 
@@ -372,12 +372,12 @@ class BitmapFrontEnd
 			}
 		}
 
-        mustDestroy = [];
+		mustDestroy = [];
 
 		__cacheCopy = [];
 	}
 
-    public function clearCache() {/* lol */}
+	public function clearCache() {/* lol */}
 
 	/**
 	 * Maps the entire cache as destroyable, aka must be cleared.
@@ -401,13 +401,13 @@ class BitmapFrontEnd
 				continue;
 			}
 			if (!mustDestroy.contains(e))
-                mustDestroy.push(e);
+				mustDestroy.push(e);
 			__cacheCopy.set(k, e);
 		}
 		
 	}
 
-    public var mustDestroy:Array<FlxGraphic> = [];
+	public var mustDestroy:Array<FlxGraphic> = [];
 
 	inline function removeKey(key:String):Void
 	{

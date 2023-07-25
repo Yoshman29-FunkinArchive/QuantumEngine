@@ -1,8 +1,9 @@
 package backend;
 
+import flixel.input.keyboard.FlxKey;
+import flixel.system.FlxSound;
 #if windows
 import lime.media.AudioManager;
-import flixel.system.FlxSound;
 
 @:buildXml('
 <target id="haxe">
@@ -14,7 +15,7 @@ import flixel.system.FlxSound;
 </target>
 ')
 
-// majority is taken from microsofts doc 
+// majority is taken from microsofts doc
 @:cppFileCode('
 #include "mmdeviceapi.h"
 #include "combaseapi.h"
@@ -38,7 +39,7 @@ static long lastDefId = 0;
 class AudioFixClient : public IMMNotificationClient {
 	LONG _cRef;
 	IMMDeviceEnumerator *_pEnumerator;
-	
+
 	public:
 	AudioFixClient() :
 		_cRef(1),
@@ -117,58 +118,58 @@ AudioFixClient *curAudioFix;
 #end
 
 class FlixelFixer2000 {
-    public static var audioDisconnected:Bool = false;
-    public static var changeID:Int = 0;
+	public static var audioDisconnected:Bool = false;
+	public static var changeID:Int = 0;
 
-    public static function fix() {
-        // DPI blur fix for windows
-        #if windows
-        untyped __cpp__('
-            SetProcessDPIAware();
-        ');
-        #end
+	public static function fix() {
+		// DPI blur fix for windows
+		#if windows
+		untyped __cpp__('
+			SetProcessDPIAware();
+		');
+		#end
 
-        // Audio fix when switch device for windows as well (only works on state switches)
-        #if windows
-        untyped __cpp__('
-            curAudioFix = new AudioFixClient();
-        ');
-        FlxG.signals.postUpdate.add(fixAudio);
-        #end
-        
-        // "+" key not working fix for macos (by Ne_Eo)
-        #if mac
-        @:privateAccess FlxG.keys._nativeCorrection.set("0_43", FlxKey.PLUS);
-        #end
-    }
+		// Audio fix when switch device for windows as well (only works on state switches)
+		#if windows
+		untyped __cpp__('
+			curAudioFix = new AudioFixClient();
+		');
+		FlxG.signals.postUpdate.add(fixAudio);
+		#end
 
-    #if windows
-    public static function fixAudio() {
-        if (audioDisconnected) {
-            // Restart audio manager
-            var playingList:Array<PlayingSound> = [];
-            for(e in FlxG.sound.list) {
-                if (e.playing) {
-                    playingList.push({
-                        sound: e,
-                        time: e.time
-                    });
-                    e.stop();
-                }
-            }
+		// "+" key not working fix for macos (by Ne_Eo)
+		#if mac
+		@:privateAccess FlxG.keys._nativeCorrection.set("0_43", FlxKey.PLUS);
+		#end
+	}
 
-            AudioManager.shutdown();
-            AudioManager.init();
-            changeID++;
+	#if windows
+	public static function fixAudio() {
+		if (audioDisconnected) {
+			// Restart audio manager
+			var playingList:Array<PlayingSound> = [];
+			for(e in FlxG.sound.list) {
+				if (e.playing) {
+					playingList.push({
+						sound: e,
+						time: e.time
+					});
+					e.stop();
+				}
+			}
 
-            for(e in playingList) {
-                e.sound.play(e.time);
-            }
+			AudioManager.shutdown();
+			AudioManager.init();
+			changeID++;
 
-            audioDisconnected = false;
-        }
-    }
-    #end
+			for(e in playingList) {
+				e.sound.play(e.time);
+			}
+
+			audioDisconnected = false;
+		}
+	}
+	#end
 }
 
 typedef PlayingSound = {

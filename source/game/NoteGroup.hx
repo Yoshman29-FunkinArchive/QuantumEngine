@@ -10,19 +10,19 @@ class NoteGroup extends FlxTypedGroup<Note> {
 	var __currentlyLooping:Bool = false;
 	var lastUpdateID:Int = -1;
 
-    public inline function allocate(amount:Int) {
-        @:privateAccess {
-            members = CoolUtil.allocArray(amount);
-            length = amount;
-        }
-    }
+	public inline function allocate(amount:Int) {
+		@:privateAccess {
+			members = CoolUtil.allocArray(amount);
+			length = amount;
+		}
+	}
 
 	public inline function sortNotes() {
 		sort(function(i, n1, n2) {
-            if (n1 == null)
-                return -1;
-            if (n2 == null)
-                return 1;
+			if (n1 == null)
+				return -1;
+			if (n2 == null)
+				return 1;
 			if (n1.time == n2.time)
 				return n1.isSustainNote ? 1 : -1;
 			return FlxSort.byValues(FlxSort.DESCENDING, n1.time, n2.time);
@@ -75,7 +75,6 @@ class NoteGroup extends FlxTypedGroup<Note> {
 				__loopSprite.draw();
 		}
 
-		
 
 		i = lastUpdateID;
 		__loopSprite = null;
@@ -96,7 +95,7 @@ class NoteGroup extends FlxTypedGroup<Note> {
 	public override function forEach(noteFunc:Note->Void, recursive:Bool = false) {
 		i = lastUpdateID;
 		__loopSprite = null;
-		
+
 		var oldCur = __currentlyLooping;
 		__currentlyLooping = true;
 
@@ -114,7 +113,7 @@ class NoteGroup extends FlxTypedGroup<Note> {
 			if (note.alive) noteFunc(note);
 		}, recursive);
 	}
-	
+
 	public override function remove(Object:Note, Splice:Bool = false):Note
 	{
 		if (members == null)

@@ -36,7 +36,7 @@ class Note extends FlxSprite
 	public var prevNote:Note = null;
 
 	public static var swagWidth:Float = 160 * 0.7;
-	
+
 	// The * 0.5 is so that it's easier to hit them too late, instead of too early
 	public var earlyPressWindow:Float = 125;
 	public var latePressWindow:Float = 250;
@@ -75,18 +75,18 @@ class Note extends FlxSprite
 
 	public override function update(elapsed:Float) {
 		super.update(elapsed);
-		
+
 		if (autoUpdateInput)
 			updateInput();
 		if (autoUpdatePosition)
 			updatePosition(parent.members[strumID]);
 		if (isSustainNote && prevNote != null && prevNote.autoUpdatePosition && !prevNote.exists)
 			prevNote.updatePosition(parent.members[strumID]);
-        
-        centerOffsets();
-        centerOrigin();
-        offset.x += width / 2;
-        offset.y += height / 2;
+
+		centerOffsets();
+		centerOrigin();
+		offset.x += width / 2;
+		offset.y += height / 2;
 	}
 
 	public function updateInput() {

@@ -55,7 +55,7 @@ class TitleState extends MusicBeatState
 
 	function startIntro()
 	{
-		
+
 		if (!Conductor.instance.playing)
 		{
 			Conductor.instance.sounds.volume = 0;

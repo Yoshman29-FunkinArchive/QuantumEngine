@@ -1,119 +1,119 @@
 [
-    {
-        "name": "greenScroll",
-        "prefix": "green0"
-    },
-    {
-        "name": "redScroll",
-        "prefix": "red0"
-    },
-    {
-        "name": "blueScroll",
-        "prefix": "blue0"
-    },
-    {
-        "name": "purpleScroll",
-        "prefix": "purple0"
-    },
-    
-    
-    {
-        "name": "purpleholdend",
-        "prefix": "pruple end hold"
-    },
-    {
-        "name": "greenholdend",
-        "prefix": "green hold end"
-    },
-    {
-        "name": "redholdend",
-        "prefix": "red hold end"
-    },
-    {
-        "name": "blueholdend",
-        "prefix": "blue hold end"
-    },
-    
-    
-    {
-        "name": "purplehold",
-        "prefix": "purple hold piece"
-    },
-    {
-        "name": "greenhold",
-        "prefix": "green hold piece"
-    },
-    {
-        "name": "redhold",
-        "prefix": "red hold piece"
-    },
-    {
-        "name": "bluehold",
-        "prefix": "blue hold piece"
-    },
+	{
+		"name": "greenScroll",
+		"prefix": "green0"
+	},
+	{
+		"name": "redScroll",
+		"prefix": "red0"
+	},
+	{
+		"name": "blueScroll",
+		"prefix": "blue0"
+	},
+	{
+		"name": "purpleScroll",
+		"prefix": "purple0"
+	},
+
+
+	{
+		"name": "purpleholdend",
+		"prefix": "pruple end hold"
+	},
+	{
+		"name": "greenholdend",
+		"prefix": "green hold end"
+	},
+	{
+		"name": "redholdend",
+		"prefix": "red hold end"
+	},
+	{
+		"name": "blueholdend",
+		"prefix": "blue hold end"
+	},
+
+
+	{
+		"name": "purplehold",
+		"prefix": "purple hold piece"
+	},
+	{
+		"name": "greenhold",
+		"prefix": "green hold piece"
+	},
+	{
+		"name": "redhold",
+		"prefix": "red hold piece"
+	},
+	{
+		"name": "bluehold",
+		"prefix": "blue hold piece"
+	},
 
 
 
-    {
-        "name": "static0",
-        "prefix": "arrowLEFT"
-    },
-    {
-        "name": "static1",
-        "prefix": "arrowDOWN"
-    },
-    {
-        "name": "static2",
-        "prefix": "arrowUP"
-    },
-    {
-        "name": "static3",
-        "prefix": "arrowRIGHT"
-    },
+	{
+		"name": "static0",
+		"prefix": "arrowLEFT"
+	},
+	{
+		"name": "static1",
+		"prefix": "arrowDOWN"
+	},
+	{
+		"name": "static2",
+		"prefix": "arrowUP"
+	},
+	{
+		"name": "static3",
+		"prefix": "arrowRIGHT"
+	},
 
 
 
-    {
-        "name": "pressed0",
-        "prefix": "left press",
-        "loop": false
-    },
-    {
-        "name": "pressed1",
-        "prefix": "down press",
-        "loop": false
-    },
-    {
-        "name": "pressed2",
-        "prefix": "up press",
-        "loop": false
-    },
-    {
-        "name": "pressed3",
-        "prefix": "right press",
-        "loop": false
-    },
+	{
+		"name": "pressed0",
+		"prefix": "left press",
+		"loop": false
+	},
+	{
+		"name": "pressed1",
+		"prefix": "down press",
+		"loop": false
+	},
+	{
+		"name": "pressed2",
+		"prefix": "up press",
+		"loop": false
+	},
+	{
+		"name": "pressed3",
+		"prefix": "right press",
+		"loop": false
+	},
 
 
 
-    {
-        "name": "confirm0",
-        "prefix": "left confirm",
-        "loop": false
-    },
-    {
-        "name": "confirm1",
-        "prefix": "down confirm",
-        "loop": false
-    },
-    {
-        "name": "confirm2",
-        "prefix": "up confirm",
-        "loop": false
-    },
-    {
-        "name": "confirm3",
-        "prefix": "right confirm",
-        "loop": false
-    }
+	{
+		"name": "confirm0",
+		"prefix": "left confirm",
+		"loop": false
+	},
+	{
+		"name": "confirm1",
+		"prefix": "down confirm",
+		"loop": false
+	},
+	{
+		"name": "confirm2",
+		"prefix": "up confirm",
+		"loop": false
+	},
+	{
+		"name": "confirm3",
+		"prefix": "right confirm",
+		"loop": false
+	}
 ]

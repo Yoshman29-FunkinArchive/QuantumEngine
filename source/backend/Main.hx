@@ -29,7 +29,7 @@ class Main extends Sprite
 		#if !mobile
 		addChild(new backend.FPS(10, 3, 0xFFFFFF));
 		#end
-		
+
 		// initiating backend shit
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 		Highscore.load();
@@ -65,26 +65,26 @@ class Main extends Sprite
 	}
 
 	public function setupDebug() {
-        #if debug
+		#if debug
 		var windows:Array<Tracker> = [];
-        // CONDUCTOR
-        FlxG.debugger.addTrackerProfile(new TrackerProfile(Conductor, [
-            "songPosition", "curBPM", "curMeasure", "curBeat",
-            "curStep", "crochet", "stepCrochet", "measureCrochet",
-            "bpmChangeID", "playing"], []));
+		// CONDUCTOR
+		FlxG.debugger.addTrackerProfile(new TrackerProfile(Conductor, [
+			"songPosition", "curBPM", "curMeasure", "curBeat",
+			"curStep", "crochet", "stepCrochet", "measureCrochet",
+			"bpmChangeID", "playing"], []));
 		windows.push(cast(FlxG.debugger.track(Conductor.instance), Tracker));
 
 		// FUNKIN CACHE
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(FunkinCacheTracker, ["cachedBitmaps", "cachedSounds", "cachedFonts", "cachedFlixelGraphics"]));
 		windows.push(cast(FlxG.debugger.track(new FunkinCacheTracker()), Tracker));
-		
-		
+
+
 		// REMOVING AUTO CLOSE
 		for(window in windows) {
 			FlxG.signals.preStateSwitch.remove(window.removeAll);
 			FlxG.signals.preStateSwitch.remove(window.close);
 		}
-        #end
+		#end
 	}
 }
 
@@ -99,21 +99,21 @@ class FunkinCacheTracker {
 		var am = 0;
 		for(e in FunkinCache.instance.bitmapData.keys())
 			am++;
-		return am; 
+		return am;
 	}
 
 	private function get_cachedSounds() {
 		var am = 0;
 		for(e in FunkinCache.instance.sound.keys())
 			am++;
-		return am; 
+		return am;
 	}
 
 	private function get_cachedFonts() {
 		var am = 0;
 		for(e in FunkinCache.instance.font.keys())
 			am++;
-		return am; 
+		return am;
 	}
 
 	private function get_cachedFlixelGraphics() {
@@ -121,7 +121,7 @@ class FunkinCacheTracker {
 		@:privateAccess
 		for(e in FlxG.bitmap._cache.keys())
 			am++;
-		return am; 
+		return am;
 	}
 
 	public function new() {

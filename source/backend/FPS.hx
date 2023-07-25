@@ -18,44 +18,43 @@ import openfl.text.TextField;
 import openfl.ui.Keyboard;
 
 class FPS extends TextField {
-    public var cacheCount:Int = 20;
-    public var curCacheID:Int = 0;
-    public var cache:Array<Float>;
+	public var cacheCount:Int = 20;
+	public var curCacheID:Int = 0;
+	public var cache:Array<Float>;
 
-    public var curFPS(default, null):Float = 0;
+	public var curFPS(default, null):Float = 0;
 
-    public function new(x:Float, y:Float, color = 0xFFFFFF) {
-        super();
+	public function new(x:Float, y:Float, color = 0xFFFFFF) {
+		super();
 
-        this.x = x;
-        this.y = y;
+		this.x = x;
+		this.y = y;
 
-        
-        autoSize = LEFT;
-        multiline = wordWrap = selectable = mouseEnabled = false;
+		autoSize = LEFT;
+		multiline = wordWrap = selectable = mouseEnabled = false;
 
-        text = "FPS: 0";
+		text = "FPS: 0";
 
-        defaultTextFormat = new TextFormat("_sans", 12, color);
+		defaultTextFormat = new TextFormat("_sans", 12, color);
 
-        cache = [for(_ in 0...cacheCount) 0];
-    }
+		cache = [for(_ in 0...cacheCount) 0];
+	}
 
-    private override function __enterFrame(deltaTime:Float) {
-        cache[curCacheID] = 1 / FlxG.elapsed;
-        curCacheID = (curCacheID + 1) % cacheCount;
+	private override function __enterFrame(deltaTime:Float) {
+		cache[curCacheID] = 1 / FlxG.elapsed;
+		curCacheID = (curCacheID + 1) % cacheCount;
 
-        this.visible = !FlxG.debugger.visible;
+		this.visible = !FlxG.debugger.visible;
 
-        var total:Float = 0;
-        for(c in cache)
-            total += c;
-        total /= cacheCount;
-        curFPS = total;
+		var total:Float = 0;
+		for(c in cache)
+			total += c;
+		total /= cacheCount;
+		curFPS = total;
 
-        var text = 'FPS: ${Std.int(curFPS)}\nMemory: ${CoolUtil.getSizeString(currentMemUsage())}';
-        this.text = text;
-    }
+		var text = 'FPS: ${Std.int(curFPS)}\nMemory: ${CoolUtil.getSizeString(currentMemUsage())}';
+		this.text = text;
+	}
 
 	public static inline function currentMemUsage() {
 		#if cpp

@@ -32,6 +32,7 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Add score, misses & accuracy
     - [ ] Add healthbar & icons
     - [ ] Add Game Over screen
+    - [ ] Make the songs actually finishable
 - [ ] Menus
     - [ ] Update Freeplay to use icons & config.json
     - [ ] Update Story Menu to a better format

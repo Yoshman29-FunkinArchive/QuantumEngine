@@ -1,5 +1,6 @@
 package assets.chart;
 
+import game.HealthBar;
 import game.notes.DefaultNote;
 import game.characters.Character;
 import game.characters.SpriteCharacter;
@@ -15,6 +16,11 @@ class Chart {
 	 * Stage used in this song
 	 */
 	public var stage:Class<Stage>;
+
+	/**
+	 * Stage used in this song
+	 */
+	public var healthBar:Class<HealthBar>;
 
 	/**
 	 * All audio files paths used for the instrumental of this song (do not put in Paths.sound)
@@ -73,6 +79,13 @@ class Chart {
 				break;
 
 		chartFile.stage = (cl == null) ? Stage : cl;
+
+		var cl:Class<HealthBar> = null;
+		for(classPath in ['game.stages.${chartFile.songMeta.healthBar}', chartFile.songMeta.healthBar])
+			if ((cl = cast Type.resolveClass(classPath)) != null)
+				break;
+
+		chartFile.healthBar = (cl == null) ? HealthBar : cl;
 
 		var jsonData:Dynamic = Assets.getJsonIfExists(Paths.json(fixPath('chart', Paths.json)));
 

@@ -11,6 +11,7 @@ class GameStats {
 	public var score(get, set):Int;
 	public var misses(get, set):Int;
 	public var accuracy(get, null):Float;
+	public var healthMultiplier:Float = 1;
 
 	// PRIVATE VARIABLES
 	private var _score:Int = 0;
@@ -48,6 +49,7 @@ class GameStats {
 		if (note.isSustainNote) {
 			_accuracy_amount += 0.25;
 			_accuracy_value += 0.25;
+			PlayState.instance.health += 0.002 * healthMultiplier;
 			return;
 		}
 		var diff = Math.abs(note.time - Conductor.instance.songPosition) / note.latePressWindow;
@@ -82,6 +84,7 @@ class GameStats {
 				// no need to update
 				return;
 		}
+		PlayState.instance.health += 0.0115 * healthMultiplier;
 
 		onChange.dispatch(this);
 	}
@@ -89,6 +92,8 @@ class GameStats {
 	public function miss() {
 		_misses++;
 		_accuracy_amount += 1;
+		PlayState.instance.health -= 0.02375 * healthMultiplier;
+
 		onChange.dispatch(this);
 	}
 

@@ -31,6 +31,7 @@ class PlayState extends MusicBeatState
 
 	public var hud:FlxGroup;
 	public var scoreTxt:FlxText;
+	public var healthBar:HealthBar;
 
 	public var strumLines:FlxTypedGroup<StrumLine> = new FlxTypedGroup<StrumLine>(); // make it a group maybe
 
@@ -38,6 +39,8 @@ class PlayState extends MusicBeatState
 	public var stats:GameStats;
 
 	public var camTarget:FlxObject;
+
+	public var health(default, set):Float = 0.5;
 
 	public override function create() {
 		super.create();
@@ -53,12 +56,14 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor = 0; // transparent
 		add(hud);
 
-		scoreTxt = new FlxText(0, FlxG.height - 50, FlxG.width, "Score:0 - Misses:0 - Accuracy: 100%", 16);
+		scoreTxt = new FlxText(0, (FlxG.height * 0.9) + 30, FlxG.width, "Score:0 - Misses:0 - Accuracy: 100%", 16);
 		scoreTxt.font = Paths.font('fonts/vcr');
 		scoreTxt.alignment = CENTER;
 		scoreTxt.borderSize = 1;
 		scoreTxt.borderColor = 0xFF000000;
 		scoreTxt.borderStyle = OUTLINE;
+
+		hud.add(healthBar = Type.createInstance(SONG.healthBar, []));
 		hud.add(scoreTxt);
 
 		camTarget = new FlxObject(0, 0, 2, 2);
@@ -213,5 +218,15 @@ class PlayState extends MusicBeatState
 
 		FlxG.camera.zoom = CoolUtil.fLerp(FlxG.camera.zoom, stage.camZoom, 0.05);
 		camHUD.zoom = CoolUtil.fLerp(camHUD.zoom, 1, 0.05);
+	}
+
+	public function onHealthChange() {
+		healthBar.updateBar();
+	}
+
+	private inline function set_health(v:Float) {
+		health = FlxMath.bound(v, 0, 1);
+		onHealthChange();
+		return health;
 	}
 }

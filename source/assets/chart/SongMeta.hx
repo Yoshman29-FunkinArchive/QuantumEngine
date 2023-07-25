@@ -18,6 +18,8 @@ final class SongMeta {
 			d.difficulties = ["easy", "normal", "hard"];
 		if (d.stage == null)
 			d.stage = "DefaultStage";
+		if (d.healthBar == null)
+			d.healthBar = "HealthBar";
 		if (d.scripts == null)
 			d.scripts = [];
 
@@ -28,11 +30,12 @@ final class SongMeta {
 	}
 
 	public static function applyMetaChanges(base:SongMetaData, additional:SongMetaData) {
-		if (additional.name != null) base.name = additional.name;
-		if (additional.color != null) base.color = additional.color;
-		if (additional.icon != null) base.icon = additional.icon;
-		if (additional.difficulties != null && additional.difficulties.length > 0) base.difficulties = additional.difficulties;
-		if (additional.stage != null) base.stage = additional.stage;
+		base.name = additional.name ?? base.name;
+		base.color = additional.color ?? base.color;
+		base.icon = additional.icon ?? base.icon;
+		base.stage = additional.stage ?? base.stage;
+		
+		if (additional.difficulties?.length > 0) base.difficulties = additional.difficulties;
 		if (additional.scripts != null) for(s in additional.scripts) base.scripts.push(s);
 	}
 }
@@ -43,5 +46,6 @@ typedef SongMetaData = {
 	@:optional var difficulties:Array<String>;
 
 	@:optional var stage:String;
+	@:optional var healthBar:String;
 	@:optional var scripts:Array<String>;
 }

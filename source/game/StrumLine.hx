@@ -1,7 +1,7 @@
 package game;
 
 import assets.chart.Chart.ChartStrumLine;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.util.FlxDestroyUtil;
 import game.characters.Character;
 import game.strums.DefaultStrum;

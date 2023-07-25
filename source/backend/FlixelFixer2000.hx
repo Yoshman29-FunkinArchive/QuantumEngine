@@ -1,7 +1,7 @@
 package backend;
 
 import flixel.input.keyboard.FlxKey;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 #if windows
 import lime.media.AudioManager;
 

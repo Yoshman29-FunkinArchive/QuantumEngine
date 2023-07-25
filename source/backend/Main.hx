@@ -49,7 +49,6 @@ class Main extends Sprite
 
 		setupDebug();
 
-
 		FlxG.switchState(new TitleState());
 	}
 

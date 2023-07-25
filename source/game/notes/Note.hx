@@ -141,8 +141,9 @@ class Note extends FlxSprite
 
 	public override function draw() {
 		if (isSustainNote && prevNote != null) {
-
-			// TODO: angle
+			#if debug
+			FlxBasic.visibleCount++;
+			#end	
 			for(c in cameras) {
 				var topPos = prevNote.getScreenPosition(FlxPoint.get(), c);
 				var bottomPos = getScreenPosition(FlxPoint.get(), c);
@@ -189,7 +190,7 @@ class Note extends FlxSprite
 				__vertexPos[6] = bottomPos.x + xOffsetBottom;
 				__vertexPos[7] = bottomPos.y + yOffsetBottom;
 
-				c.drawTriangles(graphic, __vertexPos, __triangles, __uv, __colors, FlxPoint.weak(0, 0), blend, false, antialiasing, colorTransform, shader);
+				c.drawTriangles(graphic, __vertexPos, __triangles, __uv, null, null, blend, false, antialiasing, colorTransform, shader);
 
 				topPos.put();
 				bottomPos.put();

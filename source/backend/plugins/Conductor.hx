@@ -5,8 +5,8 @@ import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import lime.net.oauth.OAuthVersion;
 import flixel.tweens.FlxTween;
-import flixel.system.FlxSound;
-import flixel.system.FlxSoundGroup;
+import flixel.sound.FlxSound;
+import flixel.sound.FlxSoundGroup;
 
 
 // beat -> bpmdef

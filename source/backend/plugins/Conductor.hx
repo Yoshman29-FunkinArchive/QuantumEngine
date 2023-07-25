@@ -70,10 +70,16 @@ class Conductor extends FlxBasic {
 
 	public function new() {
 		super();
+		FlxG.signals.focusGained.add(onFocus);
+		FlxG.signals.focusLost.add(onFocusLost);
 	}
 
 	public override function destroy() {
 		super.destroy();
+
+		FlxG.signals.focusGained.remove(onFocus);
+		FlxG.signals.focusLost.remove(onFocusLost);
+
 		for(s in sounds.sounds) {
 			s.stop();
 			s.destroy();
@@ -192,7 +198,6 @@ class Conductor extends FlxBasic {
 			while(sounds.sounds.length > 0) {
 				var snd = sounds.sounds[sounds.sounds.length-1];
 				snd.stop();
-				FlxG.sound.list.remove(snd, true);
 				sounds.remove(snd);
 				snd.destroy();
 			}
@@ -227,7 +232,6 @@ class Conductor extends FlxBasic {
 				var sound = new ConductorSound().loadEmbedded(Paths.sound(e));
 				sound.autoDestroy = false;
 				sound.persist = true;
-				FlxG.sound.list.add(sound);
 				sounds.add(sound);
 			}
 		}
@@ -269,13 +273,39 @@ class Conductor extends FlxBasic {
 			if (s != null)
 				s.fadeOut(Duration, To, onComplete);
 
-	public inline function pause()
+	public inline function pause() {
+		if (__focusLost) {
+			__wasPlaying = false;
+			return;
+		}
 		sounds.pause();
+	}
 
 	public inline function resume() {
+		if (__focusLost) {
+			__wasPlaying = true;
+			return;
+		}
+
 		for(s in sounds.sounds)
 			s.time = songPosition;
 		sounds.resume();
+	}
+
+	private var __wasPlaying:Bool = false;
+	private var __focusLost:Bool = false;
+
+	function onFocusLost() {
+		__wasPlaying = playing;
+		pause();
+		__focusLost = true;
+	}
+
+	function onFocus() {
+		__focusLost = false;
+		if (__wasPlaying) 
+			resume();
+		__wasPlaying = false;
 	}
 
 	private function __resetVars() {
@@ -427,6 +457,13 @@ class ConductorSound extends FlxSound {
 		}
 		return false;
 	}
+
+
+	// AUTOMATICALLY HANDLED BY CONDUCTOR
+	@:allow(flixel.system.frontEnds.SoundFrontEnd)
+	override function onFocus():Void {}
+	@:allow(flixel.system.frontEnds.SoundFrontEnd)
+	override function onFocusLost():Void {}
 }
 
 class ConductorUtils {

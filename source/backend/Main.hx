@@ -1,5 +1,6 @@
 package backend;
 
+import flixel.sound.FlxSoundGroup;
 import flixel.system.debug.Window;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
 import flixel.system.debug.watch.Tracker;
@@ -20,6 +21,8 @@ import backend.FlixelFixer2000;
 
 class Main extends Sprite
 {
+	public static var soundGroups:Array<FlxSoundGroup> = [];
+	
 	public function new()
 	{
 		super();

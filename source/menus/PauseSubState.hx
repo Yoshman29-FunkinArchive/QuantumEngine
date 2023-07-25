@@ -1,5 +1,6 @@
 package menus;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -15,20 +16,27 @@ class PauseSubState extends MusicBeatSubstate
 
 	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
 	var curSelected:Int = 0;
+	// separate conductor so that pause menu supports bpm for funky pause menus and the game one is untouched
+	var conductor:Conductor;
 
-	var pauseMusic:FlxSound;
+	var cam:FlxCamera;
 
-	public function new(x:Float, y:Float)
+	public function new()
 	{
 		super();
 
-		pauseMusic = new FlxSound().loadEmbedded('assets/music/breakfast' + TitleState.soundExt, true, true);
-		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		conductor = new Conductor();
+		conductor.onBeat.add((_) -> beatHit());
+		conductor.onStep.add((_) -> stepHit());
+		conductor.onMeasure.add((_) -> measureHit());
+		add(conductor);
 
-		FlxG.sound.list.add(pauseMusic);
+		conductor.loadAndPlay('menus/pause/breakfast', true);
+		conductor.sounds.sounds[0].volume = 0;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		bg.scale.set(FlxG.width, FlxG.height);
+		bg.updateHitbox();
 		bg.alpha = 0.6;
 		bg.scrollFactor.set();
 		add(bg);
@@ -46,13 +54,17 @@ class PauseSubState extends MusicBeatSubstate
 
 		changeSelection();
 
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		cam = new FlxCamera(0, 0);
+		cam.bgColor = 0;
+		FlxG.cameras.add(cam, false);
+
+		cameras = [cam];
 	}
 
 	override function update(elapsed:Float)
 	{
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
+		if (conductor.sounds.sounds[0].volume < 0.5)
+			conductor.sounds.sounds[0].volume += 0.01 * elapsed;
 
 		super.update(elapsed);
 
@@ -87,8 +99,6 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function destroy()
 	{
-		pauseMusic.destroy();
-
 		super.destroy();
 	}
 

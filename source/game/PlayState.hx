@@ -1,4 +1,7 @@
 package game;
+import flixel.FlxSubState;
+import menus.PauseSubState;
+import flixel.path.FlxPathfinder.FlxTypedPathfinder;
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import game.stages.Stage;
@@ -38,6 +41,8 @@ class PlayState extends MusicBeatState
 	public var stats:GameStats;
 
 	public var camTarget:FlxObject;
+
+	public var canPause:Bool = true;
 
 	public var health(default, set):Float = 0.5;
 
@@ -175,6 +180,7 @@ class PlayState extends MusicBeatState
 		updateScore();
 
 		Conductor.instance.play();
+		persistentUpdate = true;
 	}
 
 	public function updateScore() {
@@ -217,6 +223,23 @@ class PlayState extends MusicBeatState
 
 		FlxG.camera.zoom = CoolUtil.fLerp(FlxG.camera.zoom, stage.camZoom, 0.05);
 		camHUD.zoom = CoolUtil.fLerp(camHUD.zoom, 1, 0.05);
+
+		if (Controls.justPressed.PAUSE && canPause)
+			pause();
+	}
+
+	public function pause() {
+		persistentUpdate = false;
+		Conductor.instance.pause();
+		openSubState(new PauseSubState());
+	}
+
+	override function closeSubState() {
+		if (subState is PauseSubState) {
+			// resume game
+			Conductor.instance.resume();
+		}
+		super.closeSubState();
 	}
 
 	public function onHealthChange() {

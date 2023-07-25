@@ -4,9 +4,11 @@ import flixel.util.FlxSort;
 import flixel.FlxCamera;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
-class NoteGroup extends FlxTypedGroup<Note> {var __loopSprite:Note;
+class NoteGroup extends FlxTypedGroup<Note> {
+	var __loopSprite:Note;
 	var i:Int = 0;
 	var __currentlyLooping:Bool = false;
+	var lastUpdateID:Int = -1;
 
     public inline function allocate(amount:Int) {
         @:privateAccess {
@@ -25,9 +27,24 @@ class NoteGroup extends FlxTypedGroup<Note> {var __loopSprite:Note;
 				return n1.isSustainNote ? 1 : -1;
 			return FlxSort.byValues(FlxSort.DESCENDING, n1.time, n2.time);
 		});
+
+		lastUpdateID = members.length-1;
+		updateUpdateID();
+	}
+
+	public function updateUpdateID() {
+		var i = lastUpdateID;
+		while(i >= 0) {
+			__loopSprite = members[i--];
+			if (__loopSprite == null || !__loopSprite.exists || !__loopSprite.active) {
+				continue;
+			}
+			lastUpdateID = i+1;
+			break;
+		}
 	}
 	public override function update(elapsed:Float) {
-		i = members.length-1;
+		i = lastUpdateID;
 		__loopSprite = null;
 		while(i >= 0) {
 			__loopSprite = members[i--];
@@ -47,7 +64,7 @@ class NoteGroup extends FlxTypedGroup<Note> {var __loopSprite:Note;
 		var oldCur = __currentlyLooping;
 		__currentlyLooping = true;
 
-		i = members.length-1;
+		i = lastUpdateID;
 		__loopSprite = null;
 		while(i >= 0) {
 			__loopSprite = members[i--];
@@ -60,7 +77,7 @@ class NoteGroup extends FlxTypedGroup<Note> {var __loopSprite:Note;
 
 		
 
-		i = members.length-1;
+		i = lastUpdateID;
 		__loopSprite = null;
 		while(i >= 0) {
 			__loopSprite = members[i--];
@@ -77,7 +94,7 @@ class NoteGroup extends FlxTypedGroup<Note> {var __loopSprite:Note;
 	}
 
 	public override function forEach(noteFunc:Note->Void, recursive:Bool = false) {
-		i = members.length-1;
+		i = lastUpdateID;
 		__loopSprite = null;
 		
 		var oldCur = __currentlyLooping;

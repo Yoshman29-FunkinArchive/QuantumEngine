@@ -121,6 +121,8 @@ class Note extends FlxSprite
 
 	public function delete() {
 		exists = false;
+		if (parent != null)
+			parent.notes.updateUpdateID();
 	}
 
 
@@ -128,6 +130,14 @@ class Note extends FlxSprite
 	var __vertexPos = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
 	var __colors = Vector.ofArray([0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF]);
 	var __uv = Vector.ofArray([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]);
+
+	public var __angleSin:Float = 0;
+	public var __angleCos:Float = 0;
+	private override function set_angle(v:Float) {
+		__angleSin = Math.sin(v * FlxAngle.TO_RAD);
+		__angleCos = Math.cos(v * FlxAngle.TO_RAD);
+		return super.set_angle(v);
+	}
 
 	public override function draw() {
 		if (isSustainNote && prevNote != null) {
@@ -145,10 +155,10 @@ class Note extends FlxSprite
 					topPos.y = FlxMath.lerp(topPos.y, bottomPos.y, ratio);
 				}
 
-				var xOffsetTop = (width / 2) * Math.cos(prevNote.angle * FlxAngle.TO_RAD);
-				var yOffsetTop = (width / 2) * Math.sin(prevNote.angle * FlxAngle.TO_RAD);
-				var xOffsetBottom = (width / 2) * Math.cos(angle * FlxAngle.TO_RAD);
-				var yOffsetBottom = (width / 2) * Math.sin(angle * FlxAngle.TO_RAD);
+				var xOffsetTop = (width / 2) * prevNote.__angleCos;
+				var yOffsetTop = (width / 2) * prevNote.__angleSin;
+				var xOffsetBottom = (width / 2) * __angleCos;
+				var yOffsetBottom = (width / 2) * __angleSin;
 
 				var uv = frame.uv;
 				var uvY = FlxMath.lerp(uv.y, uv.height, ratio);

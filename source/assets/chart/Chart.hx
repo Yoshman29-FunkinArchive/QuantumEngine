@@ -48,6 +48,16 @@ class Chart {
 	public var events:Array<SongEvent> = [];
 
 	/**
+	 * Icon for player
+	 */
+	public var playerIcon:String = "test";
+	
+	/**
+	 * Icon for opponent
+	 */
+	public var opponentIcon:String = "test";
+
+	/**
 	 * Load a chart from a specified song
 	 * @param song Song
 	 * @param difficulty Difficulty

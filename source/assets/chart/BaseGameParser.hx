@@ -15,6 +15,9 @@ class BaseGameParser {
 
 		p1.xPos = 0.75;
 
+		chart.playerIcon = data.player1;
+		chart.opponentIcon = data.player2;
+
 
 		var gf:ChartStrumLine = null;
 

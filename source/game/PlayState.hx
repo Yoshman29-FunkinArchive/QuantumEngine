@@ -216,6 +216,8 @@ class PlayState extends MusicBeatState
 			if (m is Character)
 				cast(m, Character).dance(curBeat, false);
 		}
+
+		healthBar?.beatHit(curBeat);
 	}
 
 	public override function update(elapsed:Float) {
@@ -243,7 +245,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public function onHealthChange() {
-		healthBar.updateBar();
+		healthBar?.updateBar();
 
 		if (health <= 0 && !(subState is GameOverSubstate)) {
 			// death >:(

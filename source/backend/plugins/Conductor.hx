@@ -200,8 +200,21 @@ class Conductor extends FlxBasic {
 			__resetVars();
 
 			bpmDefPath = Paths.bpmDef(bpmDefPath);
-			bpmChanges = Assets.exists(bpmDefPath) ? parseBpmDefinitionFromFile(bpmDefPath) : [];
-
+			bpmChanges = Assets.exists(bpmDefPath) ? parseBpmDefinitionFromFile(bpmDefPath) : [{
+                stepTime: 0,
+                beatTime: 0,
+                songTime: 0,
+                measureTime: 0,
+    
+                crochet: 1000,
+                stepCrochet: 250,
+                measureCrochet: 4000,
+    
+                def: {
+                    beat: 0,
+                    bpm: 60
+                }
+            }];
 
 			curPlayingPath = path;
 			if (additionalTracks == null)

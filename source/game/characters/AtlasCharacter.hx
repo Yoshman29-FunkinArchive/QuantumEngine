@@ -5,6 +5,9 @@ import flxanimate.FlxAnimate;
 class AtlasCharacter extends FlxAnimate implements Character {
 	public var _(get, null):FlxSprite;
 
+	public var gameOverChar:Class<Character> = BoyfriendDead;
+
+
 	public function get__():FlxSprite
 		return this;
 
@@ -35,6 +38,14 @@ class AtlasCharacter extends FlxAnimate implements Character {
 		playAnim("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
 		FlxG.sound.play(Paths.sound('game/sfx/missnote${FlxG.random.int(1, 3)}'), FlxG.random.float(0.1, 0.2));
 		parent.muteVocals();
+	}
+
+	public function playDeathAnim(callback:Void->Void) {
+		playAnim('long-firstDeath');
+	}
+
+	public function playDeathConfirmAnim() {
+		playAnim('long-deathConfirm');
 	}
 
 	public function playSingAnim(strumID:Int, ?note:Note) {

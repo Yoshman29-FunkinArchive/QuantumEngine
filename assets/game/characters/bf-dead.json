@@ -1,0 +1,28 @@
+[
+	{
+		"name": "dance-idle",
+		"prefix": "BF Dead Loop",
+		"fps": 24,
+		"loop": false,
+		"x": 37,
+		"y": 5
+	},
+
+	{
+		"name": "long-firstDeath",
+		"prefix": "BF dies",
+		"fps": 24,
+		"loop": false,
+		"x": 37,
+		"y": 11
+	},
+
+	{
+		"name": "long-deathConfirm",
+		"prefix": "BF Dead confirm",
+		"fps": 24,
+		"loop": false,
+		"x": 37,
+		"y": 69
+	}
+]

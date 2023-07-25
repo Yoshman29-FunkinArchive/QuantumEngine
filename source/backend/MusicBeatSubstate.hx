@@ -17,12 +17,21 @@ class MusicBeatSubstate extends FlxSubState
 	private inline function get_curMeasure() return Conductor.instance.curMeasure;
 
 
-	private inline function _onBeat(curBeat:Int)
+	private inline function _onBeat(curBeat:Int) {
+		if (subState != null && !persistentUpdate)
+			return;
 		return beatHit();
-	private inline function _onStep(curBeat:Int)
+	}
+	private inline function _onStep(curBeat:Int) {
+		if (subState != null && !persistentUpdate)
+			return;
 		return stepHit();
-	private inline function _onMeasure(curBeat:Int)
+	}
+	private inline function _onMeasure(curBeat:Int) {
+		if (subState != null && !persistentUpdate)
+			return;
 		return measureHit();
+	}
 
 	override function create()
 	{

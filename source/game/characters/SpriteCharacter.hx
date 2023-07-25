@@ -3,6 +3,9 @@ package game.characters;
 class SpriteCharacter extends FlxSprite implements Character {
 	public var _(get, null):FlxSprite;
 
+	public var gameOverChar:Class<Character> = BoyfriendDead;
+
+
 	public function get__():FlxSprite
 		return this;
 
@@ -30,6 +33,18 @@ class SpriteCharacter extends FlxSprite implements Character {
 		animation.play("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
 		FlxG.sound.play(Paths.sound('game/sfx/missnote${FlxG.random.int(1, 3)}'), FlxG.random.float(0.1, 0.2));
 		parent.muteVocals();
+	}
+
+	public function playDeathAnim(callback:Void->Void) {
+		animation.play('long-firstDeath', true);
+		animation.finishCallback = function(name:String) {
+			callback();
+			animation.finishCallback = null;
+		};
+	}
+
+	public function playDeathConfirmAnim() {
+		animation.play('long-deathConfirm');
 	}
 
 	public function playSingAnim(strumID:Int, ?note:Note) {

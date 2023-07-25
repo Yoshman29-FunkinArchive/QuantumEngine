@@ -5,9 +5,17 @@ interface Character {
 
 	public var parent:StrumLine;
 
+	public var flipped:Bool;
+
+	public var gameOverChar:Class<Character>;
+
 	public function playMissAnim(strumID:Int, ?note:Note):Void;
 
 	public function playSingAnim(strumID:Int, ?note:Note):Void;
+
+	public function playDeathAnim(callback:Void->Void):Void;
+
+	public function playDeathConfirmAnim():Void;
 
 	public function dance(beat:Int, force:Bool):Void;
 

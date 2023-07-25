@@ -81,7 +81,7 @@ class Chart {
 		chartFile.stage = (cl == null) ? Stage : cl;
 
 		var cl:Class<HealthBar> = null;
-		for(classPath in ['game.stages.${chartFile.songMeta.healthBar}', chartFile.songMeta.healthBar])
+		for(classPath in ['game.${chartFile.songMeta.healthBar}', chartFile.songMeta.healthBar])
 			if ((cl = cast Type.resolveClass(classPath)) != null)
 				break;
 

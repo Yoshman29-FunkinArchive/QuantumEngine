@@ -19,9 +19,21 @@ class MusicBeatState extends FlxUIState
 	private inline function get_curStep() return Conductor.instance.curStep;
 	private inline function get_curMeasure() return Conductor.instance.curMeasure;
 
-	private inline function _onBeat(curBeat:Int) return beatHit();
-	private inline function _onStep(curBeat:Int) return stepHit();
-	private inline function _onMeasure(curBeat:Int) return measureHit();
+	private inline function _onBeat(curBeat:Int) {
+		if (subState != null && !persistentUpdate)
+			return;
+		return beatHit();
+	}
+	private inline function _onStep(curBeat:Int) {
+		if (subState != null && !persistentUpdate)
+			return;
+		return stepHit();
+	}
+	private inline function _onMeasure(curBeat:Int) {
+		if (subState != null && !persistentUpdate)
+			return;
+		return measureHit();
+	}
 
 	override function create()
 	{

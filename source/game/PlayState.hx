@@ -1,5 +1,4 @@
 package game;
-
 import flixel.text.FlxText;
 import flixel.group.FlxGroup;
 import game.stages.Stage;
@@ -222,6 +221,14 @@ class PlayState extends MusicBeatState
 
 	public function onHealthChange() {
 		healthBar.updateBar();
+
+		if (health <= 0 && !(subState is GameOverSubstate)) {
+			// death >:(
+			Conductor.instance.stop();
+			openSubState(new GameOverSubstate());
+			persistentUpdate = false;
+			persistentDraw = false;
+		}
 	}
 
 	private inline function set_health(v:Float) {

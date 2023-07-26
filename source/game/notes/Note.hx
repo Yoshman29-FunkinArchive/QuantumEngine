@@ -78,10 +78,12 @@ class Note extends FlxSprite
 
 		if (autoUpdateInput)
 			updateInput();
-		if (autoUpdatePosition)
+		if (autoUpdatePosition) {
 			updatePosition(parent.members[strumID]);
-		if (isSustainNote && prevNote != null && prevNote.autoUpdatePosition && !prevNote.exists)
-			prevNote.updatePosition(parent.members[strumID]);
+			if (isSustainNote && prevNote != null && prevNote.autoUpdatePosition && !prevNote.exists) {
+				prevNote.updatePosition(parent.members[strumID]);
+			}
+		}
 
 		centerOffsets();
 		centerOrigin();
@@ -145,6 +147,10 @@ class Note extends FlxSprite
 			FlxBasic.visibleCount++;
 			#end	
 			for(c in cameras) {
+				var oldFrame = _frame;
+				if (endSustain)
+					_frame = prevNote.frame;
+
 				var topPos = prevNote.getScreenPosition(FlxPoint.get(), c);
 				var bottomPos = getScreenPosition(FlxPoint.get(), c);
 
@@ -161,7 +167,7 @@ class Note extends FlxSprite
 				var xOffsetBottom = (width / 2) * __angleCos;
 				var yOffsetBottom = (width / 2) * __angleSin;
 
-				var uv = frame.uv;
+				var uv = _frame.uv;
 				var uvY = FlxMath.lerp(uv.y, uv.height, ratio);
 
 				// tl
@@ -190,8 +196,49 @@ class Note extends FlxSprite
 				__vertexPos[6] = bottomPos.x + xOffsetBottom;
 				__vertexPos[7] = bottomPos.y + yOffsetBottom;
 
-				c.drawTriangles(graphic, __vertexPos, __triangles, __uv, null, null, blend, false, antialiasing, colorTransform, shader);
+				c.drawTriangles(_frame.parent, __vertexPos, __triangles, __uv, null, null, blend, false, antialiasing, colorTransform, shader);
 
+				if (endSustain) {
+
+					// draw end sustain
+					topPos.put();
+					topPos = bottomPos;
+					bottomPos = FlxPoint.get(topPos.x + (__angleSin * _frame.frame.height * scale.y), topPos.y + (__angleCos * _frame.frame.height * scale.y));
+					_frame = oldFrame;
+
+					var xOffset = (width / 2) * __angleCos;
+					var yOffset = (width / 2) * __angleSin;
+	
+					var uv = _frame.uv;
+	
+					// tl
+					__uv[0] = uv.x;
+					__uv[1] = uv.y;
+					// tr
+					__uv[2] = uv.width;
+					__uv[3] = uv.y;
+					// bl
+					__uv[4] = uv.x;
+					__uv[5] = uv.height;
+					// br
+					__uv[6] = uv.width;
+					__uv[7] = uv.height;
+	
+					// tl
+					__vertexPos[0] = topPos.x - xOffset;
+					__vertexPos[1] = topPos.y - yOffset;
+					// tr
+					__vertexPos[2] = topPos.x + xOffset;
+					__vertexPos[3] = topPos.y + yOffset;
+					// bl
+					__vertexPos[4] = bottomPos.x - xOffset;
+					__vertexPos[5] = bottomPos.y - yOffset;
+					// br
+					__vertexPos[6] = bottomPos.x + xOffset;
+					__vertexPos[7] = bottomPos.y + yOffset;
+	
+					c.drawTriangles(_frame.parent, __vertexPos, __triangles, __uv, null, null, blend, false, antialiasing, colorTransform, shader);
+				}
 				topPos.put();
 				bottomPos.put();
 			}

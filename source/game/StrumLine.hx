@@ -103,7 +103,7 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 				justReleasedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justReleased];
 			} else {
 				notesPerStrum.nullify();
-				additionalPressedNotes.nullify([]);
+				additionalPressedNotes = [for(i in 0...length) []];
 				pressedSustains = [];
 				justPressedArray.nullify(false);
 				pressedArray.nullify(false);

@@ -35,6 +35,8 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [ ] Make the songs actually finishable
     - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
     - [ ] Modchart class with callbacks & stuff
+    - [ ] Beginning countdown (3 2 1 go)
+    - [ ] Make combo ratings show up
 - [ ] Menus
     - [ ] Update Freeplay to use icons & config.json
     - [ ] Update Story Menu to a better format

@@ -67,6 +67,7 @@ class Conductor extends FlxBasic {
 	public var onBeat:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
 	public var onStep:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
 	public var onMeasure:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+	public var onFinished:FlxTypedSignal<Void->Void> = new FlxTypedSignal<Void->Void>();
 
 	public function new() {
 		super();
@@ -190,6 +191,11 @@ class Conductor extends FlxBasic {
 		return sounds.sounds.length > 0 && sounds.sounds[0].playing;
 	}
 
+	public function setFinishedCallback(callback:Void->Void) {
+		if (sounds.sounds.length > 0)
+			sounds.sounds[0].onComplete = callback;
+	}
+
 	public function load(path:String, forceReplay:Bool = false, ?additionalTracks:Array<String>, ?bpmDefPath:String) {
 		if (forceReplay || curPlayingPath != path) {
 			if (bpmDefPath == null)
@@ -234,6 +240,8 @@ class Conductor extends FlxBasic {
 				sound.persist = true;
 				sounds.add(sound);
 			}
+			if (sounds.sounds.length > 0)
+				sounds.sounds[0].onComplete = onFinished.dispatch;
 		}
 	}
 

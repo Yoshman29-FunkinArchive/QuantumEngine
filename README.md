@@ -30,9 +30,11 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] New Note system
     - [x] Add sustains to the note system
     - [x] Add score, misses & accuracy
-    - [ ] Add healthbar & icons
-    - [ ] Add Game Over screen
+    - [x] Add healthbar & icons
+    - [x] Add Game Over screen
     - [ ] Make the songs actually finishable
+    - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
+    - [ ] Modchart class with callbacks & stuff
 - [ ] Menus
     - [ ] Update Freeplay to use icons & config.json
     - [ ] Update Story Menu to a better format
@@ -40,6 +42,7 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
     - [ ] Add Separate save for Options
     - [ ] Add Options
+- [ ] Discord RPC
 
 ## TODONT LIST:
 

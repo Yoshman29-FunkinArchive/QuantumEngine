@@ -1,4 +1,5 @@
 package game;
+import menus.FreeplayState;
 import flixel.FlxSubState;
 import menus.PauseSubState;
 import flixel.path.FlxPathfinder.FlxTypedPathfinder;
@@ -179,8 +180,14 @@ class PlayState extends MusicBeatState
 		stats.onChange.add((_) -> updateScore());
 		updateScore();
 
+		Conductor.instance.onFinished.addOnce(onSongFinished);
 		Conductor.instance.play();
 		persistentUpdate = true;
+	}
+
+	public function onSongFinished() {
+		// TODO: story progression & stuff
+		FlxG.switchState(new FreeplayState());
 	}
 
 	public function updateScore() {

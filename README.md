@@ -32,19 +32,20 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Add score, misses & accuracy
     - [x] Add healthbar & icons
     - [x] Add Game Over screen
-    - [ ] Make the songs actually finishable
+    - [x] Make the songs actually finishable
     - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
     - [ ] Modchart class with callbacks & stuff
     - [ ] Beginning countdown (3 2 1 go)
     - [ ] Make combo ratings show up
-- [ ] Menus
-    - [ ] Update Freeplay to use icons & config.json
-    - [ ] Update Story Menu to a better format
 - [ ] Save & Options
     - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
     - [ ] Add Separate save for Options
     - [ ] Add Options
 - [ ] Discord RPC
+- [ ] Baldi Funkin
+- [ ] Menus
+    - [ ] Update Freeplay to use icons & config.json
+    - [ ] Update Story Menu to a better format
 
 ## TODONT LIST:
 

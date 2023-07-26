@@ -86,7 +86,7 @@ class PlayState extends MusicBeatState
 
 		for(strLine in SONG.strumLines) {
 			var strumLine:StrumLine = null;
-			strumLines.add(strumLine);
+			strumLines.add(strumLine = new StrumLine(FlxG.width * strLine.xPos, 50 + (Note.swagWidth / 2), strLine));
 			strumLine.visible = strLine.visible;
 
 			if (strLine.character != null) {

@@ -39,7 +39,6 @@ class Main extends Sprite
 		Conductor.init();
 		FunkinCache.init();
 		AssetLibraryTree.init();
-		Controls.init();
 		// configure the replacement for the cache
 		FlxG.bitmap.configure();
 

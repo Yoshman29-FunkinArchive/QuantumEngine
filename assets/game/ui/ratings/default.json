@@ -1,0 +1,66 @@
+[
+    {
+        "name": "ratings-sick",
+        "anim": "sick"
+    },
+    {
+        "name": "ratings-good",
+        "anim": "good"
+    },
+    {
+        "name": "ratings-bad",
+        "anim": "bad"
+    },
+    {
+        "name": "ratings-sick",
+        "anim": "sick"
+    },
+
+
+    {
+        "name": "combo",
+        "anim": "combo"
+    },
+
+    
+    {
+        "name": "num0",
+        "anim": "num0"
+    },
+    {
+        "name": "num1",
+        "anim": "num1"
+    },
+    {
+        "name": "num2",
+        "anim": "num2"
+    },
+    {
+        "name": "num3",
+        "anim": "num3"
+    },
+    {
+        "name": "num4",
+        "anim": "num4"
+    },
+    {
+        "name": "num5",
+        "anim": "num5"
+    },
+    {
+        "name": "num6",
+        "anim": "num6"
+    },
+    {
+        "name": "num7",
+        "anim": "num7"
+    },
+    {
+        "name": "num8",
+        "anim": "num8"
+    },
+    {
+        "name": "num9",
+        "anim": "num9"
+    }
+]

@@ -58,6 +58,11 @@ class Chart {
 	public var opponentIcon:String = "test";
 
 	/**
+	 * Rating skin
+	 */
+	public var ratingSkin:String = "default";
+
+	/**
 	 * Load a chart from a specified song
 	 * @param song Song
 	 * @param difficulty Difficulty

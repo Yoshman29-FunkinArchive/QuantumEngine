@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="default.png">
+	<!-- Created with Adobe Animate version 21.0.1.37179 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="bad.png" x="2" y="2" width="261" height="131"/>
+	<SubTexture name="combo.png" x="265" y="2" width="343" height="138"/>
+	<SubTexture name="good.png" x="610" y="2" width="317" height="126"/>
+	<SubTexture name="num0.png" x="2" y="142" width="94" height="119"/>
+	<SubTexture name="num1.png" x="98" y="142" width="98" height="120"/>
+	<SubTexture name="num2.png" x="198" y="142" width="105" height="129"/>
+	<SubTexture name="num3.png" x="305" y="142" width="102" height="134"/>
+	<SubTexture name="num4.png" x="409" y="142" width="98" height="130"/>
+	<SubTexture name="num5.png" x="509" y="142" width="111" height="135"/>
+	<SubTexture name="num6.png" x="622" y="142" width="108" height="134"/>
+	<SubTexture name="num7.png" x="732" y="142" width="91" height="111"/>
+	<SubTexture name="num8.png" x="825" y="142" width="90" height="115"/>
+	<SubTexture name="num9.png" x="917" y="142" width="91" height="124"/>
+	<SubTexture name="shit.png" x="2" y="279" width="285" height="163"/>
+	<SubTexture name="sick.png" x="289" y="279" width="403" height="152"/>
+</TextureAtlas>

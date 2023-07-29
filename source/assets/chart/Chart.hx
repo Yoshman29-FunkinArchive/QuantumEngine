@@ -63,6 +63,11 @@ class Chart {
 	public var ratingSkin:String = "default";
 
 	/**
+	 * Rating skin
+	 */
+	public var countdownSkin:String = "default";
+
+	/**
 	 * Load a chart from a specified song
 	 * @param song Song
 	 * @param difficulty Difficulty

@@ -39,7 +39,7 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Scroll speeds
     - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
     - [ ] Modchart class with callbacks & stuff
-    - [ ] Beginning countdown (3 2 1 go)
+    - [x] Beginning countdown (3 2 1 go)
     - [x] Make combo ratings show up
 - [ ] Save & Options
     - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)

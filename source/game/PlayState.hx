@@ -237,11 +237,11 @@ class PlayState extends MusicBeatState
 		super.beatHit();
 
 		if (curBeat < 0) {
-			var s = Paths.sound('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			var s = Paths.sound('game/ui/intro/${SONG.countdownSkin}/intro${Math.abs(curBeat) - 1}');
 			if (Assets.exists(s))
 				FlxG.sound.play(s);
 
-			var p = Paths.image('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			var p = Paths.image('game/ui/intro/${SONG.countdownSkin}/intro${Math.abs(curBeat) - 1}');
 			if (Assets.exists(p)) {
 				var spr = new FlxSprite().loadGraphic(p);
 				spr.screenCenter();

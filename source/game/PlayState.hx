@@ -1,4 +1,5 @@
 package game;
+import flixel.tweens.FlxTween;
 import menus.FreeplayState;
 import flixel.FlxSubState;
 import menus.PauseSubState;
@@ -187,8 +188,19 @@ class PlayState extends MusicBeatState
 		updateScore();
 
 		Conductor.instance.onFinished.addOnce(onSongFinished);
-		Conductor.instance.play();
+		Conductor.instance.songPosition = -Conductor.instance.bpmChanges[0].crochet * 5;
 		persistentUpdate = true;
+
+		// precache
+		
+		for(i in 0...4) {
+			var s = Paths.sound('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			if (Assets.exists(s))
+				FlxG.sound.cache(s);
+			var p = Paths.image('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			if (Assets.exists(p))
+				FlxG.bitmap.add(p);
+		}
 	}
 
 	public function onSongFinished() {
@@ -224,6 +236,27 @@ class PlayState extends MusicBeatState
 	public override function beatHit() {
 		super.beatHit();
 
+		if (curBeat < 0) {
+			var s = Paths.sound('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			if (Assets.exists(s))
+				FlxG.sound.play(s);
+
+			var p = Paths.image('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			if (Assets.exists(p)) {
+				var spr = new FlxSprite().loadGraphic(p);
+				spr.screenCenter();
+				spr.antialiasing = true;
+				spr.cameras = [camHUD];
+				hud.add(spr);
+				FlxTween.tween(spr, {alpha: 0}, Conductor.instance.bpmChanges[0].crochet * 0.001, {
+					onComplete: function(_) {
+						hud.remove(spr, true);
+						spr.destroy();
+					}
+				});
+			}
+		}
+
 		for(cGrp in stage.characterGroups) for(m in cGrp.members) {
 			if (m == null) continue;
 			if (m is Character)
@@ -234,11 +267,19 @@ class PlayState extends MusicBeatState
 	}
 
 	public override function update(elapsed:Float) {
+		if (!Conductor.instance.playing) {
+			if (Conductor.instance.songPosition	< 0) {
+				Conductor.instance.songPosition += elapsed * 1000;
+				Conductor.instance.updateConductor();
+			} else {
+				Conductor.instance.play(true);
+			}
+		}
+
 		super.update(elapsed);
 
 		FlxG.camera.zoom = CoolUtil.fLerp(FlxG.camera.zoom, stage.camZoom, 0.05);
 		camHUD.zoom = CoolUtil.fLerp(camHUD.zoom, 1, 0.05);
-
 		if (Controls.justPressed.PAUSE && canPause)
 			pause();
 	}

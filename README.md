@@ -40,7 +40,7 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
     - [ ] Modchart class with callbacks & stuff
     - [ ] Beginning countdown (3 2 1 go)
-    - [ ] Make combo ratings show up
+    - [x] Make combo ratings show up
 - [ ] Save & Options
     - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
     - [ ] Add Separate save for Options

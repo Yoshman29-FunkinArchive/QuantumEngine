@@ -124,66 +124,70 @@ class Conductor extends FlxBasic {
 				}
 			}
 
-			var latestBPMChange = 0;
-			for(k=>b in bpmChanges) {
-				if (b.songTime > songPosition) break;
-				latestBPMChange = k;
-			}
+			updateConductor();
+		}
+	}
 
-			if (latestBPMChange != bpmChangeID) {
-				bpmChangeID = latestBPMChange;
+	public function updateConductor() {
+		var latestBPMChange = 0;
+		for(k=>b in bpmChanges) {
+			if (b.songTime > songPosition) break;
+			latestBPMChange = k;
+		}
 
-				FlxG.log.notice('CONDUCTOR: new BPM change (ID: ${bpmChangeID}): ${bpmChanges[bpmChangeID]}');
-			}
+		if (latestBPMChange != bpmChangeID) {
+			bpmChangeID = latestBPMChange;
 
-			var curBPMChange = bpmChanges[bpmChangeID];
-			var overheadtime = songPosition - curBPMChange.songTime;
+			FlxG.log.notice('CONDUCTOR: new BPM change (ID: ${bpmChangeID}): ${bpmChanges[bpmChangeID]}');
+		}
 
-			curBPM = curBPMChange.def.bpm;
-			curMeasureFloat = curBPMChange.measureTime + (overheadtime / curBPMChange.measureCrochet);
-			curBeatFloat = curBPMChange.beatTime + (overheadtime / curBPMChange.crochet);
-			curStepFloat = curBPMChange.stepTime + (overheadtime / curBPMChange.stepCrochet);
-			crochet = curBPMChange.crochet;
-			stepCrochet = curBPMChange.stepCrochet;
-			measureCrochet = curBPMChange.measureCrochet;
+		var curBPMChange = bpmChanges[bpmChangeID];
+		var overheadtime = songPosition - curBPMChange.songTime;
 
-			var oldStep = curStep;
-			var oldBeat = curBeat;
-			var oldMeasure = curMeasure;
+		curBPM = curBPMChange.def.bpm;
+		curMeasureFloat = curBPMChange.measureTime + (overheadtime / curBPMChange.measureCrochet);
+		curBeatFloat = curBPMChange.beatTime + (overheadtime / curBPMChange.crochet);
+		curStepFloat = curBPMChange.stepTime + (overheadtime / curBPMChange.stepCrochet);
+		crochet = curBPMChange.crochet;
+		stepCrochet = curBPMChange.stepCrochet;
+		measureCrochet = curBPMChange.measureCrochet;
 
-			curMeasure = Math.floor(curMeasureFloat);
-			curBeat = Math.floor(curBeatFloat);
-			curStep = Math.floor(curStepFloat);
+		var oldStep = curStep;
+		var oldBeat = curBeat;
+		var oldMeasure = curMeasure;
 
-			if (oldStep != curStep) {
-				if (curStep > oldStep)
-					for(i in (oldStep+1)...(curStep+1))
-						onStep.dispatch(i);
-				else
-					onStep.dispatch(curStep);
-			}
+		curMeasure = Math.floor(curMeasureFloat);
+		curBeat = Math.floor(curBeatFloat);
+		curStep = Math.floor(curStepFloat);
 
-			if (oldBeat != curBeat) {
-				if (curBeat > oldBeat)
-					for(i in (oldBeat+1)...(curBeat+1))
-						onBeat.dispatch(i);
-				else
-					onBeat.dispatch(curBeat);
-			}
+		if (oldStep != curStep) {
+			if (curStep > oldStep)
+				for(i in (oldStep+1)...(curStep+1))
+					onStep.dispatch(i);
+			else
+				onStep.dispatch(curStep);
+		}
 
-			if (oldMeasure != curMeasure) {
-				if (curMeasure > oldMeasure)
-					for(i in (oldMeasure+1)...(curMeasure+1))
-						onMeasure.dispatch(i);
-				else
-					onMeasure.dispatch(curMeasure);
-			}
+		if (oldBeat != curBeat) {
+			if (curBeat > oldBeat)
+				for(i in (oldBeat+1)...(curBeat+1))
+					onBeat.dispatch(i);
+			else
+				onBeat.dispatch(curBeat);
+		}
 
-			var curVolume:Float = FlxG.sound.muted ? 0 : FlxG.sound.volume;
-			if (__lastVolume != curVolume) {
-				__lastVolume = curVolume;
-				sounds.volume = FlxG.sound.muted ? 0 : 1;
-			}
+		if (oldMeasure != curMeasure) {
+			if (curMeasure > oldMeasure)
+				for(i in (oldMeasure+1)...(curMeasure+1))
+					onMeasure.dispatch(i);
+			else
+				onMeasure.dispatch(curMeasure);
+		}
+
+		var curVolume:Float = FlxG.sound.muted ? 0 : FlxG.sound.volume;
+		if (__lastVolume != curVolume) {
+			__lastVolume = curVolume;
+			sounds.volume = FlxG.sound.muted ? 0 : 1;
 		}
 	}
 

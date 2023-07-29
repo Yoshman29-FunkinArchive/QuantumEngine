@@ -19,6 +19,9 @@ it does the job + has extensible code, however no mods folder since its what cau
 - [ ] New chart system
     - [x] Create chart system
     - [ ] Make it read chart formats for **Psych / Base Game**
+        - [x] Parse metadata
+        - [x] Parse notes
+        - [ ] Parse events
     - [ ] Make it read chart formats for **Codename**
 - [ ] Complete PlayState rewrite
     - [x] Rewrite controls
@@ -33,6 +36,7 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Add healthbar & icons
     - [x] Add Game Over screen
     - [x] Make the songs actually finishable
+    - [x] Scroll speeds
     - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
     - [ ] Modchart class with callbacks & stuff
     - [ ] Beginning countdown (3 2 1 go)

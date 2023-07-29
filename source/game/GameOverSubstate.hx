@@ -35,7 +35,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.follow(camFollow, LOCKON, 0.01);
 
 		char.playDeathAnim(function() {
-			Conductor.instance.loadAndPlay('game/gameover/gameOver', true);
+			if (!isEnding)
+				Conductor.instance.loadAndPlay('game/gameover/gameOver', true);
 		});
 	}
 

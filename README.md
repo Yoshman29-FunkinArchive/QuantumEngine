@@ -23,7 +23,7 @@ it does the job + has extensible code, however no mods folder since its what cau
         - [x] Parse notes
         - [ ] Parse events
     - [ ] Make it read chart formats for **Codename**
-- [ ] Complete PlayState rewrite
+- [x] Complete PlayState rewrite
     - [x] Rewrite controls
     - [x] New chart parser
     - [x] New stage system based on FlxGroups
@@ -39,7 +39,7 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Pause Menu
     - [x] Scroll speeds
     - [x] Cutscenes
-    - [ ] End Cutscene
+    - [x] End Cutscene
     - [x] Modchart class with callbacks & stuff
     - [x] Beginning countdown (3 2 1 go)
     - [x] Make combo ratings show up

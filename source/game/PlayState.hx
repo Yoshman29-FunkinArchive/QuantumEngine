@@ -49,12 +49,15 @@ class PlayState extends MusicBeatState
 	public var camTarget:FlxObject;
 
 	public var canPause:Bool = true;
+	public var songEnding:Bool = false;
 
 	public var health(default, set):Float = 0.5;
 
 	public var modchartHandler:Modchart;
 
 	public override function create() {
+		SONG.endCutscene = CVideo("testVideo");
+
 		if (SONG.cutscene != null && SONG.cutscene != CNone)
 			FlxTransitionableState.skipNextTransIn = true; // TODO: custom transition system
 
@@ -212,7 +215,7 @@ class PlayState extends MusicBeatState
 		stats.onChange.add((_) -> updateScore());
 		updateScore();
 
-		Conductor.instance.onFinished.addOnce(onSongFinished);
+		Conductor.instance.onFinished.addOnce(playEndCutscene);
 		Conductor.instance.songPosition = -Conductor.instance.bpmChanges[0].crochet * 5;
 		persistentUpdate = true;
 
@@ -229,16 +232,32 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	function playEndCutscene() {
+		Conductor.instance.stop();
+		Conductor.instance.unload();
+		songEnding = true;
+		playCutscene(SONG.endCutscene, true);
+		if (subState != null && subState is Cutscene) {
+			onSongFinished();
+		}
+	}
+
 	public override function postCreate() {
-		if (SONG.cutscene != null) {
-			switch(SONG.cutscene) {
+		playCutscene(SONG.cutscene);
+		modchartHandler.postCreate();
+	}
+
+	function playCutscene(cutscene:ChartCutscene, out:Bool = false) {
+		if (cutscene != null) {
+			switch(cutscene) {
 				case CVideo(path):
 					openSubState(new game.cutscenes.VideoCutscene(Paths.video(path)));
+					if (out)
+						FlxTransitionableState.skipNextTransOut = true;
 				default:
 					// nothing
 			}
 		}
-		modchartHandler.postCreate();
 	}
 
 	public function onSongFinished() {
@@ -346,6 +365,8 @@ class PlayState extends MusicBeatState
 		if (subState is PauseSubState) {
 			// resume game
 			Conductor.instance.resume();
+		} else if (subState is Cutscene && songEnding) {
+			onSongFinished();
 		}
 		super.closeSubState();
 	}

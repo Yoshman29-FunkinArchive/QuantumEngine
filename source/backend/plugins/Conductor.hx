@@ -205,14 +205,7 @@ class Conductor extends FlxBasic {
 			if (bpmDefPath == null)
 				bpmDefPath = path;
 
-			while(sounds.sounds.length > 0) {
-				var snd = sounds.sounds[sounds.sounds.length-1];
-				snd.stop();
-				sounds.remove(snd);
-				snd.destroy();
-			}
-
-			__resetVars();
+			unload();
 
 			bpmDefPath = Paths.bpmDef(bpmDefPath);
 			bpmChanges = Assets.exists(bpmDefPath) ? parseBpmDefinitionFromFile(bpmDefPath) : [{
@@ -249,6 +242,16 @@ class Conductor extends FlxBasic {
 		}
 	}
 
+	public function unload() {
+		while(sounds.sounds.length > 0) {
+			var snd = sounds.sounds[sounds.sounds.length-1];
+			snd.stop();
+			sounds.remove(snd);
+			snd.destroy();
+		}
+
+		__resetVars();
+	}
 	/*
 		SHADOW FUNCTIONS
 	*/

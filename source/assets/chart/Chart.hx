@@ -78,6 +78,11 @@ class Chart {
 	 */
 	public var cutscene:ChartCutscene = CNone;
 
+	/*
+	 * Cutscene
+	 */
+	public var endCutscene:ChartCutscene = CNone;
+
 	/**
 	 * Load a chart from a specified song
 	 * @param song Song

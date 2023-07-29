@@ -158,7 +158,7 @@ class PlayState extends MusicBeatState
 			strumLine.notes.sortNotes();
 
 			#if debug
-			FlxG.debugger.track(strumLine, 'Strumline #${strumLines.length} - ${strLine.character != null ? Type.getClassName(strLine.character.character) : "(No char)"}');
+			FlxG.debugger.track(strumLine, 'Strumline #${strumLines.length} - ${strLine.character != null ? Type.getClassName(strLine.character.character).replace("game.characters.", null) : "(No char)"}');
 			#end
 		}
 

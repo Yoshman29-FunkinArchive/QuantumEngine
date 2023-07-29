@@ -56,8 +56,6 @@ class PlayState extends MusicBeatState
 	public var modchartHandler:Modchart;
 
 	public override function create() {
-		SONG.endCutscene = CVideo("testVideo");
-
 		if (SONG.cutscene != null && SONG.cutscene != CNone)
 			FlxTransitionableState.skipNextTransIn = true; // TODO: custom transition system
 

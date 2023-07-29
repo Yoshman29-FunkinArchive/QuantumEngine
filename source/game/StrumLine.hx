@@ -22,6 +22,19 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 
 	public var vocalTracks:Array<ConductorSound> = [];
 
+	#if debug
+	public var __notesIndex(get, null):String;
+
+	public inline function get___notesIndex()
+		@:privateAccess
+		return '${notes.lastUpdateID} / ${notes.length}';
+
+	public var __vocalsMuted(get, null):Bool;
+	public inline function get___vocalsMuted()
+		@:privateAccess
+		return vocalTracks.length > 0 && vocalTracks[0].volume <= 0;
+	#end
+
 	public function new(x:Float, y:Float, strLine:ChartStrumLine) {
 		super();
 		this.x = x;

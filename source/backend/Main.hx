@@ -1,5 +1,6 @@
 package backend;
 
+import game.StrumLine;
 import flixel.sound.FlxSoundGroup;
 import flixel.system.debug.Window;
 import flixel.system.debug.watch.Tracker.TrackerProfile;
@@ -79,6 +80,8 @@ class Main extends Sprite
 		// FUNKIN CACHE
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(FunkinCacheTracker, ["cachedBitmaps", "cachedSounds", "cachedFonts", "cachedFlixelGraphics"]));
 		windows.push(cast(FlxG.debugger.track(new FunkinCacheTracker()), Tracker));
+		
+		FlxG.debugger.addTrackerProfile(new TrackerProfile(StrumLine, ["controlsArray", "cpu", "justPressedArray", "pressedArray", "justReleasedArray", "__notesIndex", "__vocalsMuted"]));
 
 
 		// REMOVING AUTO CLOSE

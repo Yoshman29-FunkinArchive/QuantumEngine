@@ -19,7 +19,7 @@ class RatingGroup extends FlxTypedGroup<RatingSprite> {
         @:privateAccess
         members = CoolUtil.allocArray(length = 50);
         
-        for(i in 0...30) {
+        for(i in 0...length) {
             __sprite = new RatingSprite();
             __sprite.loadFrames('game/ui/ratings/${PlayState.SONG.ratingSkin}');
             __sprite.visible = false;

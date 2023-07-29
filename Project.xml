@@ -58,7 +58,7 @@
 	<haxelib name="flixel" />
 	<haxedev set='webgl' />
 	<haxelib name="flixel-addons" />
-	<haxelib name="hscript" />
+	<haxelib name="hscript-improved" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxanimate" />
 	<haxelib name="hxCodec"/>
@@ -102,6 +102,8 @@
 	<haxeflag name="--macro" value="include('game.stages')" />
 	<haxeflag name="--macro" value="include('game.notes')" />
 	<haxeflag name="--macro" value="include('game.strum')" />
+	
+	<haxedef name="hscriptPos" /> <!-- for logging -->
 
 	<!-- _____________________________ Engine Defines ___________________________ -->
 	

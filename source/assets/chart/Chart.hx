@@ -26,7 +26,7 @@ class Chart {
 	/**
 	 * Stage used in this song
 	 */
-	public var modcharts:Array<Class<Modchart>> = [];
+	public var modcharts:Array<ChartModchart> = [];
 
 	/**
 	 * All audio files paths used for the instrumental of this song (do not put in Paths.sound)
@@ -117,14 +117,20 @@ class Chart {
 				break;
 
 		for(modchart in chartFile.songMeta.modcharts) {
-			var cl:Class<Modchart> = null;
-			for(classPath in ['game.modcharts.${modchart}', modchart])
-				if ((cl = cast Type.resolveClass(classPath)) != null)
-					break;
-			if (cl == null)
-				FlxG.log.warn('Modchart "${modchart}" not found.');
-			else
-				chartFile.modcharts.push(cl);
+			if (modchart.length <= 0) continue;
+
+			if (modchart.charAt(0) == modchart.charAt(0).toUpperCase()) {
+				var cl:Class<Modchart> = null;
+				for(classPath in ['game.modcharts.${modchart}', modchart])
+					if ((cl = cast Type.resolveClass(classPath)) != null)
+						break;
+				if (cl == null)
+					FlxG.log.warn('Modchart "${modchart}" not found.');
+				else
+					chartFile.modcharts.push(SClass(cl));
+			} else {
+				chartFile.modcharts.push(SHScript(Assets.exists(Paths.hx('songs/$lSong/$modchart')) ? 'songs/$lSong/$modchart' : modchart));
+			}
 		}
 
 		chartFile.healthBar = (cl == null) ? HealthBar : cl;
@@ -202,4 +208,9 @@ enum ChartCutscene {
 	CNone;
 	CVideo(path:String);
 	CCustom(cutscene:game.cutscenes.Cutscene);
+}
+
+enum ChartModchart {
+	SClass(cl:Class<Modchart>);
+	SHScript(path:String);
 }

@@ -1,4 +1,5 @@
 package game;
+import game.modcharts.HScriptModchart;
 import game.modcharts.ModchartGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxTween;
@@ -95,8 +96,16 @@ class PlayState extends MusicBeatState
 		// SETTING UP CHART RELATED STUFF
 		add(stage = Type.createInstance(SONG.stage, []));
 
-		for(m in SONG.modcharts)
-			modcharts.modcharts.push(Type.createInstance(m, []));
+		for(m in SONG.modcharts) {
+			switch(m) {
+				case SClass(cl):
+					modcharts.modcharts.push(Type.createInstance(cl, []));
+				case SHScript(path):
+					modcharts.modcharts.push(new HScriptModchart(path));
+				default:
+					// nuh uh
+			}
+		}
 
 		modchartHandler.create();
 

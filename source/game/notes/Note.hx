@@ -92,15 +92,27 @@ class Note extends FlxSprite
 	}
 
 	public function updateInput() {
+		if (endSustain) {
+			canBeHit = tooLate = false;
+			if (Conductor.instance.songPosition > time + __endSusLen)
+				delete();
+			return;
+		}
+
 		canBeHit = (time > Conductor.instance.songPosition - latePressWindow && time < Conductor.instance.songPosition + earlyPressWindow);
 
 		if (time < Conductor.instance.songPosition - missWindow && !wasGoodHit)
 			tooLate = true;
 	}
 
+	var __lastStrum:Strum;
+	var __endSusLen:Float = 0;
 	public function updatePosition(strum:Strum) {
+		__lastStrum = strum;
+		if (endSustain)
+			__endSusLen = ((_frame.frame.height * scale.y) / (prevNote.sustainLength * __lastStrum.speed) * prevNote.sustainLength);
 		// TODO: scroll speed and angle support
-		var yOffset:Float = ((time - Conductor.instance.songPosition) / 1);
+		var yOffset:Float = ((time - Conductor.instance.songPosition) * strum.speed);
 		this.setPosition(strum.x, strum.y + yOffset);
 	}
 
@@ -147,25 +159,43 @@ class Note extends FlxSprite
 			FlxBasic.visibleCount++;
 			#end	
 			for(c in cameras) {
-				var oldFrame = _frame;
-				if (endSustain)
-					_frame = prevNote.frame;
-
-				var topPos = prevNote.getScreenPosition(FlxPoint.get(), c);
-				var bottomPos = getScreenPosition(FlxPoint.get(), c);
-
+				var topPos:FlxPoint;
+				var bottomPos:FlxPoint;
+				var xOffsetTop:Float = 0;
+				var yOffsetTop:Float = 0;
+				var xOffsetBottom:Float = 0;
+				var yOffsetBottom:Float = 0;
 				var ratio:Float = 0;
-				if (!prevNote.exists) {
-					ratio = FlxMath.bound((Conductor.instance.songPosition - prevNote.time) / (time - prevNote.time), 0, 1);
+				
+				if (endSustain) {
+					topPos = getScreenPosition(FlxPoint.get(), c);
+					bottomPos = FlxPoint.get(topPos.x + (__angleSin * _frame.frame.height * scale.y), topPos.y + (__angleCos * _frame.frame.height * scale.y));
+
+					ratio = FlxMath.bound((Conductor.instance.songPosition - time) / __endSusLen, 0, 1);
 
 					topPos.x = FlxMath.lerp(topPos.x, bottomPos.x, ratio);
 					topPos.y = FlxMath.lerp(topPos.y, bottomPos.y, ratio);
-				}
 
-				var xOffsetTop = (width / 2) * prevNote.__angleCos;
-				var yOffsetTop = (width / 2) * prevNote.__angleSin;
-				var xOffsetBottom = (width / 2) * __angleCos;
-				var yOffsetBottom = (width / 2) * __angleSin;
+
+					xOffsetTop = xOffsetBottom = (width / 2) * __angleCos;
+					yOffsetTop = yOffsetBottom = (width / 2) * __angleSin;
+				} else {
+					topPos = prevNote.getScreenPosition(FlxPoint.get(), c);
+					bottomPos = getScreenPosition(FlxPoint.get(), c);
+
+					if (!prevNote.exists) {
+						ratio = FlxMath.bound((Conductor.instance.songPosition - prevNote.time) / (time - prevNote.time), 0, 1);
+
+						topPos.x = FlxMath.lerp(topPos.x, bottomPos.x, ratio);
+						topPos.y = FlxMath.lerp(topPos.y, bottomPos.y, ratio);
+					}
+
+					xOffsetTop = (width / 2) * prevNote.__angleCos;
+					yOffsetTop = (width / 2) * prevNote.__angleSin;
+					xOffsetBottom = (width / 2) * __angleCos;
+					yOffsetBottom = (width / 2) * __angleSin;
+					
+				}
 
 				var uv = _frame.uv;
 				var uvY = FlxMath.lerp(uv.y, uv.height, ratio);
@@ -197,48 +227,10 @@ class Note extends FlxSprite
 				__vertexPos[7] = bottomPos.y + yOffsetBottom;
 
 				c.drawTriangles(_frame.parent, __vertexPos, __triangles, __uv, null, null, blend, false, antialiasing, colorTransform, shader);
+				
+				topPos.put();
+				bottomPos.put();
 
-				if (endSustain) {
-
-					// draw end sustain
-					topPos.put();
-					topPos = bottomPos;
-					bottomPos = FlxPoint.get(topPos.x + (__angleSin * _frame.frame.height * scale.y), topPos.y + (__angleCos * _frame.frame.height * scale.y));
-					_frame = oldFrame;
-
-					var xOffset = (width / 2) * __angleCos;
-					var yOffset = (width / 2) * __angleSin;
-	
-					var uv = _frame.uv;
-	
-					// tl
-					__uv[0] = uv.x;
-					__uv[1] = uv.y;
-					// tr
-					__uv[2] = uv.width;
-					__uv[3] = uv.y;
-					// bl
-					__uv[4] = uv.x;
-					__uv[5] = uv.height;
-					// br
-					__uv[6] = uv.width;
-					__uv[7] = uv.height;
-	
-					// tl
-					__vertexPos[0] = topPos.x - xOffset;
-					__vertexPos[1] = topPos.y - yOffset;
-					// tr
-					__vertexPos[2] = topPos.x + xOffset;
-					__vertexPos[3] = topPos.y + yOffset;
-					// bl
-					__vertexPos[4] = bottomPos.x - xOffset;
-					__vertexPos[5] = bottomPos.y - yOffset;
-					// br
-					__vertexPos[6] = bottomPos.x + xOffset;
-					__vertexPos[7] = bottomPos.y + yOffset;
-	
-					c.drawTriangles(_frame.parent, __vertexPos, __triangles, __uv, null, null, blend, false, antialiasing, colorTransform, shader);
-				}
 				topPos.put();
 				bottomPos.put();
 			}

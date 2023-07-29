@@ -31,7 +31,7 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 		this.notes = new NoteGroup();
 
 		for(i in 0...4) {
-			add(new DefaultStrum(this, (-1.50 + i) * Note.swagWidth, 0, i, cpu));
+			add(new DefaultStrum(this, (-1.50 + i) * Note.swagWidth, 0, i, cpu, strLine.speed));
 		}
 	}
 

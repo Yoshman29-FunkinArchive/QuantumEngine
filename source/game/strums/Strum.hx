@@ -7,10 +7,13 @@ class Strum extends FlxSprite {
 	public var lastHitTime:Float = -5000;
 	public var parent:StrumLine;
 
-	public function new(parent:StrumLine, x:Float, y:Float, id:Int, cpu:Bool) {
+	public var speed:Float = 1;
+
+	public function new(parent:StrumLine, x:Float, y:Float, id:Int, cpu:Bool, speed:Float) {
 		super(x, y);
 		this.parent = parent;
 		this.id = id;
+		this.speed = speed;
 		create();
 		animation.play("static");
 	}

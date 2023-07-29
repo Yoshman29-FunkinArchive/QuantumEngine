@@ -137,9 +137,11 @@ class PlayState extends MusicBeatState
 					var curCrochet:Float = (SONG.bpmChanges.getTimeForStep(SONG.bpmChanges.getStepForTime(note.time) + 1) - note.time);
 					var am = Math.ceil(note.sustainLength / curCrochet);
 					for(index in 1...am) {
-						n = Type.createInstance(note.type, [strumLine, note, true, index * curCrochet, curCrochet, index == am-1]);
+						n = Type.createInstance(note.type, [strumLine, note, true, index * curCrochet, curCrochet, false]);
 						strumLine.notes.members[i++] = n;
 					}
+					n = Type.createInstance(note.type, [strumLine, note, true, (am-1) * curCrochet, curCrochet, true]);
+					strumLine.notes.members[i++] = n;
 				}
 			}
 

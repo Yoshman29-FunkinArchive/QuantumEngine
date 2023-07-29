@@ -18,6 +18,8 @@ class BaseGameParser {
 		chart.playerIcon = data.player1;
 		chart.opponentIcon = data.player2;
 
+		p1.speed = p2.speed = data.speed * 0.45;
+
 
 		var gf:ChartStrumLine = null;
 
@@ -29,6 +31,7 @@ class BaseGameParser {
 			gf.visible = false;
 			gf.xPos = 0.5;
 			gf.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.gfVersion), GIRLFRIEND);
+			gf.speed = p1.speed;
 			chart.strumLines.push(gf);
 		}
 

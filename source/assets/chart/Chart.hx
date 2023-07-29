@@ -128,6 +128,7 @@ class ChartStrumLine {
 	public var xPos:Float = 0.25;
 	public var character:ChartCharacter = new ChartCharacter(SpriteCharacter);
 	public var visible:Bool = true;
+	public var speed:Float = 1;
 
 	public var notes:Array<ChartNote> = [];
 

@@ -35,6 +35,7 @@ class PlayState extends MusicBeatState
 	public var hud:FlxGroup;
 	public var scoreTxt:FlxText;
 	public var healthBar:HealthBar;
+	public var ratings:RatingGroup;
 
 	public var strumLines:FlxTypedGroup<StrumLine> = new FlxTypedGroup<StrumLine>(); // make it a group maybe
 

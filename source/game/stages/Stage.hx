@@ -10,6 +10,8 @@ class Stage extends FlxGroup {
 
 	public var camZoom:Float = 0.9;
 
+	public var ratings:RatingGroup;
+
 	public function new() {
 		super();
 		Conductor.instance.onBeat.add(beatHit);
@@ -17,6 +19,9 @@ class Stage extends FlxGroup {
 		Conductor.instance.onMeasure.add(measureHit);
 
 		create();
+
+		if (ratings == null)
+			addRatingGroup((FlxG.width * 0.55) - 40, (FlxG.height * 0.5) - 60);
 	}
 
 	public function create() {
@@ -25,6 +30,10 @@ class Stage extends FlxGroup {
 
 	public function addCharGroup(x:Float, y:Float, name:String, flip:Bool = false, scrollX:Float = 1, scrollY:Float = 1) {
 		add(characterGroups[name] = new CharGroup(x, y, flip, scrollX, scrollY));
+	}
+
+	public function addRatingGroup(x:Float, y:Float) {
+		add(ratings = new RatingGroup(x, y));
 	}
 
 	public override function destroy() {
@@ -46,7 +55,6 @@ class Stage extends FlxGroup {
 }
 
 class CharGroup extends FlxGroup {
-
 	public var x:Float;
 	public var y:Float;
 

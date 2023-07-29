@@ -12,6 +12,7 @@ class GameStats {
 	public var misses(get, set):Int;
 	public var accuracy(get, null):Float;
 	public var healthMultiplier:Float = 1;
+	public var combo:Int = 0;
 
 	// PRIVATE VARIABLES
 	private var _score:Int = 0;
@@ -84,16 +85,24 @@ class GameStats {
 				// no need to update
 				return;
 		}
+
+		combo++;
+		showRating(Std.string(rating));
 		PlayState.instance.health += 0.0115 * healthMultiplier;
 
 		onChange.dispatch(this);
 	}
 
+	public function showRating(rating:String) {
+		PlayState.instance.stage.ratings.showRating(rating, combo);
+	}
 	public function miss() {
 		_misses++;
 		_accuracy_amount += 1;
 		PlayState.instance.health -= 0.02375 * healthMultiplier;
 
+		if (combo != (combo = 0))
+			showRating(null);
 		onChange.dispatch(this);
 	}
 

@@ -1,5 +1,6 @@
 package backend;
 
+import save.EngineSettings.ControlData;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.input.actions.FlxActionInput.FlxInputDeviceID;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -7,23 +8,27 @@ import flixel.input.keyboard.FlxKey;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 
 class Controls {
-	public static var controls:Map<String, ActionControl> = [
-		// UI
-		"LEFT" => new ActionControl("ui_left", [FlxKey.LEFT, FlxKey.A]),
-		"DOWN" => new ActionControl("ui_down", [FlxKey.DOWN, FlxKey.S]),
-		"UP" => new ActionControl("ui_up", [FlxKey.UP, FlxKey.W]),
-		"RIGHT" => new ActionControl("ui_right", [FlxKey.RIGHT, FlxKey.D]),
-		"ACCEPT" => new ActionControl("ui_accept", [FlxKey.ENTER]),
-		"BACK" => new ActionControl("ui_back", [FlxKey.ESCAPE, FlxKey.BACKSPACE]),
+	public static var controls:Map<String, ActionControl> = [];
 
-		// INGAME
-		"NOTE_LEFT" => new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]),
-		"NOTE_DOWN" => new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]),
-		"NOTE_UP" => new ActionControl("note_up", [FlxKey.UP, FlxKey.W]),
-		"NOTE_RIGHT" => new ActionControl("note_right", [FlxKey.RIGHT, FlxKey.D]),
-		"PAUSE" => new ActionControl("pause", [FlxKey.ENTER, FlxKey.P, FlxKey.ESCAPE]),
-		"RESET" => new ActionControl("reset", [FlxKey.R]),
-	];
+	public static function init() {
+		controls = [
+			// UI
+			"LEFT" => new ActionControl("ui_left", [FlxKey.LEFT, FlxKey.A]),
+			"DOWN" => new ActionControl("ui_down", [FlxKey.DOWN, FlxKey.S]),
+			"UP" => new ActionControl("ui_up", [FlxKey.UP, FlxKey.W]),
+			"RIGHT" => new ActionControl("ui_right", [FlxKey.RIGHT, FlxKey.D]),
+			"ACCEPT" => new ActionControl("ui_accept", [FlxKey.ENTER]),
+			"BACK" => new ActionControl("ui_back", [FlxKey.ESCAPE, FlxKey.BACKSPACE]),
+	
+			// INGAME
+			"NOTE_LEFT" => new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]),
+			"NOTE_DOWN" => new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]),
+			"NOTE_UP" => new ActionControl("note_up", [FlxKey.UP, FlxKey.W]),
+			"NOTE_RIGHT" => new ActionControl("note_right", [FlxKey.RIGHT, FlxKey.D]),
+			"PAUSE" => new ActionControl("pause", [FlxKey.ENTER, FlxKey.P, FlxKey.ESCAPE]),
+			"RESET" => new ActionControl("reset", [FlxKey.R]),
+		];
+	}
 
 	public static var pressed:ControlResolver = new ControlResolver(PRESSED);
 	public static var released:ControlResolver = new ControlResolver(RELEASED);
@@ -101,11 +106,28 @@ class ActionControl {
 
 	public var saveID:String;
 
+	public var controlData:ControlData = {
+		keybinds: null
+	};
+
 	public function new(saveID:String, defaultKeys:Array<FlxKey>) {
 		this.saveID = saveID;
-		// TODO: Save keybinds
 
-		for(k in defaultKeys)
+		// try to load 
+		var savedData = SaveManager.settings.controls[saveID];
+
+		if (savedData != null) {
+			controlData.keybinds = savedData.keybinds == null ? defaultKeys.copy() : savedData.keybinds;
+		} else {
+			controlData.keybinds = defaultKeys;
+		}
+
+		trace(savedData, controlData);
+		// save new settings
+		SaveManager.settings.controls[saveID] = controlData;
+
+		// load
+		for(k in controlData.keybinds)
 			addKey(k);
 	}
 

@@ -35,8 +35,8 @@ class Main extends Sprite
 		#end
 
 		// initiating backend shit
-		FlxG.save.bind('funkin', 'ninjamuffin99');
-		Highscore.load();
+		SaveManager.init();
+		Controls.init();
 		Conductor.init();
 		FunkinCache.init();
 		AssetLibraryTree.init();

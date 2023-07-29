@@ -2,7 +2,6 @@ package menus;
 
 import assets.chart.Chart;
 import game.PlayState;
-import backend.Highscore;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -150,7 +149,7 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = 0;
 
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = 0;
 		#end
 
 		switch (curDifficulty)
@@ -176,7 +175,7 @@ class FreeplayState extends MusicBeatState
 			curSelected = 0;
 
 		#if !switch
-		intendedScore = Highscore.getScore(songs[curSelected], curDifficulty);
+		intendedScore = 0;
 		// lerpScore = 0;
 		#end
 

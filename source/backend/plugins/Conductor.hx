@@ -235,6 +235,7 @@ class Conductor extends FlxBasic {
 				var sound = new ConductorSound().loadEmbedded(Paths.sound(e));
 				sound.autoDestroy = false;
 				sound.persist = true;
+				FlxG.sound.list.add(sound);
 				sounds.add(sound);
 			}
 			if (sounds.sounds.length > 0)
@@ -246,6 +247,7 @@ class Conductor extends FlxBasic {
 		while(sounds.sounds.length > 0) {
 			var snd = sounds.sounds[sounds.sounds.length-1];
 			snd.stop();
+			FlxG.sound.list.remove(snd);
 			sounds.remove(snd);
 			snd.destroy();
 		}

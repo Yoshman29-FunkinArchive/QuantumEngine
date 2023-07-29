@@ -3,6 +3,7 @@ package assets.chart;
 import game.HealthBar;
 import game.notes.DefaultNote;
 import game.characters.Character;
+import game.modcharts.Modchart;
 import game.characters.SpriteCharacter;
 import game.notes.Note;
 import game.SongEvent;
@@ -21,6 +22,11 @@ class Chart {
 	 * Stage used in this song
 	 */
 	public var healthBar:Class<HealthBar>;
+
+	/**
+	 * Stage used in this song
+	 */
+	public var modcharts:Array<Class<Modchart>> = [];
 
 	/**
 	 * All audio files paths used for the instrumental of this song (do not put in Paths.sound)
@@ -109,6 +115,17 @@ class Chart {
 		for(classPath in ['game.${chartFile.songMeta.healthBar}', chartFile.songMeta.healthBar])
 			if ((cl = cast Type.resolveClass(classPath)) != null)
 				break;
+
+		for(modchart in chartFile.songMeta.modcharts) {
+			var cl:Class<Modchart> = null;
+			for(classPath in ['game.modcharts.${modchart}', modchart])
+				if ((cl = cast Type.resolveClass(classPath)) != null)
+					break;
+			if (cl == null)
+				FlxG.log.warn('Modchart "${modchart}" not found.');
+			else
+				chartFile.modcharts.push(cl);
+		}
 
 		chartFile.healthBar = (cl == null) ? HealthBar : cl;
 

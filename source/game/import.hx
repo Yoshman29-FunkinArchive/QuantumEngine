@@ -7,5 +7,6 @@ import game.StrumLine;
 import game.HealthIcon;
 import game.characters.Character;
 import game.cutscenes.Cutscene;
+import game.modcharts.Modchart;
 import game.strums.Strum;
 #end

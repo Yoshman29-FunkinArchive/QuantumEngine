@@ -37,7 +37,8 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Add Game Over screen
     - [x] Make the songs actually finishable
     - [x] Scroll speeds
-    - [ ] Cutscenes & End Cutscenes (can be MP4 or anything)
+    - [x] Cutscenes
+    - [ ] End Cutscene
     - [ ] Modchart class with callbacks & stuff
     - [x] Beginning countdown (3 2 1 go)
     - [x] Make combo ratings show up

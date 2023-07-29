@@ -109,11 +109,14 @@ class Note extends FlxSprite
 	var __endSusLen:Float = 0;
 	public function updatePosition(strum:Strum) {
 		__lastStrum = strum;
+		if (angle != strum.angle)
+			angle = strum.angle;
+
 		if (endSustain)
 			__endSusLen = ((_frame.frame.height * scale.y) / (prevNote.sustainLength * __lastStrum.speed) * prevNote.sustainLength);
 		// TODO: scroll speed and angle support
 		var yOffset:Float = ((time - Conductor.instance.songPosition) * strum.speed);
-		this.setPosition(strum.x, strum.y + yOffset);
+		this.setPosition(strum.x - (yOffset * __angleSin), strum.y + (yOffset * __angleCos));
 	}
 
 	public function create() {}
@@ -169,7 +172,7 @@ class Note extends FlxSprite
 				
 				if (endSustain) {
 					topPos = getScreenPosition(FlxPoint.get(), c);
-					bottomPos = FlxPoint.get(topPos.x + (__angleSin * _frame.frame.height * scale.y), topPos.y + (__angleCos * _frame.frame.height * scale.y));
+					bottomPos = FlxPoint.get(topPos.x - (__angleSin * _frame.frame.height * scale.y), topPos.y + (__angleCos * _frame.frame.height * scale.y));
 
 					ratio = FlxMath.bound((Conductor.instance.songPosition - time) / __endSusLen, 0, 1);
 

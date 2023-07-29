@@ -1,4 +1,5 @@
 package game;
+import game.modcharts.ModchartGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxTween;
 import menus.FreeplayState;
@@ -50,9 +51,15 @@ class PlayState extends MusicBeatState
 
 	public var health(default, set):Float = 0.5;
 
+	public var modchartHandler:Modchart;
+
 	public override function create() {
 		if (SONG.cutscene != null && SONG.cutscene != CNone)
 			FlxTransitionableState.skipNextTransIn = true; // TODO: custom transition system
+
+		var modcharts = new ModchartGroup();
+		modchartHandler = modcharts;
+		add(modchartHandler);
 
 		super.create();
 
@@ -87,6 +94,11 @@ class PlayState extends MusicBeatState
 
 		// SETTING UP CHART RELATED STUFF
 		add(stage = Type.createInstance(SONG.stage, []));
+
+		for(m in SONG.modcharts)
+			modcharts.modcharts.push(Type.createInstance(m, []));
+
+		modchartHandler.create();
 
 		var vocalTracks:Array<String> = [];
 
@@ -217,10 +229,12 @@ class PlayState extends MusicBeatState
 					// nothing
 			}
 		}
+		modchartHandler.postCreate();
 	}
 
 	public function onSongFinished() {
 		// TODO: story progression & stuff
+		modchartHandler.onSongFinished();
 		FlxG.switchState(new FreeplayState());
 	}
 
@@ -228,8 +242,14 @@ class PlayState extends MusicBeatState
 		scoreTxt.text = stats.toString();
 	}
 
+	public override function stepHit() {
+		super.stepHit();
+		modchartHandler.stepHit(curStep);
+	}
+
 	public override function measureHit() {
 		super.measureHit();
+		modchartHandler.measureHit(curMeasure);
 
 		FlxG.camera.zoom += 0.015;
 		camHUD.zoom += 0.03;
@@ -251,6 +271,7 @@ class PlayState extends MusicBeatState
 
 	public override function beatHit() {
 		super.beatHit();
+		modchartHandler.beatHit(curBeat);
 
 		if (curBeat < 0) {
 			var s = Paths.sound('game/ui/intro/${SONG.countdownSkin}/intro${Math.abs(curBeat) - 1}');
@@ -306,6 +327,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public function pause() {
+		modchartHandler.onPause();
 		persistentUpdate = false;
 		Conductor.instance.pause();
 		openSubState(new PauseSubState());
@@ -329,6 +351,7 @@ class PlayState extends MusicBeatState
 			persistentUpdate = false;
 			persistentDraw = false;
 		}
+		modchartHandler.onHealthChange();
 	}
 
 	private inline function set_health(v:Float) {

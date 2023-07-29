@@ -96,7 +96,12 @@
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
 	
+	<haxeflag name="--macro" value="include('game.characters')" />
+	<haxeflag name="--macro" value="include('game.cutscenes')" />
+	<haxeflag name="--macro" value="include('game.modcharts')" />
 	<haxeflag name="--macro" value="include('game.stages')" />
+	<haxeflag name="--macro" value="include('game.notes')" />
+	<haxeflag name="--macro" value="include('game.strum')" />
 
 	<!-- _____________________________ Engine Defines ___________________________ -->
 	

@@ -22,6 +22,8 @@ final class SongMeta {
 			d.healthBar = "HealthBar";
 		if (d.scripts == null)
 			d.scripts = [];
+		if (d.modcharts == null)
+			d.modcharts = [];
 
 		return d;
 	}
@@ -44,6 +46,7 @@ typedef SongMetaData = {
 	@:optional var color:FlxColor;
 	@:optional var icon:String;
 	@:optional var difficulties:Array<String>;
+	@:optional var modcharts:Array<String>;
 
 	@:optional var stage:String;
 	@:optional var healthBar:String;

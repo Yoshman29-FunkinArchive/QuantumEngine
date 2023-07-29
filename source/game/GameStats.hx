@@ -95,6 +95,7 @@ class GameStats {
 
 	public function showRating(rating:String) {
 		PlayState.instance.stage.ratings.showRating(rating, combo);
+		PlayState.instance.modchartHandler.onRatingShown();
 	}
 	public function miss() {
 		_misses++;
@@ -104,6 +105,7 @@ class GameStats {
 		if (combo != (combo = 0))
 			showRating(null);
 		onChange.dispatch(this);
+		PlayState.instance.modchartHandler.onMissed();
 	}
 
 	public function toString() {

@@ -266,6 +266,7 @@ class TitleState extends MusicBeatState
 
 	var skippedIntro:Bool = false;
 
+
 	function skipIntro():Void
 	{
 		if (!skippedIntro)

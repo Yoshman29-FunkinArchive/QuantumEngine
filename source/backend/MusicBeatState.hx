@@ -44,6 +44,13 @@ class MusicBeatState extends FlxUIState
 		FlxG.signals.postStateSwitch.addOnce(postCreate);
 	}
 
+	#if (web && haxe >= "4.3.0")
+	// weird haxe bug
+	override function switchTo(state:flixel.FlxState) {
+		return true;
+	}
+	#end
+
 	function postCreate() {
 		#if cpp
 		cpp.vm.Gc.run(true);

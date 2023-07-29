@@ -46,6 +46,7 @@ class BaseGameParser {
 				p2.vocalTracks.push(fixPath("Voices_P2", Paths.sound));
 			} else {
 				p1.vocalTracks.push(fixPath("Voices", Paths.sound));
+				p2.vocalTracks.push(fixPath("Voices", Paths.sound));
 			}
 		}
 

@@ -272,7 +272,7 @@ class PlayState extends MusicBeatState
 				Conductor.instance.songPosition += elapsed * 1000;
 				Conductor.instance.updateConductor();
 			} else {
-				Conductor.instance.play(true);
+				Conductor.instance.play(true, false);
 			}
 		}
 

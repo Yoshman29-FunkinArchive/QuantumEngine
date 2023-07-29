@@ -34,6 +34,8 @@ class RatingGroup extends FlxTypedGroup<RatingSprite> {
             if (__sprite != null && __sprite.exists && __sprite.active) {
                 __sprite.update(elapsed);
                 __sprite.alpha = 1 - FlxMath.bound((Conductor.instance.songPosition - (Conductor.instance.crochet * 2) - __sprite.hitTime) / 200, 0, 1);
+                if (__sprite.alpha <= 0)
+                    __sprite.active = __sprite.visible = false;
             }
         }
     }

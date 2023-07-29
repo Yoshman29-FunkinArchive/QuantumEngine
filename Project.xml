@@ -52,12 +52,16 @@
 	<assets path="assets/fonts" embed='true'  rename="assets/fonts"/>
 	<!-- _______________________________ Libraries ______________________________ -->
 
+	<!-- HxCodec compilation issue workaround -->
+	<setenv name="HAXEPATH" value="./"/>
+
 	<haxelib name="flixel" />
 	<haxedev set='webgl' />
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxanimate" />
+	<haxelib name="hxCodec"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

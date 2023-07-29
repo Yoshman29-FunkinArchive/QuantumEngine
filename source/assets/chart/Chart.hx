@@ -67,6 +67,11 @@ class Chart {
 	 */
 	public var countdownSkin:String = "default";
 
+	/*
+	 * Cutscene
+	 */
+	public var cutscene:ChartCutscene = CNone;
+
 	/**
 	 * Load a chart from a specified song
 	 * @param song Song
@@ -174,4 +179,10 @@ class ChartCharacter {
 		this.character = character;
 		this.position = position;
 	}
+}
+
+enum ChartCutscene {
+	CNone;
+	CVideo(path:String);
+	CCustom(cutscene:game.cutscenes.Cutscene);
 }

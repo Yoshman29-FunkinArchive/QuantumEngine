@@ -25,6 +25,15 @@ class Paths {
 	public static inline function font(path:String)
 		return pathToExt(path, "ttf", ["otf"]);
 
+	public static inline function video(path:String)
+		return pathToExt(path, "mp4");
+
+	public static inline function bpmDef(path:String)
+		return pathToExt(path, "bpm");
+
+	public static inline function atlas(path:String)
+		return '$prefix/$path';
+
 
 
 	// NOT IMPLEMENTED YET BUT COULD BE IN THE FUTURE
@@ -33,10 +42,4 @@ class Paths {
 
 	public static inline function vert(path:String)
 		return pathToExt(path, "vert");
-
-	public static inline function bpmDef(path:String)
-		return pathToExt(path, "bpm");
-
-	public static inline function atlas(path:String)
-		return '$prefix/$path';
 }

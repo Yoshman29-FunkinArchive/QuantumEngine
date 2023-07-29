@@ -1,4 +1,5 @@
 package game;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxTween;
 import menus.FreeplayState;
 import flixel.FlxSubState;
@@ -50,6 +51,9 @@ class PlayState extends MusicBeatState
 	public var health(default, set):Float = 0.5;
 
 	public override function create() {
+		if (SONG.cutscene != null && SONG.cutscene != CNone)
+			FlxTransitionableState.skipNextTransIn = true; // TODO: custom transition system
+
 		super.create();
 
 		instance = this;
@@ -194,12 +198,24 @@ class PlayState extends MusicBeatState
 		// precache
 		
 		for(i in 0...4) {
-			var s = Paths.sound('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+			var s = Paths.sound('game/ui/intro/default/intro${i}');
 			if (Assets.exists(s))
 				FlxG.sound.cache(s);
-			var p = Paths.image('game/ui/intro/default/intro${Math.abs(curBeat) - 1}');
+
+			var p = Paths.image('game/ui/intro/default/intro${i}');
 			if (Assets.exists(p))
 				FlxG.bitmap.add(p);
+		}
+	}
+
+	public override function postCreate() {
+		if (SONG.cutscene != null) {
+			switch(SONG.cutscene) {
+				case CVideo(path):
+					openSubState(new game.cutscenes.VideoCutscene(Paths.video(path)));
+				default:
+					// nothing
+			}
 		}
 	}
 
@@ -267,6 +283,11 @@ class PlayState extends MusicBeatState
 	}
 
 	public override function update(elapsed:Float) {
+		if (subState is Cutscene) {
+			super.update(elapsed);
+			return;
+		}
+
 		if (!Conductor.instance.playing) {
 			if (Conductor.instance.songPosition	< 0) {
 				Conductor.instance.songPosition += elapsed * 1000;

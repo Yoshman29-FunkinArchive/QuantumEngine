@@ -6,5 +6,6 @@ import game.NoteGroup;
 import game.StrumLine;
 import game.HealthIcon;
 import game.characters.Character;
+import game.cutscenes.Cutscene;
 import game.strums.Strum;
 #end

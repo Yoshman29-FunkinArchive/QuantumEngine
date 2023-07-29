@@ -50,6 +50,11 @@
 			"version": null
 		},
 		{
+			"name": "hxCodec",
+			"type": "haxelib",
+			"version": "2.6.1"
+		},
+		{
 			"name": "lime",
 			"type": "haxelib",
 			"version": null

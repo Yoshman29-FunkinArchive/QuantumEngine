@@ -67,7 +67,9 @@ class BaseGameParser {
 
 				id %= 4;
 
-				(bfNote ? p1 : p2).notes.push(new ChartNote(time, id, susLen));
+				var noteType = Chart.parseNoteType(n[3]);
+
+				(bfNote ? p1 : p2).notes.push(new ChartNote(time, id, susLen, noteType));
 			}
 		}
 

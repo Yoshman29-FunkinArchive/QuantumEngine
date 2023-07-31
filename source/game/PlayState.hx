@@ -291,8 +291,7 @@ class PlayState extends MusicBeatState
 					camGame.follow(camTarget, LOCKON, 0.04);
 					pos.put();
 				}
-			case EPsychEvent(name, p1, p2):
-				// psych event
+			default:
 		}
 		modchartHandler.onEvent(event);
 		stage.onEvent(event);

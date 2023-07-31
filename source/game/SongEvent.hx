@@ -12,4 +12,6 @@ class SongEvent {
 enum SongEventType {
 	ECameraMove(target:Int);
 	EPsychEvent(name:String, p1:String, p2:String);
+	EHScriptCall(name:String, params:Array<String>);
+	ECodenameEvent(name:String, params:Array<Dynamic>);
 }

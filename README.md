@@ -16,13 +16,13 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Fix BitmapFrontEnd
     - [x] Source assets
     - [x] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
-- [ ] New chart system
+- [x] New chart system
     - [x] Create chart system
-    - [x] Make it read chart formats for **Psych / Base Game**
+    - [x] Make it read charts from **Psych / Base Game**
         - [x] Parse metadata
         - [x] Parse notes
         - [x] Parse events
-    - [ ] Make it read chart formats for **Codename**
+    - [x] Make it read charts from **Codename**
 - [x] Complete PlayState rewrite
     - [x] Rewrite controls
     - [x] New chart parser

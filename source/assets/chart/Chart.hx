@@ -152,6 +152,8 @@ class Chart {
 		if (Reflect.hasField(jsonData, "notes") && Reflect.hasField(jsonData, "player1")) {
 			// PSYCH / BASE GAME FORMAT
 			BaseGameParser.parse(chartFile, jsonData, fixPath);
+		} else if (Reflect.hasField(jsonData, "codenameChart")) {
+			CodenameParser.parse(chartFile, jsonData, fixPath);
 		}
 
 		#if html5
@@ -163,6 +165,12 @@ class Chart {
 
 	public function new(song:String) {
 		songMeta = SongMeta.getMeta(song);
+	}
+
+	public static function parseNoteType(type:String) {
+		return switch(type) {
+			default: DefaultNote;
+		}
 	}
 }
 

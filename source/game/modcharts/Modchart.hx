@@ -21,5 +21,5 @@ class Modchart extends FlxBasic {
     public function onRatingShown() {}
     public function onMissed() {}
 
-    public function onEvent(event:SongEventType) {}
+    public function onEvent(event:SongEvent) {}
 }

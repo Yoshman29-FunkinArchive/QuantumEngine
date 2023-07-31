@@ -87,5 +87,5 @@ class HScriptModchart extends Modchart {
     public override function onRatingShown() {call("onRatingShown", []);}
     public override function onMissed() {call("onMissed", []);}
 
-    public override function onEvent(event:SongEventType) {call("onEvent", [event]);}
+    public override function onEvent(event:SongEvent) {call("onEvent", [event]);}
 }

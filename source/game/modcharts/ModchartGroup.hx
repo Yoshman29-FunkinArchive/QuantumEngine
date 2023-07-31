@@ -66,7 +66,7 @@ class ModchartGroup extends Modchart {
         for(m in modcharts)
             m.onRatingShown();
     }
-    public override function onEvent(event:SongEventType) {
+    public override function onEvent(event:SongEvent) {
         for(m in modcharts)
             m.onEvent(event);
     }

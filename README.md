@@ -18,10 +18,10 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Implement GPU textures (and maybe reimplement cne's assetslibrarytree???)
 - [ ] New chart system
     - [x] Create chart system
-    - [ ] Make it read chart formats for **Psych / Base Game**
+    - [x] Make it read chart formats for **Psych / Base Game**
         - [x] Parse metadata
         - [x] Parse notes
-        - [ ] Parse events
+        - [x] Parse events
     - [ ] Make it read chart formats for **Codename**
 - [x] Complete PlayState rewrite
     - [x] Rewrite controls

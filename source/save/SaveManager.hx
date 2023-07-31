@@ -1,7 +1,5 @@
 package save;
 
-import openfl.Lib;
-
 class SaveManager {
     public static var settings:EngineSettings;
     public static var save:FunkinSave;
@@ -12,11 +10,19 @@ class SaveManager {
         settings = (FlxG.save.data.settings is EngineSettings) ? cast(FlxG.save.data.settings, EngineSettings) : new EngineSettings();
         save = (FlxG.save.data.save is FunkinSave) ? cast(FlxG.save.data.save, FunkinSave) : new FunkinSave();
 
-        FlxG.signals.postStateSwitch.add(function() {
-            FlxG.save.data.settings = settings;
-            FlxG.save.data.save = save;
-            FlxG.save.flush();
-        });
+        FlxG.sound.volume = settings.volume;
+        FlxG.sound.muted = settings.muted;
+
+        FlxG.signals.postStateSwitch.add(onStateSwitch);
+    }
+
+    public static function onStateSwitch() {
+        settings.volume = FlxG.sound.volume;
+        settings.muted = FlxG.sound.muted;
+
+        FlxG.save.data.settings = settings;
+        FlxG.save.data.save = save;
+        FlxG.save.flush();
     }
 }
 

@@ -70,6 +70,20 @@ class BaseGameParser {
 				(bfNote ? p1 : p2).notes.push(new ChartNote(time, id, susLen));
 			}
 		}
+
+		if (data.events != null) {
+			for(eventGroup in data.events) {
+				if (eventGroup is Array) {
+					// psych engine event parsing
+					var time:Float = eventGroup[0];
+					if (eventGroup[1] is Array) {
+						for(event in cast(eventGroup[1], Array<Dynamic>)) {
+							chart.events.push(new SongEvent(time, EPsychEvent(event[0], event[1], event[2])));
+						}
+					}
+				}
+			}
+		}
 	}
 }
 

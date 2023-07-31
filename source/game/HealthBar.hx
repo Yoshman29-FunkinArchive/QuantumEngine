@@ -63,5 +63,8 @@ class HealthBar extends FlxGroup {
         bar.clipRect = new FlxRect(left, 0, bar.frameWidth - left, bar.frameHeight);
 
         playerIcon.x = opponentIcon.x = FlxMath.lerp(bar.x + bar.width, bar.x, PlayState.instance.health);
+
+        playerIcon.iconHealth = PlayState.instance.health;
+        opponentIcon.iconHealth = 1 - PlayState.instance.health;
     }
 }

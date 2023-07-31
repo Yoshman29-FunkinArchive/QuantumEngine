@@ -121,8 +121,7 @@ class ActionControl {
 		} else {
 			controlData.keybinds = defaultKeys;
 		}
-
-		trace(savedData, controlData);
+		
 		// save new settings
 		SaveManager.settings.controls[saveID] = controlData;
 

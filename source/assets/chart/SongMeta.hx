@@ -11,7 +11,7 @@ final class SongMeta {
 		if (d.name == null)
 			d.name = name;
 		if (d.color == null)
-			d.color = 0xFF9271FD;
+			d.color = GameConfig.defaultSongColor;
 		if (d.icon == null)
 			d.icon = "test";
 		if (d.difficulties == null || d.difficulties.length <= 0)

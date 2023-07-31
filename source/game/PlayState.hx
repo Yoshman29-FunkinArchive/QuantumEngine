@@ -20,12 +20,14 @@ using StringTools;
 class PlayState extends MusicBeatState
 {
 	public static var curStage:String = '';
-	// public static var SONG:SwagSong;
+
 	public static var SONG:Chart;
+	public static var songName:String;
+	public static var difficulty:String;
+
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
-	public static var storyDifficulty:Int = 1;
 	public static var daPixelZoom:Float = 6;
 	public static var campaignScore:Int = 0;
 
@@ -235,7 +237,7 @@ class PlayState extends MusicBeatState
 		Conductor.instance.unload();
 		songEnding = true;
 		playCutscene(SONG.endCutscene, true);
-		if (subState != null && subState is Cutscene) {
+		if (subState == null || !(subState is Cutscene)) {
 			onSongFinished();
 		}
 	}
@@ -261,6 +263,8 @@ class PlayState extends MusicBeatState
 	public function onSongFinished() {
 		// TODO: story progression & stuff
 		modchartHandler.onSongFinished();
+
+		SaveManager.save.setSongScore(songName.toLowerCase(), difficulty.toLowerCase(), stats.getSaveData());
 		FlxG.switchState(new FreeplayState());
 	}
 

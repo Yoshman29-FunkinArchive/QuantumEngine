@@ -1,5 +1,8 @@
 package menus;
 
+import openfl.Vector;
+import assets.chart.SongMeta.SongMetaData;
+import assets.FreeplaySonglist;
 import assets.chart.Chart;
 import game.PlayState;
 import flash.text.TextField;
@@ -11,73 +14,71 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import save.FunkinSave.ScoreType;
+import openfl.geom.Rectangle;
 
 using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
-	var songs:Array<String> = [];
+	public var songList:FreeplaySonglist;
+	private var grpSongs:FlxTypedGroup<Alphabet>;
 
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
 
 	var scoreText:FlxText;
 	var diffText:FlxText;
-	var lerpScore:Int = 0;
+	var lerpScore:Float = 0;
 	var intendedScore:Int = 0;
 
-	private var grpSongs:FlxTypedGroup<Alphabet>;
-	private var curPlaying:Bool = false;
+	var scoreBG:FlxSprite;
+	
+	var cacheRect:Rectangle = new Rectangle();
+
+	private var curSongName:String = "tutorial";
+	private var curSongMeta:SongMetaData;
+	private var curSongDifficulty:String = "normal";
+	private var bg:FlxSprite;
+
+	private var curColor:Vector<Float> = new Vector<Float>(4);
 
 	override function create()
 	{
-		songs = CoolUtil.coolTextFile(Paths.txt('config/freeplaySonglist'));
+		songList = FreeplaySonglist.load();
 
-		/*
-			if (FlxG.sound.music != null)
-			{
-				if (!FlxG.sound.music.playing)
-					FlxG.sound.playMusic('assets/music/freakyMenu' + TitleState.soundExt);
-			}
-		 */
-
-		var isDebug:Bool = false;
-
-		#if debug
-		isDebug = true;
-		#end
-
-		// LOAD MUSIC
-
-		// LOAD CHARACTERS
-
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/menuBGBlue'));
+		bg = new FlxSprite().loadGraphic(Paths.image('menus/menuDesat'));
 		add(bg);
+
+		for(i=>c in [GameConfig.defaultSongColor.redFloat, GameConfig.defaultSongColor.greenFloat, GameConfig.defaultSongColor.blueFloat, GameConfig.defaultSongColor.alphaFloat])
+			curColor[i] = c;
+
+		bg.colorTransform.redMultiplier = curColor[0];
+		bg.colorTransform.greenMultiplier = curColor[1];
+		bg.colorTransform.blueMultiplier = curColor[2];
+		bg.colorTransform.alphaMultiplier = curColor[3];
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
-		for (i in 0...songs.length)
+		for (k=>s in songList.songs)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i], true, false);
+			var songText:Alphabet = new Alphabet(0, (70 * k) + 30, s, true, false);
 			songText.isMenuItem = true;
-			songText.targetY = i;
+			songText.targetY = k;
 			grpSongs.add(songText);
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
 		}
 
-		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		// scoreText.autoSize = false;
+		scoreText = new FlxText(5, 5, FlxG.width - 10, "PERSONAL BEST:0", 32);
+		scoreText.alignment = RIGHT;
 		scoreText.setFormat(Paths.font("fonts/vcr"), 32, FlxColor.WHITE, RIGHT);
-		// scoreText.alignment = RIGHT;
 
-		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+		scoreBG = new FlxSprite(0, 0).makeGraphic(1, 1, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
+		diffText = new FlxText(scoreText.x, scoreText.y + 36, 640, "", 24);
+		diffText.alignment = CENTER;
 		diffText.font = scoreText.font;
 		add(diffText);
 
@@ -93,47 +94,49 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (FlxG.sound.music.volume < 0.7)
-		{
-			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
-		}
-
-		lerpScore = Math.floor(CoolUtil.fLerp(lerpScore, intendedScore, 0.4));
+		if (Conductor.instance.sounds.volume < 0.7)
+			Conductor.instance.sounds.volume += 0.5 * FlxG.elapsed;
 
 		if (Math.abs(lerpScore - intendedScore) <= 10)
 			lerpScore = intendedScore;
+		else
+			lerpScore = CoolUtil.fLerp(lerpScore, intendedScore, 0.4);
 
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
 
-		var upP = Controls.justPressed.UP;
-		var downP = Controls.justPressed.DOWN;
-		var accepted = Controls.justPressed.ACCEPT;
+		for(i=>c in [curSongMeta.color.redFloat, curSongMeta.color.greenFloat, curSongMeta.color.blueFloat, curSongMeta.color.alphaFloat])
+			curColor[i] = CoolUtil.fLerp(curColor[i], c, 0.0625);
 
-		if (upP)
-		{
-			changeSelection(-1);
-		}
-		if (downP)
-		{
-			changeSelection(1);
-		}
+		bg.colorTransform.redMultiplier = curColor[0];
+		bg.colorTransform.greenMultiplier = curColor[1];
+		bg.colorTransform.blueMultiplier = curColor[2];
+		bg.colorTransform.alphaMultiplier = curColor[3];
 
-		if (Controls.justPressed.LEFT)
-			changeDiff(-1);
-		if (Controls.justPressed.RIGHT)
-			changeDiff(1);
+		scoreText.text = "PERSONAL BEST:" + Math.round(lerpScore);
+		
+		@:privateAccess
+		scoreText.textField.__getCharBoundaries(0, cacheRect);
 
-		if (Controls.justPressed.BACK)
-		{
-			FlxG.switchState(new MainMenuState());
-		}
+		var width = scoreText.frameWidth - cacheRect.x;
+		scoreBG.scale.set(width + 10, 66);
+		scoreBG.updateHitbox();
+		scoreBG.x = FlxG.width - width - 10;
 
-		if (accepted)
+		diffText.x = scoreBG.x + (scoreBG.width - diffText.width) / 2;
+		
+
+		if (Controls.justPressed.UP)	changeSelection(-1);
+		if (Controls.justPressed.DOWN)	changeSelection(1);
+		if (Controls.justPressed.LEFT)	changeDiff(-1);
+		if (Controls.justPressed.RIGHT)	changeDiff(1);
+		if (Controls.justPressed.BACK)	FlxG.switchState(new MainMenuState());
+
+		if (Controls.justPressed.ACCEPT)
 		{
 			// TODO: custom difficulties PLEASE
-			PlayState.SONG = Chart.loadFrom(songs[curSelected].toLowerCase(), ["easy", "normal", "hard"][curDifficulty]);
+			PlayState.SONG = Chart.loadFrom(curSongName, curSongDifficulty); // TODO
+			PlayState.songName = curSongName;
+			PlayState.difficulty = curSongDifficulty;
 			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
 			FlxG.switchState(new PlayState());
 			Conductor.instance.stop();
 		}
@@ -141,55 +144,31 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
-		curDifficulty += change;
+		curDifficulty = (curDifficulty + change).mod(curSongMeta.difficulties.length);
 
-		if (curDifficulty < 0)
-			curDifficulty = 2;
-		if (curDifficulty > 2)
-			curDifficulty = 0;
+		curSongDifficulty = curSongMeta.difficulties[curDifficulty].toLowerCase();
 
 		#if !switch
-		intendedScore = 0;
+		intendedScore = SaveManager.save.getSongScore(curSongName, curSongDifficulty).score;
 		#end
 
-		switch (curDifficulty)
-		{
-			case 0:
-				diffText.text = "EASY";
-			case 1:
-				diffText.text = 'NORMAL';
-			case 2:
-				diffText.text = "HARD";
-		}
+		diffText.text = curSongMeta.difficulties.length > 1 ? '< ${curSongDifficulty.toUpperCase()} >' : curSongDifficulty.toUpperCase();
 	}
 
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('menus/sfx/scroll'), 0.4);
 
-		curSelected += change;
+		curSelected = (curSelected + change).mod(songList.songs.length);
 
-		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
-			curSelected = 0;
+		curSongName = songList.songs[curSelected].toLowerCase();
+		curSongMeta = songList.configs[TSong(curSongName, "normal")];
 
-		#if !switch
-		intendedScore = 0;
-		// lerpScore = 0;
-		#end
+		Conductor.instance.loadAndPlay('songs/$curSongName/Inst', true);
 
-		FlxG.sound.playMusic(Paths.sound('music/${songs[curSelected]}/Inst'), 0);
+		for(i=>item in grpSongs.members)
+			item.alpha = (item.targetY = i - curSelected) == 0 ? 1 : 0.6;
 
-		for (i => item in grpSongs.members)
-		{
-			item.targetY = i - curSelected;
-
-			if (item.targetY == 0) {
-				item.alpha = 1;
-			} else {
-				item.alpha = 0.6;
-			}
-		}
+		changeDiff(0);
 	}
 }

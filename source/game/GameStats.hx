@@ -111,6 +111,14 @@ class GameStats {
 	public function toString() {
 		return 'Score:${score} • Misses:${misses} • Accuracy:${FlxMath.roundDecimal(accuracy, 2)}%';
 	}
+
+	public function getSaveData() {
+		return {
+			score: score,
+			misses: misses,
+			accuracy: accuracy
+		};
+	}
 }
 
 enum abstract Rating(Int) {

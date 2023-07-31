@@ -43,10 +43,11 @@ it does the job + has extensible code, however no mods folder since its what cau
     - [x] Modchart class with callbacks & stuff
     - [x] Beginning countdown (3 2 1 go)
     - [x] Make combo ratings show up
-- [ ] Save & Options
+- [x] Save & Options
     - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
-    - [ ] Add Separate save for Options
     - [ ] Add Options
+        - [x] Add options saving
+        - [ ] Add options menu (??? maybe at the end right before release)
 - [ ] Discord RPC
 - [ ] Baldi Funkin
 - [ ] Menus

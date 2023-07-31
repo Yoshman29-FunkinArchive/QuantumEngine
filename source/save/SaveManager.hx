@@ -1,28 +1,40 @@
 package save;
 
 class SaveManager {
-    public static var settings:EngineSettings;
     public static var save:FunkinSave;
+    public static var settings:EngineSettings;
+    
+    public static var __save:FlxSave;
+    public static var __settings:FlxSave;
 
     public static function init() {
-        FlxG.save.bind(GameConfig.saveName, 'BaldiFunkin');
+        @:privateAccess
+        var defaultPath = FlxSave.validate(openfl.Lib.current.stage.application.meta["company"]);
 
-        settings = (FlxG.save.data.settings is EngineSettings) ? cast(FlxG.save.data.settings, EngineSettings) : new EngineSettings();
-        save = (FlxG.save.data.save is FunkinSave) ? cast(FlxG.save.data.save, FunkinSave) : new FunkinSave();
+        __save = new FlxSave();
+        __save.bind('save', '$defaultPath/${GameConfig.saveName}');
+
+        __settings = new FlxSave();
+        __settings.bind('settings', '$defaultPath/${GameConfig.saveName}');
+
+        settings = (__settings.data.settings is EngineSettings) ? cast(__settings.data.settings, EngineSettings) : new EngineSettings();
+        save = (__save.data.save is FunkinSave) ? cast(__save.data.save, FunkinSave) : new FunkinSave();
 
         FlxG.sound.volume = settings.volume;
         FlxG.sound.muted = settings.muted;
 
-        FlxG.signals.postStateSwitch.add(onStateSwitch);
+        FlxG.signals.postStateSwitch.add(flush);
     }
 
-    public static function onStateSwitch() {
+    public static function flush() {
         settings.volume = FlxG.sound.volume;
         settings.muted = FlxG.sound.muted;
 
-        FlxG.save.data.settings = settings;
-        FlxG.save.data.save = save;
-        FlxG.save.flush();
+        __save.data.save = save;
+        __settings.data.settings = settings;
+
+        __save.flush();
+        __settings.flush();
     }
 }
 

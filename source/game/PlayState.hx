@@ -132,8 +132,6 @@ class PlayState extends MusicBeatState
 		stats = new GameStats();
 	}
 	function loadChart() {
-		
-
 		var vocalTracks:Array<String> = [];
 
 		for(strLine in SONG.strumLines) {

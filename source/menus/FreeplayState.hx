@@ -132,7 +132,6 @@ class FreeplayState extends MusicBeatState
 
 		if (Controls.justPressed.ACCEPT)
 		{
-			// TODO: custom difficulties PLEASE
 			PlayState.SONG = Chart.loadFrom(curSongName, curSongDifficulty); // TODO
 			PlayState.songName = curSongName;
 			PlayState.difficulty = curSongDifficulty;

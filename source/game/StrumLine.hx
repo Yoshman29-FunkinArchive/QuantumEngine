@@ -3,7 +3,7 @@ package game;
 import assets.chart.Chart.ChartStrumLine;
 import flixel.sound.FlxSound;
 import flixel.util.FlxDestroyUtil;
-import game.characters.Character;
+import game.characters.presets.Character;
 import game.strums.DefaultStrum;
 import game.strums.Strum;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;

@@ -78,6 +78,10 @@ class Assets {
 
 					var anim = animController.getByName(a.name);
 					var beginningPos = newFrames.length;
+					if (anim == null) {
+						FlxG.log.warn('Animation for ${a.name} is invalid.');
+						continue;
+					}
 					for(i in anim.frames) {
 						var correspondingFrame = frames.frames[i];
 						newFrames.push(correspondingFrame.copyTo());

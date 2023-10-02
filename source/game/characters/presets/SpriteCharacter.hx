@@ -1,8 +1,9 @@
-package game.characters;
+package game.characters.presets;
 
-import flxanimate.FlxAnimate;
+import flixel.FlxCamera;
+import flixel.math.FlxRect;
 
-class AtlasCharacter extends FlxAnimate implements Character {
+class SpriteCharacter extends FlxSprite implements Character {
 	public var _(get, null):FlxSprite;
 
 	public var gameOverChar:Class<Character> = BoyfriendDead;
@@ -15,15 +16,12 @@ class AtlasCharacter extends FlxAnimate implements Character {
 
 	public var lastSingStep:Float = -5000;
 	public var flipped:Bool = false;
-
 	public var parent:StrumLine = null;
 
-	var __curPlayingAnim:String = null;
-
-	public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine, sprite:String = null) {
-		super(x, y, sprite);
-		this.parent = parent;
+	public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine) {
+		super(x, y);
 		this.flipped = flipped;
+		this.parent = parent;
 		if (flipped)
 			scale.x *= -1;
 
@@ -35,23 +33,27 @@ class AtlasCharacter extends FlxAnimate implements Character {
 	public function playMissAnim(strumID:Int, ?note:Note) {
 		lastSingStep = Conductor.instance.curStepFloat;
 
-		playAnim("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
+		animation.play("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
 		FlxG.sound.play(Paths.sound('game/sfx/missnote${FlxG.random.int(1, 3)}'), FlxG.random.float(0.1, 0.2));
 		parent.muteVocals();
 	}
 
 	public function playDeathAnim(callback:Void->Void) {
-		playAnim('long-firstDeath');
+		animation.play('long-firstDeath', true);
+		animation.finishCallback = function(name:String) {
+			callback();
+			animation.finishCallback = null;
+		};
 	}
 
 	public function playDeathConfirmAnim() {
-		playAnim('long-deathConfirm');
+		animation.play('long-deathConfirm');
 	}
 
 	public function playSingAnim(strumID:Int, ?note:Note) {
 		lastSingStep = Conductor.instance.curStepFloat;
 
-		playAnim("sing-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
+		animation.play("sing-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
 		parent.unmuteVocals();
 	}
 
@@ -65,7 +67,7 @@ class AtlasCharacter extends FlxAnimate implements Character {
 					if (Conductor.instance.curStepFloat - lastSingStep < 7.5)
 						return;
 				case "long":
-					if (!anim.finished)
+					if (!animation.curAnim.finished)
 						return;
 			}
 		}
@@ -86,11 +88,11 @@ class AtlasCharacter extends FlxAnimate implements Character {
 	}
 
 	public function playDanceAnim(beat:Int) {
-		playAnim("dance-idle", false);
+		animation.play("dance-idle", false);
 	}
 
 	private function getAnimPrefix():String {
-		var curAnim = __curPlayingAnim;
+		var curAnim = animation.getCurAnimName();
 		if (curAnim != null) {
 			var pos = curAnim.indexOf("-");
 			return (pos >= 0) ? curAnim.substr(0, pos) : null;
@@ -98,8 +100,15 @@ class AtlasCharacter extends FlxAnimate implements Character {
 		return null;
 	}
 
-	private function playAnim(Name:Null<String> = "", Force:Null<Bool> = false, Reverse:Null<Bool> = false, Frame:Null<Int> = 0) {
-		__curPlayingAnim = Name;
-		anim.play(Name, Force, Reverse, Frame);
+	public override function getScreenBounds(?newRect:FlxRect, ?camera:FlxCamera):FlxRect {
+		// thx ne_eo for the fix
+		var sclx = scale.x;
+		var scly = scale.y;
+	   	scale.x = Math.abs(scale.x);
+		scale.y = Math.abs(scale.y);
+		var bounds = super.getScreenBounds(newRect, camera);
+		scale.x = sclx;
+		scale.y = scly;
+		return bounds;
 	}
 }

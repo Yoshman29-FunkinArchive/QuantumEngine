@@ -1,6 +1,6 @@
 package assets.chart;
 
-import game.characters.Character.CharacterUtil;
+import game.characters.presets.Character.CharacterUtil;
 
 class BaseGameParser {
 	public static function parse(chart:Chart, data:SwagSong, fixPath:String->(String->String)->String) {
@@ -51,10 +51,10 @@ class BaseGameParser {
 		}
 
 		for(k=>section in data.notes) {
-			var secTarget = (section.gfSection ? 2 : (section.mustHitSection ? 1 : 0));
+			var secTarget = (section.gfSection ? 2 : (section.mustHitSection ? 0 : 1));
 
 			if (secTarget != camTarget) {
-				chart.events.push(new SongEvent(chart.bpmChanges.getTimeForMeasure(k), ECameraMove(camTarget)));
+				chart.events.push(new SongEvent(chart.bpmChanges.getTimeForMeasure(k), ECameraMove(secTarget)));
 				camTarget = secTarget;
 			}
 

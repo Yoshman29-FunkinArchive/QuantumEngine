@@ -2,9 +2,9 @@ package assets.chart;
 
 import game.HealthBar;
 import game.notes.DefaultNote;
-import game.characters.Character;
+import game.characters.presets.Character;
 import game.modcharts.Modchart;
-import game.characters.SpriteCharacter;
+import game.characters.presets.SpriteCharacter;
 import game.notes.Note;
 import game.SongEvent;
 import haxe.Json;

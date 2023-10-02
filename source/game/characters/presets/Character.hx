@@ -1,4 +1,4 @@
-package game.characters;
+package game.characters.presets;
 
 interface Character {
 	public var _(get, null):FlxSprite;
@@ -32,11 +32,26 @@ class CharacterUtil {
 				return Girlfriend;
 		}
 
-		var cl:Class<Character> = cast Type.resolveClass('game.characters.${charName}');
+		var potentialName = getClassNameForChar(charName);
+		
+		var cl:Class<Character> = null;
+		for(cName in ['game.characters.${potentialName}', 'game.characters.${charName}', charName]) {
+			cl = cast Type.resolveClass(cName);
+			if (cl != null)
+				break;
+		}
 		if (cl != null)
 			return cl;
 
 		FlxG.log.error('Failed to find extended class for ${charName}. Is it missing?');
 		return SpriteCharacter;
+	}
+
+	public static function getClassNameForChar(charName:String) {
+		var potentialName = [for(e in charName.split("_")) for(e2 in e.split("-")) e2];
+		for(k=>n in potentialName) {
+			potentialName[k] = n.charAt(0).toUpperCase() + n.substr(1);
+		}
+		return potentialName.join("");
 	}
 }

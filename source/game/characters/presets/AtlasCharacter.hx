@@ -1,6 +1,8 @@
-package game.characters;
+package game.characters.presets;
 
-class SpriteCharacter extends FlxSprite implements Character {
+import flxanimate.FlxAnimate;
+
+class AtlasCharacter extends FlxAnimate implements Character {
 	public var _(get, null):FlxSprite;
 
 	public var gameOverChar:Class<Character> = BoyfriendDead;
@@ -13,12 +15,15 @@ class SpriteCharacter extends FlxSprite implements Character {
 
 	public var lastSingStep:Float = -5000;
 	public var flipped:Bool = false;
+
 	public var parent:StrumLine = null;
 
-	public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine) {
-		super(x, y);
-		this.flipped = flipped;
+	var __curPlayingAnim:String = null;
+
+	public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine, sprite:String = null) {
+		super(x, y, sprite);
 		this.parent = parent;
+		this.flipped = flipped;
 		if (flipped)
 			scale.x *= -1;
 
@@ -30,27 +35,23 @@ class SpriteCharacter extends FlxSprite implements Character {
 	public function playMissAnim(strumID:Int, ?note:Note) {
 		lastSingStep = Conductor.instance.curStepFloat;
 
-		animation.play("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
+		playAnim("miss-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
 		FlxG.sound.play(Paths.sound('game/sfx/missnote${FlxG.random.int(1, 3)}'), FlxG.random.float(0.1, 0.2));
 		parent.muteVocals();
 	}
 
 	public function playDeathAnim(callback:Void->Void) {
-		animation.play('long-firstDeath', true);
-		animation.finishCallback = function(name:String) {
-			callback();
-			animation.finishCallback = null;
-		};
+		playAnim('long-firstDeath');
 	}
 
 	public function playDeathConfirmAnim() {
-		animation.play('long-deathConfirm');
+		playAnim('long-deathConfirm');
 	}
 
 	public function playSingAnim(strumID:Int, ?note:Note) {
 		lastSingStep = Conductor.instance.curStepFloat;
 
-		animation.play("sing-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
+		playAnim("sing-" + ["LEFT", "DOWN", "UP", "RIGHT"][strumID], true);
 		parent.unmuteVocals();
 	}
 
@@ -64,7 +65,7 @@ class SpriteCharacter extends FlxSprite implements Character {
 					if (Conductor.instance.curStepFloat - lastSingStep < 7.5)
 						return;
 				case "long":
-					if (!animation.curAnim.finished)
+					if (!anim.finished)
 						return;
 			}
 		}
@@ -85,15 +86,20 @@ class SpriteCharacter extends FlxSprite implements Character {
 	}
 
 	public function playDanceAnim(beat:Int) {
-		animation.play("dance-idle", false);
+		playAnim("dance-idle", false);
 	}
 
 	private function getAnimPrefix():String {
-		var curAnim = animation.getCurAnimName();
+		var curAnim = __curPlayingAnim;
 		if (curAnim != null) {
 			var pos = curAnim.indexOf("-");
 			return (pos >= 0) ? curAnim.substr(0, pos) : null;
 		}
 		return null;
+	}
+
+	private function playAnim(Name:Null<String> = "", Force:Null<Bool> = false, Reverse:Null<Bool> = false, Frame:Null<Int> = 0) {
+		__curPlayingAnim = Name;
+		anim.play(Name, Force, Reverse, Frame);
 	}
 }

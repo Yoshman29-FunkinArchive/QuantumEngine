@@ -1,0 +1,45 @@
+[
+	{
+		"name": "dance-idle",
+		"prefix": "Dad idle dance",
+		"fps": 24,
+		"loop": false,
+		"x": 0,
+		"y": 0
+	},
+
+
+
+	{
+		"name": "sing-UP",
+		"prefix": "Dad Sing note UP",
+		"fps": 24,
+		"loop": false,
+		"x": -6,
+		"y": 50
+	},
+	{
+		"name": "sing-LEFT",
+		"prefix": "dad sing note right",
+		"fps": 24,
+		"loop": false,
+		"x": -10,
+		"y": 10
+	},
+	{
+		"name": "sing-RIGHT",
+		"prefix": "Dad Sing Note LEFT",
+		"fps": 24,
+		"loop": false,
+		"x": 0,
+		"y": 27
+	},
+	{
+		"name": "sing-DOWN",
+		"prefix": "Dad Sing Note DOWN",
+		"fps": 24,
+		"loop": false,
+		"x": 0,
+		"y": -30
+	}
+]

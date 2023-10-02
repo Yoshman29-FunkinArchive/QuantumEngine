@@ -1,6 +1,6 @@
 package assets.chart;
 
-import game.characters.Character.CharacterUtil;
+import game.characters.presets.Character.CharacterUtil;
 import flixel.util.FlxColor;
 
 class CodenameParser {

@@ -14,7 +14,7 @@ import game.stages.Stage;
 import assets.chart.Chart;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import game.characters.Character;
+import game.characters.presets.Character;
 
 using StringTools;
 
@@ -56,14 +56,13 @@ class PlayState extends MusicBeatState
 
 	public var health(default, set):Float = 0.5;
 
-	public var modchartHandler:Modchart;
+	public var modchartHandler:ModchartGroup;
 
 	public override function create() {
 		if (SONG.cutscene != null && SONG.cutscene != CNone)
 			FlxTransitionableState.skipNextTransIn = true; // TODO: custom transition system
 
-		var modcharts = new ModchartGroup();
-		modchartHandler = modcharts;
+		modchartHandler = new ModchartGroup();
 		add(modchartHandler);
 
 		super.create();
@@ -71,6 +70,8 @@ class PlayState extends MusicBeatState
 		instance = this;
 
 		// SETTING UP PLAYSTATE STUFF
+		loadStats();
+
 		FlxG.cameras.reset(camGame = new FunkinCamera());
 
 		hud = new FlxGroup();
@@ -79,15 +80,7 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor = 0; // transparent
 		add(hud);
 
-		scoreTxt = new FlxText(0, (FlxG.height * 0.9) + 30, FlxG.width, "Score:0 - Misses:0 - Accuracy: 100%", 16);
-		scoreTxt.font = Paths.font(GameConfig.defaultFont);
-		scoreTxt.alignment = CENTER;
-		scoreTxt.borderSize = 1;
-		scoreTxt.borderColor = 0xFF000000;
-		scoreTxt.borderStyle = OUTLINE;
-
-		hud.add(healthBar = Type.createInstance(SONG.healthBar, []));
-		hud.add(scoreTxt);
+		loadHUD();
 
 		camTarget = new FlxObject(0, 0, 2, 2);
 		add(camTarget);
@@ -98,20 +91,48 @@ class PlayState extends MusicBeatState
 
 
 		// SETTING UP CHART RELATED STUFF
-		add(stage = Type.createInstance(SONG.stage, []));
+		loadStage();
+		loadModcharts();
 
+		modchartHandler.create();
+
+		loadChart();
+
+		eventHandler = new EventHandler([for(e in SONG.events) e], onEvent);
+		add(eventHandler);
+
+
+		Conductor.instance.onFinished.addOnce(playEndCutscene);
+		Conductor.instance.songPosition = -Conductor.instance.bpmChanges[0].crochet * 5;
+		persistentUpdate = true;
+
+		loadPrecachedAssets();
+	}
+ 
+	function loadStage() {
+		add(stage = Type.createInstance(SONG.stage, []));
+	}
+	function loadHUD() {
+		hud.add(healthBar = new HealthBar());
+		hud.add(scoreTxt = new ScoreText(stats));
+	}
+	function loadModcharts() {
 		for(m in SONG.modcharts) {
 			switch(m) {
 				case SClass(cl):
-					modcharts.modcharts.push(Type.createInstance(cl, []));
+					modchartHandler.modcharts.push(Type.createInstance(cl, []));
 				case SHScript(path):
-					modcharts.modcharts.push(new HScriptModchart(path));
+					modchartHandler.modcharts.push(new HScriptModchart(path));
 				default:
 					// nuh uh
 			}
 		}
-
-		modchartHandler.create();
+	}
+	function loadStats() {
+		stats = new GameStats();
+	}
+	function loadChart() {
+		
 
 		var vocalTracks:Array<String> = [];
 
@@ -208,20 +229,8 @@ class PlayState extends MusicBeatState
 					s.vocalTracks.push(null);
 			}
 		}
-
-		eventHandler = new EventHandler([for(e in SONG.events) e], onEvent);
-		add(eventHandler);
-
-		stats = new GameStats();
-		stats.onChange.add((_) -> updateScore());
-		updateScore();
-
-		Conductor.instance.onFinished.addOnce(playEndCutscene);
-		Conductor.instance.songPosition = -Conductor.instance.bpmChanges[0].crochet * 5;
-		persistentUpdate = true;
-
-		// precache
-		
+	}
+	function loadPrecachedAssets() {
 		for(i in 0...4) {
 			var s = Paths.sound('game/ui/intro/default/intro${i}');
 			if (Assets.exists(s))
@@ -267,10 +276,6 @@ class PlayState extends MusicBeatState
 
 		SaveManager.save.setSongScore(songName.toLowerCase(), difficulty.toLowerCase(), stats.getSaveData());
 		FlxG.switchState(new FreeplayState());
-	}
-
-	public function updateScore() {
-		scoreTxt.text = stats.toString();
 	}
 
 	public override function stepHit() {

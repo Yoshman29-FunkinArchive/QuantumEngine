@@ -71,7 +71,7 @@ class FreeplayState extends MusicBeatState
 
 		scoreText = new FlxText(5, 5, FlxG.width - 10, "PERSONAL BEST:0", 32);
 		scoreText.alignment = RIGHT;
-		scoreText.setFormat(Paths.font("fonts/vcr"), 32, FlxColor.WHITE, RIGHT);
+		scoreText.setFormat(Paths.font(GameConfig.defaultFont), 32, FlxColor.WHITE, RIGHT);
 
 		scoreBG = new FlxSprite(0, 0).makeGraphic(1, 1, 0xFF000000);
 		scoreBG.alpha = 0.6;

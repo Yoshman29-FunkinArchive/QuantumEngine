@@ -2,7 +2,7 @@
 	"name": "Dadbattle",
 	"color": null,
 	"icon": "dad",
-	"difficulties": ["easy", "normal", "hard"],
+	"difficulties": ["easy", "normal", "hard", "erect"],
 
 	"stage": "DefaultStage"
 }

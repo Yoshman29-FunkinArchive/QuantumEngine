@@ -1,6 +1,7 @@
 package game.cutscenes;
 
 import flixel.FlxCamera;
+#if VIDEO_SUPPORTED
 import hxcodec.VideoSprite;
 
 class VideoCutscene extends Cutscene {
@@ -33,3 +34,14 @@ class VideoCutscene extends Cutscene {
         super.destroy();
     }
 }
+#else
+class VideoCutscene extends Cutscene {
+    public function new(_:String) {
+        super();
+    }
+    public override function update(elapsed:Float) {
+        super.update(elapsed);
+        close();
+    }
+}
+#end

@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' - Baldi Engine" file="BaldiEngine" packageName="com.ninjamuffin99.funkin" main="backend.Main" version="0.2.7.1" company="BaldiFunkinTeam" />
+	<app title="Friday Night Funkin' - Baldi Engine" file="BaldiEngine" packageName="com.ninjamuffin99.funkin" main="backend.Main" version="1.0.0" company="yoshman29" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc001" />
@@ -50,6 +50,14 @@
 		NOT USING A DIRECT THING TO THE ASSET!!!
 	-->
 	<assets path="assets/fonts" embed='true'  rename="assets/fonts"/>
+
+	<!-- _____________________________ Engine Defines ___________________________ -->
+	
+	<!-- Enables support for GPU only textures -->
+	<haxedef name="GPU_TEXTURES_SUPPORT" unless="web" />
+	<!-- Enables video cutscene support -->
+	<haxedef name="VIDEO_SUPPORTED" if="sys" />
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<!-- HxCodec compilation issue workaround -->
@@ -105,10 +113,9 @@
 	
 	<haxedef name="hscriptPos" /> <!-- for logging -->
 
-	<!-- _____________________________ Engine Defines ___________________________ -->
+	<!-- _________________________________ Defines _______________________________ -->
+	<haxedef name="WIN_CPP" if="windows cpp"/>
 	
-	<haxedef name="GPU_TEXTURES_SUPPORT" unless="web" />
-
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->

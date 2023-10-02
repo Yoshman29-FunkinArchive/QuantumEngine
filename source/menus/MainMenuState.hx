@@ -83,9 +83,9 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.06);
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, "v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - (16*3) - 2, 0, 'MOD - v${Application.current.meta.get('version')}\nENGINE - v${GameConfig.engineVersion.join(".")}\nFUNKIN - v${GameConfig.funkinVersion.join(".")}', 12);
 		versionShit.scrollFactor.set();
-		versionShit.setFormat(Paths.font('fonts/vcr'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionShit.setFormat(Paths.font(GameConfig.defaultFont), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		changeItem();

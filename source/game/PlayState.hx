@@ -1,4 +1,5 @@
 package game;
+
 import game.modcharts.HScriptModchart;
 import game.modcharts.ModchartGroup;
 import flixel.addons.transition.FlxTransitionableState;
@@ -79,7 +80,7 @@ class PlayState extends MusicBeatState
 		add(hud);
 
 		scoreTxt = new FlxText(0, (FlxG.height * 0.9) + 30, FlxG.width, "Score:0 - Misses:0 - Accuracy: 100%", 16);
-		scoreTxt.font = Paths.font('fonts/vcr');
+		scoreTxt.font = Paths.font(GameConfig.defaultFont);
 		scoreTxt.alignment = CENTER;
 		scoreTxt.borderSize = 1;
 		scoreTxt.borderColor = 0xFF000000;

@@ -2,7 +2,7 @@ package backend;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.sound.FlxSound;
-#if windows
+#if WIN_CPP
 import lime.media.AudioManager;
 
 @:buildXml('
@@ -123,14 +123,14 @@ class FlixelFixer2000 {
 
 	public static function fix() {
 		// DPI blur fix for windows
-		#if windows
+		#if WIN_CPP
 		untyped __cpp__('
 			SetProcessDPIAware();
 		');
 		#end
 
 		// Audio fix when switch device for windows as well (only works on state switches)
-		#if windows
+		#if WIN_CPP
 		untyped __cpp__('
 			curAudioFix = new AudioFixClient();
 		');
@@ -143,7 +143,7 @@ class FlixelFixer2000 {
 		#end
 	}
 
-	#if windows
+	#if WIN_CPP
 	public static function fixAudio() {
 		if (audioDisconnected) {
 			// Restart audio manager

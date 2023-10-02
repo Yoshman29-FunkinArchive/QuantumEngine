@@ -15,7 +15,7 @@ class SaveManager {
         __save.bind('save', '$defaultPath/${GameConfig.saveName}');
 
         __settings = new FlxSave();
-        __settings.bind('settings', '$defaultPath/${GameConfig.saveName}');
+        __settings.bind(GameConfig.engineSettingsSaveName, GameConfig.engineSettingsSavePath);
 
         settings = (__settings.data.settings is EngineSettings) ? cast(__settings.data.settings, EngineSettings) : new EngineSettings();
         save = (__save.data.save is FunkinSave) ? cast(__save.data.save, FunkinSave) : new FunkinSave();

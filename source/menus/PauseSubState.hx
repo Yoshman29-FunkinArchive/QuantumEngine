@@ -1,5 +1,6 @@
 package menus;
 
+import game.PlayState;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -90,7 +91,7 @@ class PauseSubState extends MusicBeatSubstate
 				case "Resume":
 					close();
 				case "Restart Song":
-					FlxG.resetState();
+					PlayState.instance.gameMode.restartSong();
 				case "Exit to menu":
 					FlxG.switchState(new MainMenuState());
 			}

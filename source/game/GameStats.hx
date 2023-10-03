@@ -126,4 +126,14 @@ enum abstract Rating(Int) {
 	var GOOD = 1;
 	var BAD = 2;
 	var SHIT = 3;
+
+	public function toString() {
+		return switch(cast(this, Rating)) {
+			case SICK: "sick";
+			case GOOD: "good";
+			case BAD: "bad";
+			case SHIT: "shit";
+			default: null;
+		}
+	}
 }

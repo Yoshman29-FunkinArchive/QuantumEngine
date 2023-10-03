@@ -49,8 +49,9 @@ class RatingGroup extends FlxTypedGroup<RatingSprite> {
     }
 
     public function showRating(rating:String, combo:Int) {
-        if (combo >= 10) {
-            showSprite('combo', 40, 60);
+        if (combo >= 10 || combo == 0) {
+            if (combo >= 10)
+                showSprite('combo', 40, 60);
 
             var comboStr = Std.string(combo);
             while(comboStr.length < 3)
@@ -59,7 +60,8 @@ class RatingGroup extends FlxTypedGroup<RatingSprite> {
             for(i in 0...comboStr.length)
                 showSprite('num${comboStr.charAt(i)}', (43 * i) - 90, 140, 0.5);
         }
-        showSprite('sick', 0, 0);
+        if (rating != null)
+            showSprite(rating, 0, 0);
     }
 
     public function showSprite(anim:String, x:Float = 0, y:Float = 0, scale:Float = 0.7) {

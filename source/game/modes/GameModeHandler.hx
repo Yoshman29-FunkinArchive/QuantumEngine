@@ -17,4 +17,7 @@ class GameModeHandler {
     public function onSongFinished() {
 		FlxG.switchState(new MainMenuState());
     }
+	public function restartSong() {
+		FlxG.switchState(new PlayState(PlayState.instance.gameMode));
+	}
 }

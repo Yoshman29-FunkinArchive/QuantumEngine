@@ -294,6 +294,7 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
+			/*
 			PlayState.storyPlaylist = weekData[curWeek];
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
@@ -319,6 +320,7 @@ class StoryMenuState extends MusicBeatState
 					FlxG.sound.music.stop();
 				FlxG.switchState(new PlayState());
 			});
+			*/
 		}
 	}
 

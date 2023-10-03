@@ -1,5 +1,6 @@
 package menus;
 
+import game.modes.FreeplayHandler;
 import openfl.Vector;
 import assets.chart.SongMeta.SongMetaData;
 import assets.FreeplaySonglist;
@@ -132,12 +133,8 @@ class FreeplayState extends MusicBeatState
 
 		if (Controls.justPressed.ACCEPT)
 		{
-			PlayState.SONG = Chart.loadFrom(curSongName, curSongDifficulty); // TODO
-			PlayState.songName = curSongName;
-			PlayState.difficulty = curSongDifficulty;
-			PlayState.isStoryMode = false;
-			FlxG.switchState(new PlayState());
 			Conductor.instance.stop();
+			FreeplayHandler.playSong(curSongName, curSongDifficulty);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package game;
 
+import game.modes.GameModeHandler;
 import game.modcharts.HScriptModchart;
 import game.modcharts.ModchartGroup;
 import flixel.addons.transition.FlxTransitionableState;
@@ -26,9 +27,6 @@ class PlayState extends MusicBeatState
 	public static var songName:String;
 	public static var difficulty:String;
 
-	public static var isStoryMode:Bool = false;
-	public static var storyWeek:Int = 0;
-	public static var storyPlaylist:Array<String> = [];
 	public static var daPixelZoom:Float = 6;
 	public static var campaignScore:Int = 0;
 
@@ -57,6 +55,20 @@ class PlayState extends MusicBeatState
 	public var health(default, set):Float = 0.5;
 
 	public var modchartHandler:ModchartGroup;
+
+	public var gameMode:GameModeHandler;
+
+	public static function load(songName:String, songDifficulty:String, gameMode:GameModeHandler) {
+        PlayState.SONG = Chart.loadFrom(songName, songDifficulty); // TODO
+        PlayState.songName = songName;
+        PlayState.difficulty = songDifficulty;
+		FlxG.switchState(new PlayState(gameMode));
+	}
+
+	public function new(gameMode:GameModeHandler) {
+		super();
+		this.gameMode = gameMode;
+	}
 
 	public override function create() {
 		if (SONG.cutscene != null && SONG.cutscene != CNone)
@@ -256,7 +268,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function playCutscene(cutscene:ChartCutscene, out:Bool = false) {
-		if (cutscene != null) {
+		if (gameMode.playCutscenes && cutscene != null) {
 			switch(cutscene) {
 				case CVideo(path):
 					openSubState(new game.cutscenes.VideoCutscene(Paths.video(path)));
@@ -272,8 +284,8 @@ class PlayState extends MusicBeatState
 		// TODO: story progression & stuff
 		modchartHandler.onSongFinished();
 
-		SaveManager.save.setSongScore(songName.toLowerCase(), difficulty.toLowerCase(), stats.getSaveData());
-		FlxG.switchState(new FreeplayState());
+		gameMode.saveScore();
+		gameMode.onSongFinished();
 	}
 
 	public override function stepHit() {

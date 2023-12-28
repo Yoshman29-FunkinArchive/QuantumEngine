@@ -1,6 +1,6 @@
 # bald engine
 
-![](art/picture.png) holy shit another engine
+![](art/picture.png) holy shit another **CANCELLED** engine
 
 im too lazy to make a proper readme lemme copy the twitter thread i made abt the thought process for this with paths to the files used in the attached images (since my acc is privated)
 

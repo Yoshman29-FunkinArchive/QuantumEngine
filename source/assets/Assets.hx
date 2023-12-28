@@ -168,9 +168,6 @@ class AssetsUtil {
 				var animations:Array<FlxAnimation> = cast frames.parent.getFramesCollections(USER("animations"));
 
 				sprite.animation._animations = [for(a in animations) a.name => a.clone(sprite.animation)];
-				// for(anim in animations) {
-				//     sprite.animation._animations.set(anim.name, anim.clone(sprite.animation));
-				// }
 			}
 		}
 	}

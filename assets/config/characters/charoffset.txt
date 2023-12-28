@@ -1,2 +1,0 @@
-idle 0 0 
-thingy shit itll prob be a psych json

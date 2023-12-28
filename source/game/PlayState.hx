@@ -242,11 +242,11 @@ class PlayState extends MusicBeatState
 	}
 	function loadPrecachedAssets() {
 		for(i in 0...4) {
-			var s = Paths.sound('game/ui/intro/default/intro${i}');
+			var s = Paths.sound('game/ui/intro/${SONG.countdownSkin}/intro${i}');
 			if (Assets.exists(s))
 				FlxG.sound.cache(s);
 
-			var p = Paths.image('game/ui/intro/default/intro${i}');
+			var p = Paths.image('game/ui/intro/${SONG.countdownSkin}/intro${i}');
 			if (Assets.exists(p))
 				FlxG.bitmap.add(p);
 		}

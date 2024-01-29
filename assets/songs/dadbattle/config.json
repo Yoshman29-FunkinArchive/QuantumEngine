@@ -4,5 +4,7 @@
 	"icon": "dad",
 	"difficulties": ["easy", "normal", "hard", "erect"],
 
+	"modcharts": ["SoftcodedModchart#songs/dadbattle/test"],
+
 	"stage": "DefaultStage"
 }

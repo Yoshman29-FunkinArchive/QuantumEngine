@@ -6,7 +6,7 @@ import hscript.Expr;
 import hscript.Interp;
 import hscript.Expr.Error;
 
-class HScriptModchart extends Modchart {
+class SoftcodedModchart extends Modchart {
     var interp:Interp;
 
     var path:String;
@@ -19,12 +19,23 @@ class HScriptModchart extends Modchart {
 
         var splitPath = this.path.split("/");
         this.fileName = splitPath[splitPath.length-1];
+
         
         interp = new Interp();
         interp.errorHandler = onError;
 		interp.variables.set("trace", Reflect.makeVarArgs((args) -> {
 			FlxG.log.notice(args.join(", "));
 		}));
+        
+        for(l in Assets.getCoolTextFile(Paths.txt('config/hscriptImports'))) {
+            var index = l.lastIndexOf(".");
+            
+            var clName = l;
+            if (index > 0)
+                clName = l.substr(index + 1);
+
+            interp.variables.set(clName, Type.resolveClass(l));
+        }
         
 	    var expr:Expr = null;
 		var code = AssetsFL.getText(this.path);

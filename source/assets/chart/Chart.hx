@@ -16,17 +16,12 @@ class Chart {
 	/**
 	 * Stage used in this song
 	 */
-	public var stage:Class<Stage>;
+	public var stage:ClassReference<Stage>;
 
 	/**
 	 * Stage used in this song
 	 */
-	public var healthBar:Class<HealthBar>;
-
-	/**
-	 * Stage used in this song
-	 */
-	public var modcharts:Array<ChartModchart> = [];
+	public var modcharts:Array<ClassReference<Modchart>> = [];
 
 	/**
 	 * All audio files paths used for the instrumental of this song (do not put in Paths.sound)
@@ -109,36 +104,17 @@ class Chart {
 
 		chartFile.bpmChanges = Conductor.parseBpmDefinitionFromFile(Paths.bpmDef(fixPath('Inst', Paths.bpmDef)));
 
-		var cl:Class<Stage> = null;
-		for(classPath in ['game.stages.${chartFile.songMeta.stage}', chartFile.songMeta.stage])
-			if ((cl = cast Type.resolveClass(classPath)) != null)
-				break;
-
-		chartFile.stage = (cl == null) ? Stage : cl;
-
-		var cl:Class<HealthBar> = null;
-		for(classPath in ['game.${chartFile.songMeta.healthBar}', chartFile.songMeta.healthBar])
-			if ((cl = cast Type.resolveClass(classPath)) != null)
-				break;
+		chartFile.stage = new ClassReference<Stage>(chartFile.songMeta.stage, "game.stages", Stage);
 
 		for(modchart in chartFile.songMeta.modcharts) {
 			if (modchart.length <= 0) continue;
 
-			if (modchart.charAt(0) == modchart.charAt(0).toUpperCase()) {
-				var cl:Class<Modchart> = null;
-				for(classPath in ['game.modcharts.${modchart}', modchart])
-					if ((cl = cast Type.resolveClass(classPath)) != null)
-						break;
-				if (cl == null)
-					FlxG.log.warn('Modchart "${modchart}" not found.');
-				else
-					chartFile.modcharts.push(SClass(cl));
-			} else {
-				chartFile.modcharts.push(SHScript(Assets.exists(Paths.hx('songs/$lSong/$modchart')) ? 'songs/$lSong/$modchart' : modchart));
-			}
+			var cl:ClassReference<Modchart> = new ClassReference<Modchart>(modchart, "game.modcharts", null);
+			if (cl.cls == null)
+				FlxG.log.warn('Modchart "${modchart}" not found.');
+			else
+				chartFile.modcharts.push(cl);
 		}
-
-		chartFile.healthBar = (cl == null) ? HealthBar : cl;
 
 		var jsonData:Dynamic = Assets.getJsonIfExists(Paths.json(fixPath('chart', Paths.json)));
 
@@ -221,9 +197,4 @@ enum ChartCutscene {
 	CNone;
 	CVideo(path:String);
 	CCustom(cutscene:game.cutscenes.Cutscene);
-}
-
-enum ChartModchart {
-	SClass(cl:Class<Modchart>);
-	SHScript(path:String);
 }

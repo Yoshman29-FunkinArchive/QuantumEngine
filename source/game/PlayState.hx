@@ -1,7 +1,6 @@
 package game;
 
 import game.modes.GameModeHandler;
-import game.modcharts.HScriptModchart;
 import game.modcharts.ModchartGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxTween;
@@ -122,7 +121,7 @@ class PlayState extends MusicBeatState
 	}
  
 	function loadStage() {
-		add(stage = Type.createInstance(SONG.stage, []));
+		add(stage = SONG.stage.createInstance([]));
 	}
 	function loadHUD() {
 		hud.add(healthBar = new HealthBar());
@@ -130,14 +129,7 @@ class PlayState extends MusicBeatState
 	}
 	function loadModcharts() {
 		for(m in SONG.modcharts) {
-			switch(m) {
-				case SClass(cl):
-					modchartHandler.modcharts.push(Type.createInstance(cl, []));
-				case SHScript(path):
-					modchartHandler.modcharts.push(new HScriptModchart(path));
-				default:
-					// nuh uh
-			}
+			modchartHandler.modcharts.push(m.createInstance([]));
 		}
 	}
 	function loadStats() {
@@ -164,7 +156,7 @@ class PlayState extends MusicBeatState
 						strumLine.character = char;
 
 				} else {
-					FlxG.log.error('CHART ERROR: Character position "${strLine.character.position}" not found in stage ${Type.getClassName(SONG.stage)}');
+					FlxG.log.error('CHART ERROR: Character position "${strLine.character.position}" not found in stage ${Type.getClassName(SONG.stage.cls)}');
 				}
 			}
 

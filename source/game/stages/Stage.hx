@@ -12,8 +12,11 @@ class Stage extends FlxGroup {
 
 	public var ratings:RatingGroup;
 
-	public function new() {
+	public var param:String = null;
+
+	public function new(param:String = null) {
 		super();
+		this.param = param;
 		Conductor.instance.onBeat.add(beatHit);
 		Conductor.instance.onStep.add(stepHit);
 		Conductor.instance.onMeasure.add(measureHit);

@@ -65,7 +65,7 @@ class CoolUtil
 		#if cpp
 		return cpp.NativeArray.create(size);
 		#else
-		return cast new haxe.ds.Vector<T>(10000);
+		return cast new haxe.ds.Vector<T>(size);
 		#end
 	}
 

@@ -23,12 +23,12 @@ import backend.FlixelFixer2000;
 class Main extends Sprite
 {
 	public static var soundGroups:Array<FlxSoundGroup> = [];
-	
+
 	public function new()
 	{
 		super();
 
-		addChild(new FlxGame(0, 0));
+		addChild(new FlxGame(0, 0, true));
 
 		#if !mobile
 		addChild(new backend.FPS(10, 3, 0xFFFFFF));
@@ -80,7 +80,7 @@ class Main extends Sprite
 		// FUNKIN CACHE
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(FunkinCacheTracker, ["cachedBitmaps", "cachedSounds", "cachedFonts", "cachedFlixelGraphics"]));
 		windows.push(cast(FlxG.debugger.track(new FunkinCacheTracker()), Tracker));
-		
+
 		FlxG.debugger.addTrackerProfile(new TrackerProfile(StrumLine, ["controlsArray", "cpu", "justPressedArray", "pressedArray", "justReleasedArray", "__notesIndex", "__vocalsMuted"]));
 
 

@@ -1,0 +1,80 @@
+# lang parameters, in this case its english
+[lang]
+    name = "English (United States)"
+
+#
+# VALUES! Write in the other files however u want!
+# goal is to be accessible in game this way: game.ui.score.accuracy
+#
+[game]
+    title = "Friday Night Funkin' - Bald Engine"
+
+    [game.ui]
+        [game.ui.score]
+            accuracy = "Accuracy:{0}"
+            misses = "Misses:{0}"
+            score = "Score:{0}"
+
+        [game.ui.ratings]
+            sick = "Sick"
+            good = "Good"
+            bad = "Bad"
+            shit = "Shit"
+
+    [game.pause]
+        resume = "Resume"
+        restartsong = "Restart Song"
+        exitmenu = "Exit to menu"
+        
+[menus]
+    [menus.mainmenu]
+        storymode = "Story Mode"
+        freeplay = "Freeplay"
+        donate = "Donate"
+        options = "Options"
+
+        [menus.mainmenu.version]
+            mod = "MOD - {0}"
+            engine = "ENGINE - {0}"
+            funkin = "FUNKIN' - {0}"
+
+    [menus.title]
+        begin = "Press Enter to Begin"
+
+    [menus.freeplay]
+        bestscore = "PERSONAL BEST: {0}"
+
+    [menus.story]
+        bestscore = "PERSONAL BEST: {0}"
+        tracks = "TRACKS"
+
+[song]
+    [song.name]
+        dadbattle = "Dadbattle"
+
+    [song.difficulties]
+        easy = "Easy"
+        normal = "Normal"
+        hard = "Hard"
+
+[misc]
+    # 0 = Day, 1 = Month, 2 = Year
+    date = "{1}-{0}-{2}"
+
+    # 0 = Hour (24 hours), 1 = Hour (12 hours), 2 = Minute, 3 = AM/PM
+    time = "{1}:{2} {3}"
+
+    [misc.fps]
+        fps = "FPS: {0}"
+        memory = "Memory: {0}"
+
+[options]
+    [options.keybinds]
+        left = "Left"
+        down = "Down"
+        up = "Up"
+        right = "Right"
+
+    [options.gameplay]
+        downscroll = "Downscroll"
+        middlescroll = "Middlescroll"

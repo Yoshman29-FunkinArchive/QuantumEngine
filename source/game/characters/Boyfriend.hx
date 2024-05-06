@@ -1,5 +1,6 @@
 package game.characters;
 
+@aliases("bf")
 class Boyfriend extends SpriteCharacter {
 	public function new(x:Float, y:Float, flip:Bool, parent:StrumLine) {
 		super(x, y, flip, parent);

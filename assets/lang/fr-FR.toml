@@ -1,0 +1,69 @@
+# lang parameters, in this case its english
+[lang]
+    name = "Français (France)"
+
+#
+# VALUES! Write in the other files however u want!
+# goal is to be accessible in game this way: game.ui.score.accuracy
+#
+[game]
+    title = "Friday Night Funkin' - Bald Engine"
+
+    [game.ui]
+        [game.ui.score]
+            accuracy = "Précision:{0}"
+            misses = "Ratés:{0}"
+            score = "Score:{0}"
+
+        [game.ui.ratings]
+            sick = "Sick"
+            good = "Good"
+            bad = "Bad"
+            shit = "Shit"
+
+    [game.pause]
+        resume = "Reprendre"
+        restartsong = "Réessayer"
+        exitmenu = "Retourner au menu"
+        
+[menus]
+    [menus.mainmenu]
+        storymode = "Campagne"
+        freeplay = "Mode Libre"
+        donate = "Faire une donation"
+        options = "Options"
+
+        [menus.mainmenu.version]
+            mod = "MOD - {0}"
+            engine = "MOTEUR - {0}"
+            funkin = "FUNKIN' - {0}"
+
+    [menus.title]
+        begin = "Appuyez sur Entrée pour commencer"
+
+    [menus.freeplay]
+        bestscore = "MEILLEUR SCORE: {0}"
+
+    [menus.story]
+        bestscore = "MEILLEUR SCORE: {0}"
+        tracks = "MUSIQUES"
+
+[song]
+    [song.name]
+        dadbattle = "Dadbattle"
+
+    [song.difficulties]
+        easy = "Facile"
+        normal = "Normal"
+        hard = "Difficile"
+
+[misc]
+    # 0 = Day, 1 = Month, 2 = Year
+    date = "{0}-{1}-{2}"
+
+    # 0 = Hour (24 hours), 1 = Hour (12 hours), 2 = Minute, 3 = AM/PM
+    time = "{0}:{2}"
+
+    [misc.fps]
+        fps = "FPS: {0}"
+        memory = "Mémoire: {0}"

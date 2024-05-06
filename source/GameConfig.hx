@@ -12,6 +12,7 @@ class GameConfig {
     **/
     public static final modName:String = "Bald Engine";
     public static final saveName:String = "BaldEngine";
+    public static final defaultLang:String = "en-US";
 
     /**
         MENUS

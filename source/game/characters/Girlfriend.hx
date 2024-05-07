@@ -1,6 +1,6 @@
 package game.characters;
 
-@aliases("gf")
+@id("gf")
 class Girlfriend extends AtlasCharacter {
 	public function new(x:Float, y:Float, flipped:Bool, parent:StrumLine) {
 		super(x, y, flipped, parent, Paths.atlas('game/characters/gf'));

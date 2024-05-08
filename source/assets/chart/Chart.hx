@@ -119,20 +119,36 @@ class Chart {
 		var jsonData:Dynamic = Assets.getJsonIfExists(Paths.json(fixPath('chart', Paths.json)));
 
 		if (jsonData == null) {
-			return chartFile;
+			return chartFile; // return empty chart
 		}
 
+		/**
+		 * TRY TO GUESS WHAT CHART TYPE THIS IS
+		 */
+
+		var state:ChartState = new ChartState();
+		state.result = chartFile;
+		state.data = jsonData;
+		state.fixPath = fixPath;
+		state.difficulty = lDiff;
+		state.song = lSong;
+
+		// fnf chart fix
 		if (Reflect.hasField(jsonData, "song") && jsonData.song != null && !(jsonData.song is String))
 			jsonData = jsonData.song;
 
 		if (Reflect.hasField(jsonData, "notes") && Reflect.hasField(jsonData, "player1")) {
-			// PSYCH / BASE GAME FORMAT
-			BaseGameParser.parse(chartFile, jsonData, fixPath);
+			// PSYCH / BASE GAME (PRE WEEKEND1) FORMAT
+			BaseGameParser.parse(state);
 		} else if (Reflect.hasField(jsonData, "codenameChart")) {
-			CodenameParser.parse(chartFile, jsonData, fixPath);
+			// CODENAME CHART
+			CodenameParser.parse(state);
+		} else if (Reflect.hasField(jsonData, "version")) {
+			// NEW FNF CHART
+			FunkinCrewParser.parse(state);
 		}
 
-		#if html5
+		#if (html5 && debug)
 		js.Browser.console.log(chartFile);
 		#end
 
@@ -150,6 +166,31 @@ class Chart {
 	}
 }
 
+class ChartState {
+	/**
+	 * RESULT PARSED CHART
+	 */
+	public var result:Chart;
+	/**
+	 * BASE DATA
+	 */
+	public var data:Dynamic;
+	/**
+	 * FIX PATH FUNCTION
+	 */
+	public var fixPath:(String,(String->String))->String;
+	/**
+	 * DIFFICULTY NAME - In case chart files contains multiple difficulties at once (lowercased)
+	 */
+	public var difficulty:String;
+	/**
+	 * SONG NAME - In case chart files contains multiple... songs?? odd (lowercased)
+	 */
+	public var song:String;
+
+	public function new() {}
+}
+
 class ChartStrumLine {
 	public var cpu:Bool = true;
 	public var xPos:Float = 0.25;
@@ -163,6 +204,7 @@ class ChartStrumLine {
 
 	public function new(cpu:Bool = true) {
 		this.cpu = cpu;
+		this.xPos = cpu ? 0.25 : 0.75;
 	}
 }
 

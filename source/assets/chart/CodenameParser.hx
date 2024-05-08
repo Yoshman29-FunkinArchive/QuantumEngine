@@ -1,12 +1,14 @@
 package assets.chart;
 
+import assets.chart.Chart.ChartState;
 import game.characters.presets.Character.CharacterUtil;
 import flixel.util.FlxColor;
 
 class CodenameParser {
-    public static function parse(chart:Chart, jsonData:CodenameData, fixPath:String->(String->String)->String) {
+    public static function parse(chart:ChartState) {
+		var jsonData:CodenameData = chart.data;
         if (jsonData.meta == null)
-            jsonData.meta = Assets.getJsonIfExists(fixPath('meta', Paths.json));
+            jsonData.meta = Assets.getJsonIfExists(chart.fixPath('meta', Paths.json));
         
         for(strLine in jsonData.strumLines) {
             var charName = (strLine.characters == null ? null : strLine.characters[0]);
@@ -25,21 +27,21 @@ class CodenameParser {
             strumLine.notes = [for(n in strLine.notes) new ChartNote(n.time, n.id, n.sLen, Chart.parseNoteType(jsonData.noteTypes == null ? null : jsonData.noteTypes[n.type]))];
             strumLine.xPos = strLine.strumLinePos ?? (strumLine.cpu ? 0.25 : 0.75);
             strumLine.speed = jsonData.scrollSpeed * 0.45;
-            strumLine.vocalTracks = (jsonData.meta?.needsVoices ?? true) ? [fixPath('Voices', Paths.sound)] : [];
+            strumLine.vocalTracks = (jsonData.meta?.needsVoices ?? true) ? [chart.fixPath('Voices', Paths.sound)] : [];
 
             switch(strLine.type) {
                 case PLAYER:
-                    if (chart.playerIcon == "test") chart.playerIcon = charName ?? "face";
+                    if (chart.result.playerIcon == "test") chart.result.playerIcon = charName ?? "face";
                 case OPPONENT:
-                    if (chart.opponentIcon == "test") chart.opponentIcon = charName ?? "face";
+                    if (chart.result.opponentIcon == "test") chart.result.opponentIcon = charName ?? "face";
                 default:
                     // nothing
             }
 
-            chart.strumLines.push(strumLine);
+            chart.result.strumLines.push(strumLine);
         }
 
-        chart.events = [for(e in jsonData.events) if (e != null && e.name != "BPM Change") new SongEvent(e.time, switch(e.name) {
+        chart.result.events = [for(e in jsonData.events) if (e != null && e.name != "BPM Change") new SongEvent(e.time, switch(e.name) {
             case "Camera Movement": ECameraMove(e.params[0]);
             case "HScript Call":
                 if(e.params[0] is String && e.params[1] is Array)

@@ -1,22 +1,25 @@
 package assets.chart;
 
+import assets.chart.Chart.ChartState;
 import game.characters.presets.Character.CharacterUtil;
 
 class BaseGameParser {
-	public static function parse(chart:Chart, data:SwagSong, fixPath:String->(String->String)->String) {
+	public static function parse(chart:ChartState) {
 		var p1:ChartStrumLine = new ChartStrumLine(false);
 		var p2:ChartStrumLine = new ChartStrumLine(true);
 
-		chart.strumLines.push(p1);
-		chart.strumLines.push(p2);
+		chart.result.strumLines.push(p1);
+		chart.result.strumLines.push(p2);
+
+		var data:SwagSong = chart.data;
 
 		p1.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.player1), PLAYER);
 		p2.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.player2), OPPONENT);
 
 		p1.xPos = 0.75;
 
-		chart.playerIcon = data.player1;
-		chart.opponentIcon = data.player2;
+		chart.result.playerIcon = data.player1;
+		chart.result.opponentIcon = data.player2;
 
 		p1.speed = p2.speed = data.speed * 0.45;
 
@@ -32,7 +35,7 @@ class BaseGameParser {
 			gf.xPos = 0.5;
 			gf.character = new ChartCharacter(CharacterUtil.getClassFromChar(data.gfVersion), GIRLFRIEND);
 			gf.speed = p1.speed;
-			chart.strumLines.push(gf);
+			chart.result.strumLines.push(gf);
 		}
 
 
@@ -40,13 +43,13 @@ class BaseGameParser {
 		var camTarget = -1;
 
 		if (!!data.needsVoices) {
-			var usesSeparateVocals = Assets.exists(Paths.sound(fixPath("Voices_P1", Paths.sound)));
+			var usesSeparateVocals = Assets.exists(Paths.sound(chart.fixPath("Voices_P1", Paths.sound)));
 			if (usesSeparateVocals) {
-				p1.vocalTracks.push(fixPath("Voices_P1", Paths.sound));
-				p2.vocalTracks.push(fixPath("Voices_P2", Paths.sound));
+				p1.vocalTracks.push(chart.fixPath("Voices_P1", Paths.sound));
+				p2.vocalTracks.push(chart.fixPath("Voices_P2", Paths.sound));
 			} else {
-				p1.vocalTracks.push(fixPath("Voices", Paths.sound));
-				p2.vocalTracks.push(fixPath("Voices", Paths.sound));
+				p1.vocalTracks.push(chart.fixPath("Voices", Paths.sound));
+				p2.vocalTracks.push(chart.fixPath("Voices", Paths.sound));
 			}
 		}
 
@@ -54,7 +57,7 @@ class BaseGameParser {
 			var secTarget = (section.gfSection ? 2 : (section.mustHitSection ? 0 : 1));
 
 			if (secTarget != camTarget) {
-				chart.events.push(new SongEvent(chart.bpmChanges.getTimeForMeasure(k), ECameraMove(secTarget)));
+				chart.result.events.push(new SongEvent(chart.result.bpmChanges.getTimeForMeasure(k), ECameraMove(secTarget)));
 				camTarget = secTarget;
 			}
 
@@ -80,7 +83,7 @@ class BaseGameParser {
 					var time:Float = eventGroup[0];
 					if (eventGroup[1] is Array) {
 						for(event in cast(eventGroup[1], Array<Dynamic>)) {
-							chart.events.push(new SongEvent(time, EPsychEvent(event[0], event[1], event[2])));
+							chart.result.events.push(new SongEvent(time, EPsychEvent(event[0], event[1], event[2])));
 						}
 					}
 				}
@@ -92,7 +95,7 @@ class BaseGameParser {
 
 typedef SwagSong = {
 	var notes:Array<SwagSection>; // 0: time, 1 : id, 2 : sustain length, 3 : note type (psych)
-	var events:Array<Dynamic>;
+	var events:Array<Dynamic>; // psych events support?? maybe
 	var speed:Float; // scroll speed, might need to convert???
 
 	var song:String; // config.json

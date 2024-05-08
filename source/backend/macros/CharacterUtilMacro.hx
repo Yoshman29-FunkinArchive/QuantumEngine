@@ -36,8 +36,6 @@ class CharacterUtilMacro {
 
         var retType = getType(macro var e:Class<Character> = null);
 
-        trace(macro game.characters.presets.Character);
-
         var totalHits:Array<String> = [];
 
         var f:Field = {

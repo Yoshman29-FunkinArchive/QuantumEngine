@@ -89,10 +89,17 @@ class Chart {
 		var lSong = song.toLowerCase();
 		var lDiff = difficulty.toLowerCase();
 
+		var diffPaths = [lDiff];
+		if (chartFile.songMeta.folders != null && Reflect.hasField(chartFile.songMeta.folders, difficulty)) {
+			diffPaths = Reflect.field(chartFile.songMeta.folders, difficulty);
+		}
+
 		function fixPath(path, pathFunc:String->String):String {
-			var diffPath = pathFunc('songs/${lSong}/$lDiff/$path');
-			if (Assets.exists(diffPath))
-				return 'songs/${lSong}/$lDiff/$path';
+			for(d in diffPaths) {
+				var diffPath = pathFunc('songs/${lSong}/$d/$path');
+				if (Assets.exists(diffPath))
+					return 'songs/${lSong}/$d/$path';
+			}
 			return 'songs/$lSong/$path';
 		};
 

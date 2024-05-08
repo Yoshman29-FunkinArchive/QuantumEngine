@@ -1,0 +1,13 @@
+{
+	"name": "Fresh",
+	"color": null,
+	"icon": "dad",
+	"difficulties": ["easy", "normal", "hard", "erect", "nightmare"],
+
+	"stage": "DefaultStage",
+
+	"folders": {
+		"nightmare": ["erect"],
+		"erect": ["erect"]
+	}
+}

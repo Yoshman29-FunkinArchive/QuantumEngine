@@ -19,11 +19,14 @@ class FunkinCrewParser {
         result.strumLines.push(player);
         result.strumLines.push(opponent);
 
-        var notes:Array<FunkinNote> = getDifficultyNotes(data.notes, chart.difficulty);
-        trace(notes);
+        var speed = (getDifficultyBasedValue(data.scrollSpeed, chart.difficulty) ?? 5.5) * 0.45;
+        player.speed = speed;
+        opponent.speed = speed;
+
+        var notes:Array<FunkinNote> = getDifficultyBasedValue(data.notes, chart.difficulty) ?? [];
         for(n in notes) {
             var i = n.d % 4;
-            var s = n.d >= 4 ? player : opponent;
+            var s = n.d >= 4 ? opponent : player;
 
             s.notes.push(new ChartNote(n.t, i, n.l));
         }
@@ -42,10 +45,8 @@ class FunkinCrewParser {
         /**
          * META FILE PARSING
          */
-        var meta:FunkinChartMetadata = Assets.getJsonIfExists(chart.fixPath('chart-metadata', Paths.json));
-        #if (debug && html5)
-        trace(meta);
-        #end
+        var metaPath = Paths.json(chart.fixPath('chart-metadata', Paths.json));
+        var meta:FunkinChartMetadata = Assets.getJsonIfExists(metaPath);
         if (meta == null)
             return;
 
@@ -60,6 +61,8 @@ class FunkinCrewParser {
             result.strumLines.push(gfStrumLine);
         }
 
+        chart.result.playerIcon = meta.playData.characters.player;
+        chart.result.opponentIcon = meta.playData.characters.opponent;
         // audio vocals
         var p1VocalTrack = getVocalPath(chart, meta.playData.characters.player, PLAYER);
         var p2VocalTrack = getVocalPath(chart, meta.playData.characters.opponent, OPPONENT);
@@ -71,13 +74,13 @@ class FunkinCrewParser {
         var paths = ['Voices-$charID', 'Voices-$type'];
         for(p in paths) {
             var path = chart.fixPath(p, Paths.sound);
-            if (Assets.exists(path))
+            if (Assets.exists(Paths.sound(path)))
                 return path;
         }
         return null;
     }
 
-    public static function getDifficultyNotes(a:FunkinDifficulties<Array<FunkinNote>>, diff:String) {
+    public static function getDifficultyBasedValue<T>(a:FunkinDifficulties<T>, diff:String):Null<T> {
         var diffsToCheck = [diff, "normal", "hard", "erect", "nightmare", "easy"];
 
         for(d in diffsToCheck) {
@@ -86,7 +89,7 @@ class FunkinCrewParser {
                 return data;
         }
 
-        return [];
+        return null;
     }
 }
 

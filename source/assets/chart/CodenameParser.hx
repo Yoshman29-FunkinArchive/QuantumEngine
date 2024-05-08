@@ -8,7 +8,7 @@ class CodenameParser {
     public static function parse(chart:ChartState) {
 		var jsonData:CodenameData = chart.data;
         if (jsonData.meta == null)
-            jsonData.meta = Assets.getJsonIfExists(chart.fixPath('meta', Paths.json));
+            jsonData.meta = Assets.getJsonIfExists(Paths.json(chart.fixPath('meta', Paths.json)));
         
         for(strLine in jsonData.strumLines) {
             var charName = (strLine.characters == null ? null : strLine.characters[0]);

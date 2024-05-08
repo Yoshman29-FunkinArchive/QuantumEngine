@@ -2,9 +2,12 @@
 	"name": "Dadbattle",
 	"color": null,
 	"icon": "dad",
-	"difficulties": ["easy", "normal", "hard", "erect"],
+	"difficulties": ["easy", "normal", "hard", "erect", "nightmare"],
 
-	"modcharts": ["SoftcodedModchart#songs/dadbattle/test"],
+	"stage": "DefaultStage",
 
-	"stage": "DefaultStage"
+	"folders": {
+		"nightmare": ["erect"],
+		"erect": ["erect"]
+	}
 }

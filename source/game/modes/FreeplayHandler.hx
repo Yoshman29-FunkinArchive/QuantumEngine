@@ -16,4 +16,7 @@ class FreeplayHandler extends GameModeHandler {
 	public static function playSong(name:String, difficulty:String) {
 		PlayState.load(name, difficulty, new FreeplayHandler());
 	}
+	public override function getName():String {
+		return "Freeplay";
+	}
 }

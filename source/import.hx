@@ -26,4 +26,6 @@ using utils.CoolUtil.CoolExtension;
 
 import flixel.util.FlxDestroyUtil;
 import save.SaveManager;
+
+import backend.plugins.DiscordRpc.DiscordPresence;
 #end

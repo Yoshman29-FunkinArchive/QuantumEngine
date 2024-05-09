@@ -57,6 +57,12 @@
 	<haxedef name="GPU_TEXTURES_SUPPORT" unless="web" />
 	<!-- Enables video cutscene support -->
 	<haxedef name="VIDEO_SUPPORTED" if="sys" />
+	<!-- Enables Discord RPC support-->
+	<set name="DISCORD_RPC" if="windows"/>
+	
+	<!-- _________________________________ Defines _______________________________ -->
+	<haxedef name="WIN_CPP" if="windows cpp"/>
+	<haxedef name="DISCORD_RPC" if="DISCORD_RPC"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -70,6 +76,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxanimate" />
 	<haxelib name="hxCodec"/>
+	<haxelib name="discord_rpc" if="DISCORD_RPC"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -112,9 +119,6 @@
 	<haxeflag name="--macro" value="include('game.strum')" />
 	
 	<haxedef name="hscriptPos" /> <!-- for logging -->
-
-	<!-- _________________________________ Defines _______________________________ -->
-	<haxedef name="WIN_CPP" if="windows cpp"/>
 	
 	<!-- _________________________________ Custom _______________________________ -->
 

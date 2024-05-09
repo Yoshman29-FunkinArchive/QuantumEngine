@@ -401,4 +401,10 @@ class PlayState extends MusicBeatState
 		onHealthChange();
 		return health;
 	}
+
+	public override function updateDiscordPresence(presence:DiscordPresence) {
+		presence.state = '${gameMode.getName()} - ${SONG.songMeta.name ?? songName} ($difficulty)';
+		presence.details = stats.toString();
+		presence.smallImageKey = SONG.songMeta.icon;
+	}
 }

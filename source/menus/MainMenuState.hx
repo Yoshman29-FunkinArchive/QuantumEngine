@@ -202,4 +202,8 @@ class MainMenuState extends MusicBeatState
 			spr.updateHitbox();
 		});
 	}
+
+	public override function updateDiscordPresence(presence:DiscordPresence) {
+		presence.state = 'Main Menu';
+	}
 }

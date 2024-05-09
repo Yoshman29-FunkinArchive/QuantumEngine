@@ -167,4 +167,8 @@ class FreeplayState extends MusicBeatState
 
 		changeDiff(0);
 	}
+
+	public override function updateDiscordPresence(presence:DiscordPresence) {
+		presence.state = 'Freeplay Menu';
+	}
 }

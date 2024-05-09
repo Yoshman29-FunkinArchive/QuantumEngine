@@ -278,4 +278,8 @@ class TitleState extends MusicBeatState
 			skippedIntro = true;
 		}
 	}
+
+	public override function updateDiscordPresence(presence:DiscordPresence) {
+		presence.state = 'Title Screen';
+	}
 }

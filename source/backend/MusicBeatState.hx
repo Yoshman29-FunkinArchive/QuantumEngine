@@ -1,5 +1,6 @@
 package backend;
 
+import backend.plugins.DiscordRpc.DiscordPresence;
 import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
@@ -71,5 +72,9 @@ class MusicBeatState extends FlxUIState
 		Conductor.instance.onBeat.remove(_onBeat);
 		Conductor.instance.onStep.remove(_onStep);
 		Conductor.instance.onMeasure.remove(_onMeasure);
+	}
+
+	public function updateDiscordPresence(presence:DiscordPresence) {
+		
 	}
 }

@@ -438,4 +438,8 @@ class StoryMenuState extends MusicBeatState
 		intendedScore = 0;
 		#end
 	}
+
+	public override function updateDiscordPresence(presence:DiscordPresence) {
+		presence.state = 'Story Menu';
+	}
 }

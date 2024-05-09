@@ -1,5 +1,6 @@
 package backend;
 
+import backend.plugins.DiscordRpc;
 import game.StrumLine;
 import flixel.sound.FlxSoundGroup;
 import flixel.system.debug.Window;
@@ -40,6 +41,7 @@ class Main extends Sprite
 		Conductor.init();
 		FunkinCache.init();
 		AssetLibraryTree.init();
+		DiscordRpc.init();
 		// configure the replacement for the cache
 		FlxG.bitmap.configure();
 

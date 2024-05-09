@@ -61,4 +61,10 @@ class MusicBeatSubstate extends FlxSubState
 		Conductor.instance.onStep.remove(_onStep);
 		Conductor.instance.onMeasure.remove(_onMeasure);
 	}
+
+	public function updateDiscordPresence(presence:DiscordPresence) {
+		if (subState is MusicBeatSubstate) {
+			cast(subState, MusicBeatSubstate).updateDiscordPresence(presence);
+		}
+	}
 }

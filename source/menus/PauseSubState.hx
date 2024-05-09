@@ -125,4 +125,9 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		}
 	}
+
+	public override function updateDiscordPresence(presence:DiscordPresence) {
+		presence.state = 'PAUSED - ' + presence.state;
+		super.updateDiscordPresence(presence);
+	}
 }

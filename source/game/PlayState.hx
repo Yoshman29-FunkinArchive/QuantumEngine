@@ -406,5 +406,6 @@ class PlayState extends MusicBeatState
 		presence.state = '${gameMode.getName()} - ${SONG.songMeta.name ?? songName} ($difficulty)';
 		presence.details = stats.toString();
 		presence.smallImageKey = SONG.songMeta.icon;
+		super.updateDiscordPresence(presence);
 	}
 }

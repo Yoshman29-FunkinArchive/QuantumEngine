@@ -75,6 +75,8 @@ class MusicBeatState extends FlxUIState
 	}
 
 	public function updateDiscordPresence(presence:DiscordPresence) {
-		
+		if (subState is MusicBeatSubstate) {
+			cast(subState, MusicBeatSubstate).updateDiscordPresence(presence);
+		}
 	}
 }

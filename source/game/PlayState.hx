@@ -23,8 +23,6 @@ class PlayState extends MusicBeatState
 	public static var curStage:String = '';
 
 	public static var SONG:Chart;
-	public static var songName:String;
-	public static var difficulty:String;
 
 	public static var daPixelZoom:Float = 6;
 	public static var campaignScore:Int = 0;
@@ -57,19 +55,14 @@ class PlayState extends MusicBeatState
 
 	public var gameMode:GameModeHandler;
 
-	public static function load(songName:String, songDifficulty:String, gameMode:GameModeHandler) {
-        PlayState.SONG = Chart.loadFrom(songName, songDifficulty); // TODO
-        PlayState.songName = songName;
-        PlayState.difficulty = songDifficulty;
-		FlxG.switchState(new PlayState(gameMode));
-	}
-
 	public function new(gameMode:GameModeHandler) {
 		super();
 		this.gameMode = gameMode;
 	}
 
 	public override function create() {
+		gameMode.loadSong();
+
 		if (SONG.cutscene != null && SONG.cutscene != CNone)
 			FlxTransitionableState.skipNextTransIn = true; // TODO: custom transition system
 
@@ -403,7 +396,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public override function updateDiscordPresence(presence:DiscordPresence) {
-		presence.state = '${gameMode.getName()} - ${SONG.songMeta.name ?? songName} ($difficulty)';
+		presence.state = '${gameMode.getName()} - ${SONG.songMeta.name ?? SONG.song} (${SONG.difficulty})';
 		presence.details = stats.toString();
 		presence.smallImageKey = SONG.songMeta.icon;
 		super.updateDiscordPresence(presence);

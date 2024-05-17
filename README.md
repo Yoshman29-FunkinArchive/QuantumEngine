@@ -134,12 +134,11 @@ additional mentions: cleaned up paths, FlixelFixer2000 (high dpi doesnt make the
     - [x] Beginning countdown (3 2 1 go)
     - [x] Make combo ratings show up
 - [x] Save & Options
-    - [ ] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
+    - [x] Remove Highscore, etc... and replace it by FunkinSave (like CNE)
     - [ ] Add Options
         - [x] Add options saving
         - [ ] Add options menu (??? maybe at the end right before release)
-- [ ] Discord RPC
-- [ ] Baldi Funkin
+- [x] Discord RPC
 - [ ] Menus
     - [ ] Update Freeplay to use icons & config.json
     - [ ] Update Story Menu to a better format

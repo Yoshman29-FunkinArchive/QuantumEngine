@@ -14,6 +14,16 @@ import flixel.group.FlxGroup;
 
 class Chart {
 	/**
+	 * Name of the song.
+	 */
+	public var song:String;
+	/**
+	 * Difficulty of the song
+	 */
+	public var difficulty:String;
+
+
+	/**
 	 * Stage used in this song
 	 */
 	public var stage:ClassReference<Stage>;
@@ -85,6 +95,8 @@ class Chart {
 	 */
 	public static function loadFrom(song:String, difficulty:String) {
 		var chartFile = new Chart(song);
+		chartFile.song = song;
+		chartFile.difficulty = difficulty;
 
 		var lSong = song.toLowerCase();
 		var lDiff = difficulty.toLowerCase();

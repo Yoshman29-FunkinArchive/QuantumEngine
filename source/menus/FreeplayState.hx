@@ -134,7 +134,7 @@ class FreeplayState extends MusicBeatState
 		if (Controls.justPressed.ACCEPT)
 		{
 			Conductor.instance.stop();
-			FreeplayHandler.playSong(curSongName, curSongDifficulty);
+			FlxG.switchState(new PlayState(new FreeplayHandler(curSongName, curSongDifficulty)));
 		}
 	}
 
@@ -145,7 +145,7 @@ class FreeplayState extends MusicBeatState
 		curSongDifficulty = curSongMeta.difficulties[curDifficulty].toLowerCase();
 
 		#if !switch
-		intendedScore = SaveManager.save.getSongScore(curSongName, curSongDifficulty).score;
+		intendedScore = SaveManager.save.getScore(TSong(curSongName, curSongDifficulty)).score;
 		#end
 
 		diffText.text = curSongMeta.difficulties.length > 1 ? '< ${curSongDifficulty.toUpperCase()} >' : curSongDifficulty.toUpperCase();

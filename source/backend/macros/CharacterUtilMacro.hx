@@ -1,6 +1,5 @@
 package backend.macros;
 
-import haxe.macro.ComplexTypeTools;
 #if macro
 import haxe.macro.Printer;
 import haxe.macro.Expr;
@@ -13,12 +12,11 @@ import haxe.macro.Compiler;
 import sys.io.File;
 import haxe.io.Path;
 import haxe.macro.ExprTools;
+import haxe.macro.ComplexTypeTools;
 
 class CharacterUtilMacro {
-    public static var isDisplay:Bool = #if (display || display_details) true #else false #end;
-
     public static function build():Array<Field> {
-        if (isDisplay)
+        if (MacroUtil.isDisplay)
             return Context.getBuildFields();
 
         var fields = [];
@@ -34,7 +32,7 @@ class CharacterUtilMacro {
 
         var classes = Context.resolvePath(classesPath);
 
-        var retType = getType(macro var e:Class<Character> = null);
+        var retType = MacroUtil.getType(macro var e:Class<Character> = null);
 
         var totalHits:Array<String> = [];
 
@@ -44,10 +42,10 @@ class CharacterUtilMacro {
             kind: FFun({
                 args: [{
                     name: "name",
-                    type: getType(macro var e:String = null)
+                    type: MacroUtil.getType(macro var e:String = null)
                 }],
                 ret: retType,
-                expr: isDisplay
+                expr: MacroUtil.isDisplay
                     ? macro {return null;}
                     : mk(EBlock([{
                         var cases:Array<Case> = [];
@@ -119,15 +117,6 @@ class CharacterUtilMacro {
             pos: Context.currentPos()
         }
     };
-
-    public static function getType(e:Expr):ComplexType {
-        return switch(e.expr) {
-            case ExprDef.EVars(vars):
-                vars[0].type;
-            default:
-                null;
-        }
-    }
 
     public static function classToFields(path:Array<String>):Expr {
         var e:Expr = null;

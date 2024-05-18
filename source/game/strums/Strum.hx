@@ -42,14 +42,14 @@ class Strum extends FlxSprite {
 		} else {
 			switch(animation.getCurAnimName()) {
 				case "static":
-					if (Controls.controls[parent.controlsArray[id]].justPressed)
+					if (parent.controlsArray[id].justPressed)
 						animation.play("pressed");
 				case "pressed":
-					if (Controls.controls[parent.controlsArray[id]].justReleased)
+					if (parent.controlsArray[id].justReleased)
 						animation.play("static");
 					// nothing
 				case "confirm":
-					if (Controls.controls[parent.controlsArray[id]].justReleased)
+					if (parent.controlsArray[id].justReleased)
 						animation.play("static");
 			}
 		}

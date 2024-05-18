@@ -74,6 +74,20 @@ class CharGroup extends FlxGroup {
 		this.scrollY = scrollY;
 		this.flip = flip;
 	}
+
+	/**
+	 * Creates a chracter in this group, and returns it
+	 * @param strLine StrumLine
+	 * @return Character
+	 */
+	public function createCharacter(char:Class<Character>, ?strLine:StrumLine):Character {
+		var char:Character = Type.createInstance(char, [0, 0, flip, strLine]);
+		add(char._);
+		char._.setPosition(x, y);
+		char._.scrollFactor.x *= scrollX;
+		char._.scrollFactor.y *= scrollY;
+		return char;
+	}
 }
 
 enum abstract CharPosName(String) from String to String {

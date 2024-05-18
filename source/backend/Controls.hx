@@ -7,95 +7,41 @@ import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.actions.FlxAction.FlxActionDigital;
 
+@:build(backend.macros.ControlsMacro.buildControls())
 class Controls {
-	public static var controls:Map<String, ActionControl> = [];
-
-	public static function init() {
-		controls = [
-			// UI
-			"LEFT" => new ActionControl("ui_left", [FlxKey.LEFT, FlxKey.A]),
-			"DOWN" => new ActionControl("ui_down", [FlxKey.DOWN, FlxKey.S]),
-			"UP" => new ActionControl("ui_up", [FlxKey.UP, FlxKey.W]),
-			"RIGHT" => new ActionControl("ui_right", [FlxKey.RIGHT, FlxKey.D]),
-			"ACCEPT" => new ActionControl("ui_accept", [FlxKey.ENTER]),
-			"BACK" => new ActionControl("ui_back", [FlxKey.ESCAPE, FlxKey.BACKSPACE]),
-	
-			// INGAME
-			"NOTE_LEFT" => new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]),
-			"NOTE_DOWN" => new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]),
-			"NOTE_UP" => new ActionControl("note_up", [FlxKey.UP, FlxKey.W]),
-			"NOTE_RIGHT" => new ActionControl("note_right", [FlxKey.RIGHT, FlxKey.D]),
-			"PAUSE" => new ActionControl("pause", [FlxKey.ENTER, FlxKey.P, FlxKey.ESCAPE]),
-			"RESET" => new ActionControl("reset", [FlxKey.R]),
-		];
-	}
-
 	public static var pressed:ControlResolver = new ControlResolver(PRESSED);
 	public static var released:ControlResolver = new ControlResolver(RELEASED);
 	public static var justPressed:ControlResolver = new ControlResolver(JUST_PRESSED);
 	public static var justReleased:ControlResolver = new ControlResolver(JUST_RELEASED);
+	
+	public static function init() {}
+
+	/**
+	 * CONTROLS HERE
+	 * CONTROLS MUST BE FULLY CAPITALIZED FOR IT TO BE RECOGNIZED BY THE MACRO
+	 */
+	public static var LEFT = new ActionControl("ui_left", [FlxKey.LEFT, FlxKey.A]);
+	public static var DOWN = new ActionControl("ui_down", [FlxKey.DOWN, FlxKey.S]);
+	public static var UP = new ActionControl("ui_up", [FlxKey.UP, FlxKey.W]);
+	public static var RIGHT = new ActionControl("ui_right", [FlxKey.RIGHT, FlxKey.D]);
+	public static var ACCEPT = new ActionControl("ui_accept", [FlxKey.ENTER]);
+	public static var BACK = new ActionControl("ui_back", [FlxKey.ESCAPE, FlxKey.BACKSPACE]);
+
+	public static var NOTE_LEFT = new ActionControl("note_left", [FlxKey.LEFT, FlxKey.A]);
+	public static var NOTE_DOWN = new ActionControl("note_down", [FlxKey.DOWN, FlxKey.S]);
+	public static var NOTE_UP = new ActionControl("note_up", [FlxKey.UP, FlxKey.W]);
+	public static var NOTE_RIGHT = new ActionControl("note_right", [FlxKey.RIGHT, FlxKey.D]);
+	public static var PAUSE = new ActionControl("pause", [FlxKey.ENTER, FlxKey.P, FlxKey.ESCAPE]);
+	public static var RESET = new ActionControl("reset", [FlxKey.R]);
+
 }
 
-
+@:build(backend.macros.ControlsMacro.buildControlResolver())
 class ControlResolver {
 	public var state:FlxInputState;
 	public function new(state:FlxInputState) {
 		this.state = state;
 	}
-
-	/**
-	 * UI
-	 */
-	public var LEFT(get, null):Bool;
-	private inline function get_LEFT()
-		return Controls.controls["LEFT"].getState(state);
-
-	public var DOWN(get, null):Bool;
-	private inline function get_DOWN()
-		return Controls.controls["DOWN"].getState(state);
-
-	public var UP(get, null):Bool;
-	private inline function get_UP()
-		return Controls.controls["UP"].getState(state);
-
-	public var RIGHT(get, null):Bool;
-	private inline function get_RIGHT()
-		return Controls.controls["RIGHT"].getState(state);
-
-	public var ACCEPT(get, null):Bool;
-	private inline function get_ACCEPT()
-		return Controls.controls["ACCEPT"].getState(state);
-
-	public var BACK(get, null):Bool;
-	private inline function get_BACK()
-		return Controls.controls["BACK"].getState(state);
-
-	/**
-	 * IN-GAME
-	 */
-	public var LEFT_NOTE(get, null):Bool;
-	private inline function get_LEFT_NOTE()
-		return Controls.controls["LEFT_NOTE"].getState(state);
-
-	public var DOWN_NOTE(get, null):Bool;
-	private inline function get_DOWN_NOTE()
-		return Controls.controls["DOWN_NOTE"].getState(state);
-
-	public var UP_NOTE(get, null):Bool;
-	private inline function get_UP_NOTE()
-		return Controls.controls["UP_NOTE"].getState(state);
-
-	public var RIGHT_NOTE(get, null):Bool;
-	private inline function get_RIGHT_NOTE()
-		return Controls.controls["RIGHT_NOTE"].getState(state);
-
-	public var PAUSE(get, null):Bool;
-	private inline function get_PAUSE()
-		return Controls.controls["PAUSE"].getState(state);
-
-	public var RESET(get, null):Bool;
-	private inline function get_RESET()
-		return Controls.controls["RESET"].getState(state);
 }
 
 class ActionControl {
@@ -105,6 +51,7 @@ class ActionControl {
 	public var __released:FlxActionDigital = new FlxActionDigital();
 
 	public var saveID:String;
+	public var defaultKeys:Array<FlxKey> = [];
 
 	public var controlData:ControlData = {
 		keybinds: null
@@ -112,7 +59,10 @@ class ActionControl {
 
 	public function new(saveID:String, defaultKeys:Array<FlxKey>) {
 		this.saveID = saveID;
+		this.defaultKeys = defaultKeys;
+	}
 
+	public function init() {
 		// try to load 
 		var savedData = SaveManager.settings.controls[saveID];
 

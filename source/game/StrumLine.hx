@@ -10,7 +10,7 @@ import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 import backend.plugins.Conductor.ConductorSound;
 
 class StrumLine extends FlxTypedSpriteGroup<Strum> {
-	public var controlsArray:Array<String> = ["NOTE_LEFT", "NOTE_DOWN", "NOTE_UP", "NOTE_RIGHT"];
+	public var controlsArray:Array<ActionControl> = [Controls.NOTE_LEFT, Controls.NOTE_DOWN, Controls.NOTE_UP, Controls.NOTE_RIGHT];
 
 	public var cpu:Bool = false;
 
@@ -111,9 +111,9 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 				notesPerStrum = CoolUtil.allocArray(length);
 				additionalPressedNotes = [for(i in 0...length) []];
 				pressedSustains = [];
-				justPressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justPressed];
-				pressedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].pressed];
-				justReleasedArray = [for(i in 0...length) Controls.controls[controlsArray[i]].justReleased];
+				justPressedArray = [for(i in 0...length) controlsArray[i].justPressed];
+				pressedArray = [for(i in 0...length) controlsArray[i].pressed];
+				justReleasedArray = [for(i in 0...length) controlsArray[i].justReleased];
 			} else {
 				notesPerStrum.nullify();
 				additionalPressedNotes = [for(i in 0...length) []];
@@ -123,9 +123,9 @@ class StrumLine extends FlxTypedSpriteGroup<Strum> {
 				justReleasedArray.nullify(false);
 
 				for(i in 0...length) {
-					justPressedArray[i] = Controls.controls[controlsArray[i]].justPressed;
-					pressedArray[i] = Controls.controls[controlsArray[i]].pressed;
-					justReleasedArray[i] = Controls.controls[controlsArray[i]].justReleased;
+					justPressedArray[i] = controlsArray[i].justPressed;
+					pressedArray[i] = controlsArray[i].pressed;
+					justReleasedArray[i] = controlsArray[i].justReleased;
 				}
 			}
 

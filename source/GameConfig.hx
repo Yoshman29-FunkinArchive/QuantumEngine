@@ -10,8 +10,8 @@ class GameConfig {
     /**
         MOD INFO
     **/
-    public static final modName:String = "Bald Engine";
-    public static final saveName:String = "BaldEngine";
+    public static final modName:String = "Quantum Engine";
+    public static final saveName:String = "QuantumEngine";
     public static final defaultLang:String = "en-US";
 
     /**
@@ -31,7 +31,7 @@ class GameConfig {
     **/
     public static final funkinVersion:Array<Int> = [0, 2, 7, 1];
     public static final engineVersion:Array<Int> = [0, 1, 0];
-    public static final engineSettingsSaveName:String = "BaldEngineSettings";
-    public static final engineSettingsSavePath:String = "YoshiCrafter29/BaldEngine";
-    public static final engineName:String = "Bald Engine";
+    public static final engineSettingsSaveName:String = "QuantumEngineSettings";
+    public static final engineSettingsSavePath:String = "YoshiCrafter29/QuantumEngine";
+    public static final engineName:String = "Quantum Engine";
 }

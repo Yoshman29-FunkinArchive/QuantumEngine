@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin' - Baldi Engine" file="BaldiEngine" packageName="com.ninjamuffin99.funkin" main="backend.Main" version="1.0.0" company="yoshman29" />
+	<app title="Friday Night Funkin' - Quantum Engine" file="QuantumEngine" packageName="com.ninjamuffin99.funkin" main="backend.Main" version="1.0.0" company="yoshman29" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc001" />
@@ -90,8 +90,8 @@
 	<!--<haxedef name="FLX_NO_NATIVE_CURSOR" />-->
 
 	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
-	<haxedef name="FLX_NO_MOUSE" if="mobile" />
-	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
+	<!-- <haxedef name="FLX_NO_MOUSE" if="mobile" />
+	<haxedef name="FLX_NO_KEYBOARD" if="mobile" /> -->
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
 	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
 
@@ -127,4 +127,6 @@
 	<icon path="art/icon16.png" size='16'/>
 	<icon path="art/icon32.png" size='32'/>
 	<icon path="art/icon64.png" size='64'/>
+
+	<config:android gradle-version="8.0"/>
 </project>

@@ -2,4 +2,4 @@
 mkdir .haxelib
 haxelib install hmm
 haxelib run hmm install
-haxelib run lime test windows -debug
+haxelib run lime build windows -debug
